@@ -9,4 +9,4 @@
   - Set up folders for `team/m2` and `reports`
   - Created slack workspace for efficient communication within the group
 
-- **Link to Commit:** [https://github.com/kserra1/CS326Team2/commit/fbb887eb29716258daff32c4ab99ae0e7a9d517e](https://github.com/kserra1/CS326Team2/commit/fbb887eb29716258daff32c4ab99ae0e7a9d517e)
+- **Link to Commit:** [Slack commit](https://github.com/kserra1/CS326Team2/commit/fbb887eb29716258daff32c4ab99ae0e7a9d517e)
