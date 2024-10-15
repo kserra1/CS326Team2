@@ -16,3 +16,8 @@
     Commit to roles.md file, and fixed md lint errors in all other files (this was multiple commits but im just gonna count it as one commit)
     2. Commit 2: //TODO: add links once commit is pushed
     Commit to the users.md, this is me writing the 'schema' for how a user might look like in our web app.
+
+## Aidan O'Brien - 
+- **Role**:
+- **Top Commits**:
+  1. Commit 1: Outline key functionalities of our web application in features.md file.
