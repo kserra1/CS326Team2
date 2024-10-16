@@ -20,4 +20,4 @@
 ## Aidan O'Brien - 
 - **Role**:
 - **Top Commits**:
-  1. Commit 1: Outline key functionalities of our web application in features.md file.
+    1. [Commit 1](https://github.com/kserra1/CS326Team2/blob/main/team/m2/features.md): Outline key functionalities of our web application in features.md file.
