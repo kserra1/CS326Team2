@@ -1,4 +1,5 @@
 *Features*
+
 **Personal Recipe Storage**
 This will function as a history for past created recipes, similar implementation as search history for web browsers. 
 Users can click on an icon that brings them to a list of past recipes, and click on these recipes with a further description.
