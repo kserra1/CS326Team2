@@ -14,7 +14,7 @@
 
   ### Task: Zoom meeting with the team
 
-  -**Details**
+  -**Details:**
 
   - Hosted a zoom meeting with the team where we discussed milestone work
     - made sure everyone was on the same page
