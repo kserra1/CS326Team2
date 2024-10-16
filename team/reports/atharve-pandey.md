@@ -10,11 +10,11 @@
   - Brainstormed and listed the key features our web application will solve
   - Updated roles.md with my role, and job on this project
 
-  ## October 15 2024
+## October 15 2024
 
-  ### Task: Zoom meeting with the team
+### Task: Zoom meeting with the team
 
-  -**Details:**
+- **Details:**
 
   - Hosted a zoom meeting with the team where we discussed milestone work
     - made sure everyone was on the same page
