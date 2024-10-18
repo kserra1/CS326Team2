@@ -25,3 +25,11 @@
 - **Role**:
 - **Top Commits**:
   1. [Commit 1](https://github.com/kserra1/CS326Team2/blob/main/team/m2/features.md): Outline key functionalities of our web application in features.md file.
+
+## Quaid Johnson - Front End Developer Manager, CEO, Taskforce, 
+
+- **Role**: Implement front end design. Tasks backend with filling out the front end lists and functionality like search and login. Communicates with other front end developers so that our design is on the same page.
+- **Top 3 Commits**:
+
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/027f53fd6c607c94b8883a405df57d47755596a9): Drafted the first design of the main UI and described in in the `ui-diagrams.md` file
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/): Updated `ui-diagrams.md` and `roles.md` with relavent details.
