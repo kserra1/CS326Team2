@@ -32,5 +32,5 @@
 - **Top 3 Commits**:
 
   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/027f53fd6c607c94b8883a405df57d47755596a9): Drafted the first design of the main UI and described in in the `ui-diagrams.md` file
-  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/): Updated `ui-diagrams.md` and `roles.md` with relavent details.
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/48fff75f681225d78bc57edd291e0e74bd95dd33): Updated `ui-diagrams.md` and `roles.md` with relavent details.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/) Communicated during team meeting to get everyone on the same page about the features we are implementing.
