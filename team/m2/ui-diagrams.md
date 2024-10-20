@@ -22,7 +22,7 @@ For users who need to make food and want to quickly survey their options and sta
 
 This page will serve as the personal profile page for the user. It displays the user's information, including their name, description, hobbies, favorite activities, and other personal details. Additionally, it features a curated list of recipes associated with the user. Each recipe is presented in a scannable format, providing quick access to descriptions and ingredients. Users can browse, interact with, and explore recipes directly from this page. Future enhancements may include features for personalization, social engagement, and customization of the user’s profile and recipe lists.
 
-![Personal Page](Personal_Page)
+![Personal Page](Personal_ Page.png)
 
 ## Sign in / register page
 
