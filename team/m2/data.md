@@ -76,6 +76,20 @@
   - `tag` (string): The tag associated with the recipe (e.g. "Low Carb", "Gluten-Free", etc).
   - **Data Source**: User input when creating or sharing a recipe.
 
+  ### 6. Recipe Images
+
+- **Description**: Stores images of the recipes 
+
+- **Attributes**:
+  - `image_id` (string): A unique identifier for each image.
+  - `recipe_id` (string): The recipe that the image is associated with.
+  - `image_url` (string): The URL of the image.
+  - `updated_at` (timestamp): The date and time when the image was uploaded at.
+  - **Data Source**: User input images uploaded by users when they create or edit a recipe.
+
+
+  
+
 ## Data Relationships
 
 - **User to Personal Recipe**: One-to-Many relationship. Each user can have multiple recipes.
@@ -85,7 +99,7 @@
 - **Recipe to Liked Recipes**: One-to-Many relationship. Each recipe can be liked by multiple users.
 - **Recipe to Recipe Comments**: One-to-Many relationship. Each recipe can have multiple comments.
   - **Recipe to Recipe Tag**: One-to-Many relationship. Each recipe can have multiple tags.
-
+- **Recipe to Recipe Comments**: One-to-Many relationship. Each user can upload many images for their recipes
 ## Data Sources
 
 - **User Input**: Data provided by users when creating, sharing, or interacting with recipes.
