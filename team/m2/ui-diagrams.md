@@ -31,3 +31,7 @@ It will display different form depending on the button you press, whether is sig
 ![Sign in / Register diagram](Login.png)
 
 ## Form page
+
+This form serves as a detailed recipe entry or individual recipe page. It provides all essential information about the selected recipe, including a brief description, a list of ingredients, preparation time, meal time, and step-by-step instructions. The layout offers quick actions such as liking the recipe, leaving comments, or sharing it with others, enhancing user engagement and interactivity.
+
+![Forms](Forms.png)
