@@ -1,4 +1,4 @@
-# Contribution Log for Taron Rowe 
+# Contribution Log for Taron Rowe
 
 ## October 19, 2024
 
@@ -6,7 +6,6 @@
 
 - **Details:**
   - Created and committed the UI diagram of Personal Page
-
 
 ## October 20, 2024
 
