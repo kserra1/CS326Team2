@@ -39,6 +39,6 @@
 
 - **Role**:
 - **Top Commits**:
-  1. [Commit 1](https://github.com/SonnyZhan/CS326Team2/commit/ec7ee3e5e4c11745a5692080d89a7e862128c92e) Updated `ui-diagrams.md` and finished the login / register diagram and description
-  2. [Commit 2](https://github.com/SonnyZhan/CS326Team2/commit/aeea06fc8ec4034248f97ee75afab415f8c070e5) Made my own 'report.md' and reported my work
-  3. [Commit 3](https://github.com/SonnyZhan/CS326Team2/commit/40be6bb74bd3eb9e3f6597abcc51f7bd81b4ec10) Uploaded the title and ideas for the `ui-diagrams.md`
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/ec7ee3e5e4c11745a5692080d89a7e862128c92e) Updated `ui-diagrams.md` and finished the login / register diagram and description
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/aeea06fc8ec4034248f97ee75afab415f8c070e5) Made my own 'report.md' and reported my work
+  3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/40be6bb74bd3eb9e3f6597abcc51f7bd81b4ec10) Uploaded the title and ideas for the `ui-diagrams.md`
