@@ -35,9 +35,9 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/48fff75f681225d78bc57edd291e0e74bd95dd33): Updated `ui-diagrams.md` and `roles.md` with relavent details.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/) Communicated during team meeting to get everyone on the same page about the features we are implementing.
 
-  ## Fuming Zhang - Front and Back End Assistant
+  ## Fuming Zhang - Quality Control
 
-- **Role**:
+- **Role**: Reviewed team submission, making sure everyone's work is up to par with expectation meeting the necessary quality 
 - **Top Commits**:
    1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/ec7ee3e5e4c11745a5692080d89a7e862128c92e) Updated `ui-diagrams.md` and finished the login / register diagram and description
    2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/aeea06fc8ec4034248f97ee75afab415f8c070e5) Made my own 'report.md' and reported my work
