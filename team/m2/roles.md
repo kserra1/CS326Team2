@@ -26,7 +26,7 @@
 - **Top Commits**:
   1. [Commit 1](https://github.com/kserra1/CS326Team2/blob/main/team/m2/features.md): Outline key functionalities of our web application in features.md file.
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/a07b22636a00ab2313117b1d0eae74085f3ec03a): Updated aidan-obrien.md to report on all other commits.
-  3. [Commit 3]
+  3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/46ea68f0cfd8420ba8dabc3e570f377ec4bd47c9): Ensured that formatting was consistent with example file throughout all files.
 
 ## Quaid Johnson - Documentation Lead
 
