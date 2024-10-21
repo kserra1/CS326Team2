@@ -9,7 +9,7 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/fbb887eb29716258daff32c4ab99ae0e7a9d517e): Created Slack workspace and invited all team members allowing us to all communicate on one platform efficiently.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/2b3e06fe699464d31a1996ab2cf6b68e47108aaf): Created full initial description in problem.md file with a consise problem of what our web appllication will solve and the relevance of why it matters.
 
-## Atharve Pandey - Assistant to Project Manager
+## Atharve Pandey - Communication Lead
 
 - **Role**: Works with the Project Manager to cordinate tasks between frontend and backend teams. Work on the backend with the backend team to ensure the code runs properly.
 - **Top Commits**:
@@ -20,13 +20,13 @@
     3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/6832b3f9e0d54b97804ca39e27f1ab6d9b624500)
        Added my own file under reports titled 'atharve-pandey.md'. This file also has a summary of other things I did.
 
-## Aidan O'Brien -
+## Aidan O'Brien - Note Taker
 
 - **Role**:
 - **Top Commits**:
   1. [Commit 1](https://github.com/kserra1/CS326Team2/blob/main/team/m2/features.md): Outline key functionalities of our web application in features.md file.
 
-## Quaid Johnson - Front End Developer Manager, CEO, Taskforce
+## Quaid Johnson - Documentation Lead
 
 - **Role**: Implement front end design. Tasks backend with filling out the front end lists and functionality like search and login. Communicates with other front end developers so that our design is on the same page.
 - **Top 3 Commits**:
@@ -51,7 +51,7 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/e29f893e8ce1300f5a267bcdb787d7a0143a3b7f#diff-e0e72ceb8cc20d911df447d37d99a8f993cb02edba0eced86675181059573d6fR34) Updated `ui-diagrams.md` and finished the Forms and description
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/afaf5a1d6b1dd0a2f1f162eec7342d5a037b1ef3) Updated my commit roles in `roles.md`
 
-## Brian Capobianco - Frontend Developer and Backend Developer assistant
+## Brian Capobianco - Time Keeper
 
 - **Role**:
 - **Top Commits**:
