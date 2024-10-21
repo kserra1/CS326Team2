@@ -35,7 +35,7 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/48fff75f681225d78bc57edd291e0e74bd95dd33): Updated `ui-diagrams.md` and `roles.md` with relavent details.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/) Communicated during team meeting to get everyone on the same page about the features we are implementing.
 
-  ## Fuming Zhang - Frontend Developer and Backend Developer assistant
+  ## Fuming Zhang - Front and Back End Assistant
 
 - **Role**:
 - **Top Commits**:
