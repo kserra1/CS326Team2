@@ -9,7 +9,7 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/fbb887eb29716258daff32c4ab99ae0e7a9d517e): Created Slack workspace and invited all team members allowing us to all communicate on one platform efficiently.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/2b3e06fe699464d31a1996ab2cf6b68e47108aaf): Created full initial description in problem.md file with a consise problem of what our web appllication will solve and the relevance of why it matters.
 
-  ## Atharve Pandey - Assistant to Project Manager, and Backend Developer
+## Atharve Pandey - Assistant to Project Manager, and Backend Developer
 
   - **Role**: Works with the Project Manager to cordinate tasks between frontend and backend teams. Work on the backend with the backend team to ensure the code runs properly.
   - **Top Commits**:
@@ -35,7 +35,7 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/48fff75f681225d78bc57edd291e0e74bd95dd33): Updated `ui-diagrams.md` and `roles.md` with relavent details.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/) Communicated during team meeting to get everyone on the same page about the features we are implementing.
 
-  ## Fuming Zhang - Quality Control
+## Fuming Zhang - Quality Control
 
 - **Role**: Reviewed team submission, making sure everyone's work is up to par with expectation meeting the necessary quality 
 - **Top Commits**:
