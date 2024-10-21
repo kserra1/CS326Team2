@@ -55,7 +55,7 @@
 
 ## Brian Capobianco - Time Keeper
 
-- **Role**:
+- **Role**: Tracks time spent on tasks, ensuring the team stays on schedule.
 - **Top Commits**:
 
 1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/64ba52d6ddec58d45b2969cde5dfbd2fc6139257) Updated data.md
