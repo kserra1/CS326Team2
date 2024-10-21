@@ -50,3 +50,12 @@
   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/0448594049aca8202535cacf832fb99001800a6a) Updated `ui-diagrams.md` and finished the Personal_page and description
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/e29f893e8ce1300f5a267bcdb787d7a0143a3b7f#diff-e0e72ceb8cc20d911df447d37d99a8f993cb02edba0eced86675181059573d6fR34) Updated `ui-diagrams.md` and finished the Forms and description
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/afaf5a1d6b1dd0a2f1f162eec7342d5a037b1ef3) Updated my commit roles in `roles.md`
+
+## Brian Capobianco - Frontend Developer and Backend Developer assistant
+
+- **Role**:
+- **Top Commits**: 
+1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/64ba52d6ddec58d45b2969cde5dfbd2fc6139257) Updated data.md
+2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/19872a63072eb55bf78b72cb97b35575d368f877) Updated users.md
+3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/f966e04f02bcdd75c263fd447f38851dfabbc448) Updated data.md
+  
