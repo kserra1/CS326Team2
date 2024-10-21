@@ -22,9 +22,10 @@
 
 ## Aidan O'Brien - Note Taker
 
-- **Role**:
+- **Role**: Responsible for organizing and tracking team tasks. Aidan manages a README file that shows the roles and assignments for the current milestone. Helps make sure everything is on time, and helps solve conflicts when team members are struggling.
 - **Top Commits**:
   1. [Commit 1](https://github.com/kserra1/CS326Team2/blob/main/team/m2/features.md): Outline key functionalities of our web application in features.md file.
+  2. 
 
 ## Quaid Johnson - Documentation Lead
 
