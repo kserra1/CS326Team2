@@ -28,7 +28,7 @@ Each user will be able to log in with their own username and password, they will
 
 **Assigned Team Member:** Aidan, Brian
 
-##Interactive UI
+## Interactive UI
 This feature in our webapp will allow users to intuitively navigate and browse. The current color scheme is pink and white, but that is subject to change. We will have a form page for uploading recipes, a personal profile page, a page to scroll through recipes and a login page.
 
 **Assigned Team Member:** Quaid, Sonny, T
