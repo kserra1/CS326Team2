@@ -1,12 +1,11 @@
 # Contribution Log for Brian Capobianco
 
-
 ## October 17, 2024
 
 ### Originally created Data.md
 
 - **Details:**
-  - Created the data.md file 
+  - Created the data.md file
   - Originally created this file then Kieran Committed it because I was having trouble committing it.
 
 ## October 20, 2024

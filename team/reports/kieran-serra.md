@@ -22,14 +22,13 @@
 
 - **Link to Commit:** [Problem Commit](https://github.com/kserra1/CS326Team2/commit/2b3e06fe699464d31a1996ab2cf6b68e47108aaf)
 
-
 ## October 20, 2024
 
-### Task: Completed the initial Data.md file to organize what type of data our application will store including relationships.
+### Task: Completed the initial Data.md file to organize what type of data our application will store including relationships
 
 - **Details:**
   - Created distinct categories for each part of the application.
-  - Listed out all types of data our application will need (user_id (string), recipe_instruction (string), etc.
+  - Listed out all types of data our application will need user_id (string), recipe_instruction (string), etc.
   - Explained where the source of this data would come from. Both user generated and system generated.
 
 - **Link to Commit:** [Data Commit](https://github.com/kserra1/CS326Team2/commit/5144ef4ee61ba83acf8c7d622652e8ba4dcb6c9e)
