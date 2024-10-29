@@ -1,0 +1,12 @@
+{
+  "id": null,
+  "name": "",
+  "ingredients": [],
+  "instructions": "",
+  "cookTime": 0,
+  "category": "",
+  "breakfast": false,
+  "lunch": false,
+  "dinner": false,
+  "snack": false
+}
