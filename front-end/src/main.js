@@ -1,13 +1,13 @@
-import EventHub from './eventhub/EventHub.js';
+import eventHub from './eventhub/Events.js';
 import RecipeService from './services/recipeservice.js';
 import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import eventHub from './eventhub/Events.js';
 
 const app = document.getElementById('app');
-const eventHub = new EventHub();
-//Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
+const eventHub = eventHub; //this is the factory pattern I was talking about earlier...
 const mockRecipes = [
     {
         id: 1,
@@ -85,3 +85,7 @@ window.addEventListener('hashchange', render);
 render();
 
 displayRecipes();
+
+
+//I think going forward, and to follow OOP structure, we need to use only the eventHub for stuff like eventListeners...
+
