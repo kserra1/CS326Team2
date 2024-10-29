@@ -17,11 +17,11 @@ import { BaseComponent } from "../basecomponent/basecomponent.js";
 export default class RecipeDetail extends BaseComponent {
     constructor(recipeService){
         super();
-        this.recipeService = recipeService;
+        this.recipeService = recipeService; //idk if this is referencing to the recipeservice in services folder, and if it is, why are we 
         this.loadCSS('recipedetail');
     }
 
-    render(recipeId) {
+    render(recipeId) { //this overrides the parents render method (basecomponent)
         const recipe = this.recipeService.getRecipeById(recipeId); 
         console.log(recipe);
         if (!recipe) {
