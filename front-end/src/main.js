@@ -4,7 +4,6 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
-import eventHub from './eventhub/Events.js';
 
 const app = document.getElementById('app');
 const eventHub = eventHub; //this is the factory pattern I was talking about earlier...
