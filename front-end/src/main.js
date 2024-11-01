@@ -48,11 +48,14 @@ const mockRecipes = [
 ]
 
 
-const recipeService = new RecipeService(mockRecipes);
+const recipeService = new RecipeService();
+mockRecipes.forEach(recipe => {
+    recipeService.addRecipe(recipe);
+})
 
-function displayRecipes() {
+async function displayRecipes() {
     const recipeList = new RecipeList(recipeService);
-    app.innerHTML = recipeList.render();
+    app.innerHTML = await recipeList.render();
 }
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
