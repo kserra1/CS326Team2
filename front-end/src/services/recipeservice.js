@@ -58,6 +58,7 @@ export default class RecipeService {
       };
 
       request.onerror = () => {
+        console.error(event.target.error);
         reject("Error adding recipe");
       };
     });
