@@ -58,6 +58,7 @@ async function addRecipesToDB(mockArr){
         }
     }
 }
+addRecipesToDB();
 
 async function displayRecipes() {
     const recipeList = new RecipeList(recipeService);
