@@ -1,22 +1,15 @@
 import EventHub from "../eventhub/EventHub.js";
 
 export default class RecipeService {
-  //rewriting this class
   constructor() {
-    //this class will be a db service, connecting to databases
-    this.dbname = "recipesDB"; //this is dbname
-    this.storeName = "recipes"; //store is the table name
-    //indexedDB will return a new db object, and we will also have to
-    //give it some schema
-
-    this.db = null; //a new RecipeService object will return a new db
-    //we need to init it first
-
-    this.eventHub = new EventHub(); //essentially this object will just be
-    //used to troubleshoot if something goes wrong
+    this.dbName = "recipesDB"; //this is the name of db
+    this.storeName = "recipes"; //this is name of table
+    this.db = null;
+    this.eventHub = new EventHub();
   }
+
+  // Initializes IndexedDB if not already initialized
   async initDB() {
-    //basic code taken from last project
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, 1);
 
@@ -32,7 +25,7 @@ export default class RecipeService {
 
       request.onsuccess = (event) => {
         this.db = event.target.result;
-        resolve(this.db);
+        resolve(this.db); //promise will return db obj
       };
 
       request.onerror = (event) => {
@@ -41,10 +34,21 @@ export default class RecipeService {
     });
   }
 
-  //I just follow the same pattern above for below methods
+  // Ensures DB is initialized before performing an operation
+  async getDB() {
+    if (!this.db) {
+      await this.initDB();
+    }
+    return this.db;
+  }
+
+  //all the methods below will first make sure db exists
+  //that way we aren't accessing null/void elements
+
   async addRecipe(recipeData) {
+    const db = await this.getDB();
     return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction([this.storeName], "readwrite");
+      const transaction = db.transaction([this.storeName], "readwrite");
       const store = transaction.objectStore(this.storeName);
       const request = store.add(recipeData);
 
@@ -60,8 +64,9 @@ export default class RecipeService {
   }
 
   async getAllRecipes() {
+    const db = await this.getDB();
     return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction([this.storeName], "readonly");
+      const transaction = db.transaction([this.storeName], "readonly");
       const store = transaction.objectStore(this.storeName);
       const request = store.getAll();
 
@@ -78,8 +83,9 @@ export default class RecipeService {
   }
 
   async getRecipeById(id) {
+    const db = await this.getDB();
     return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction([this.storeName], "readonly");
+      const transaction = db.transaction([this.storeName], "readonly");
       const store = transaction.objectStore(this.storeName);
       const request = store.get(id);
 
@@ -96,8 +102,9 @@ export default class RecipeService {
   }
 
   async deleteRecipe(id) {
+    const db = await this.getDB();
     return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction([this.storeName], "readwrite");
+      const transaction = db.transaction([this.storeName], "readwrite");
       const store = transaction.objectStore(this.storeName);
       const request = store.delete(id);
 
@@ -112,4 +119,3 @@ export default class RecipeService {
     });
   }
 }
-
