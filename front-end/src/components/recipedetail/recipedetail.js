@@ -21,9 +21,8 @@ export default class RecipeDetail extends BaseComponent {
         this.loadCSS('recipedetail');
     }
 
-    render(recipeId) {
-        const recipe = this.recipeService.getRecipeById(recipeId); 
-        console.log(recipe);
+    async render(recipeId) {
+        const recipe = await this.recipeService.getRecipeById(recipeId); 
         if (!recipe) {
             return `<h2>Recipe not found!</h2>`;
         }
