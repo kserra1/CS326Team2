@@ -47,11 +47,17 @@ const mockRecipes = [
     },
 ]
 
-
 const recipeService = new RecipeService();
-mockRecipes.forEach(recipe => {
-    recipeService.addRecipe(recipe);
-})
+
+async function addRecipesToDB(mockArr){
+    for(const recipe of mockArr){
+        try {
+            await recipeService.addRecipe(recipe)
+        } catch (error) {
+            console.error("Error adding recipe:",error);
+        }
+    }
+}
 
 async function displayRecipes() {
     const recipeList = new RecipeList(recipeService);
