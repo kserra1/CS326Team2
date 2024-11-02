@@ -1,11 +1,24 @@
 import EventHub from "../eventhub/EventHub.js";
 
 export default class RecipeService {
-  constructor() {
+  constructor(mockRecipes = []) {
     this.dbName = "recipesDB"; //this is the name of db
     this.storeName = "recipes"; //this is name of table
     this.db = null;
+    this.recipes = [];
     this.eventHub = new EventHub();
+    this.initDB()
+    .then(async () => {
+      const recipes = await this.getAllRecipes();
+      if (recipes.length === 0) {
+        mockRecipes.forEach((recipe) => {
+          this.addRecipe(recipe);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   // Initializes IndexedDB if not already initialized
@@ -29,6 +42,7 @@ export default class RecipeService {
       };
 
       request.onerror = (event) => {
+        console.log("Error initializing IndexedDB");
         reject("Error initializing IndexedDB");
       };
     });
@@ -58,7 +72,7 @@ export default class RecipeService {
       };
 
       request.onerror = () => {
-        console.error(event.target.error);
+        this.eventHub.emit("RecipeAddError", recipeData);
         reject("Error adding recipe");
       };
     });
@@ -70,11 +84,10 @@ export default class RecipeService {
       const transaction = db.transaction([this.storeName], "readonly");
       const store = transaction.objectStore(this.storeName);
       const request = store.getAll();
-
       request.onsuccess = (event) => {
-        const recipes = event.target.result;
-        this.eventHub.emit("RecipesLoaded", recipes);
-        resolve(recipes);
+        const recipess = event.target.result;
+        this.eventHub.emit("RecipesLoaded", recipess);
+        resolve(recipess);
       };
 
       request.onerror = () => {
@@ -89,7 +102,6 @@ export default class RecipeService {
       const transaction = db.transaction([this.storeName], "readonly");
       const store = transaction.objectStore(this.storeName);
       const request = store.get(id);
-
       request.onsuccess = (event) => {
         const recipe = event.target.result;
         this.eventHub.emit("RecipeLoaded", recipe);
@@ -117,6 +129,46 @@ export default class RecipeService {
       request.onerror = () => {
         reject("Error deleting recipe");
       };
+    });
+  }
+
+  async updateLikes(recipeId, newLikes){
+    const db = await this.getDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([this.storeName], "readwrite");
+        const store = transaction.objectStore(this.storeName);
+        const request = store.get(recipeId);
+
+        request.onsuccess = (event) => {
+            const recipe = event.target.result;
+            if (!recipe) return reject("Recipe not found");
+
+            recipe.likes = newLikes;
+            const updateRequest = store.put(recipe);
+            updateRequest.onsuccess = () => resolve(recipe);
+        };
+
+        request.onerror = () => reject("Error updating likes");
+    });
+  }
+
+  async addComment(recipeId, comment) {
+    const db = await this.getDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([this.storeName], "readwrite");
+        const store = transaction.objectStore(this.storeName);
+        const request = store.get(recipeId);
+
+        request.onsuccess = (event) => {
+            const recipe = event.target.result;
+            if (!recipe) return reject("Recipe not found");
+
+            recipe.comments.push(comment);
+            const updateRequest = store.put(recipe);
+            updateRequest.onsuccess = () => resolve(recipe);
+        };
+
+        request.onerror = () => reject("Error adding comment");
     });
   }
 }

@@ -4,7 +4,6 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
-
 const app = document.getElementById('app');
 const eventHub = new EventHub();
 //Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
@@ -19,7 +18,10 @@ const mockRecipes = [
         breakfast: true,
         lunch: false,
         dinner: false,
-        snack: false
+        snack: false,
+        comments: [{user: 'John', text: 'These are great pancakes!'}, {user: 'Jane', text: 'I love these pancakes!'
+            }],
+        likes: 0
     },
     {
         id: 2,
@@ -31,7 +33,11 @@ const mockRecipes = [
         breakfast: false,
         lunch: true,
         dinner: false,
-        snack: false
+        snack: false,
+        comments: [{
+            user: 'John', text: 'This is a great grilled cheese recipe!'
+        }],
+        likes: 0
     },
     {
         id: 3,
@@ -43,55 +49,111 @@ const mockRecipes = [
         breakfast: false,
         lunch: false,
         dinner: true,
-        snack: false
+        snack: false,
+        comments: [{
+            user: 'Jane', text: 'I love spaghetti!'
+        }],
+        likes: 35
     },
 ]
 
-const recipeService = new RecipeService();
+const recipeService = new RecipeService(mockRecipes);
 
-async function addRecipesToDB(mockArr){
-    for(const recipe of mockArr){
-        try {
-            await recipeService.addRecipe(recipe)
-        } catch (error) {
-            console.error("Error adding recipe:",error);
-        }
-    }
+async function addRecipeToDB(recipe){
+    await recipeService.addRecipe(recipe);
+    
 }
-addRecipesToDB(mockRecipes);
 
 async function displayRecipes() {
-    const recipeList = new RecipeList(recipeService);
+    const recipeList = new RecipeList(recipeService, eventHub);
     app.innerHTML = await recipeList.render();
+    recipeList.setupEventListeners();
 }
+
+eventHub.on('likeRecipe', async (recipeId) => {
+    const recipe = await recipeService.getRecipeById(recipeId);
+    if (recipe) {
+        await recipeService.updateLikes(recipeId, recipe.likes + 1);
+        recipe.likes += 1; // Update local likes count
+        const recipeList = new RecipeList(recipeService, eventHub);
+        const recipeElement = document.querySelector(`button[data-id="${recipeId}"]`);
+        recipeElement.innerHTML = `❤️ ${recipe.likes}`;
+    }
+});
+eventHub.on('addComment', async ({ recipeId, comment }) => {
+    await recipeService.addComment(recipeId, comment);
+    const recipeList = new RecipeList(recipeService, eventHub);
+    const recipe = await recipeService.getRecipeById(recipeId);
+    //Update the comment list the same way we update the likes
+    const recipeElement = document.querySelector(`li[data-id="${recipeId}"]`);
+    if(recipeElement){
+        recipeElement.querySelector('.comments').innerHTML = recipeList.renderComments(recipe.comments);
+    }
+});
+
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
-    const myRecipes = new MyRecipes(recipeService);
-    app.innerHTML = myRecipes.render();
+    render();
 });    
 document.getElementById('showProfile').addEventListener('click', ()=>{
     const profile = new Profile();
     app.innerHTML = profile.render();
 });
 
-function render (){
+async function render (){
     const hash = window.location.hash;
     const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
+    app.innerHTML = '';
     if (recipeIdMatch) {
-        const recipeId = recipeIdMatch[1]; 
+        const recipeId = parseInt(recipeIdMatch[1], 10);
         const recipeDetail = new RecipeDetail(recipeService);
-        app.innerHTML = recipeDetail.render(recipeId); 
+        app.innerHTML = await recipeDetail.render(recipeId);
     } else if (hash === '#my-recipes') {
         const myRecipes = new MyRecipes(recipeService);
-        app.innerHTML = myRecipes.render(); 
+        app.innerHTML = await myRecipes.render();
     } else if (hash === '#profile') {
         const profile = new Profile();
-        app.innerHTML = profile.render(); 
+        app.innerHTML = await profile.render();
     } else {
         displayRecipes(); 
     }
 }
+
+
+async function handleLike(event) {
+    const button = event.target;
+    const recipeId = parseInt(button.getAttribute("data-id"), 10);
+    const recipe = await recipeService.getRecipeById(recipeId);
+    if (recipe) {
+        await recipeService.updateLikes(recipeId, recipe.likes + 1);
+        recipe.likes += 1; // Update local likes count
+        const recipeList = new RecipeList(recipeService, eventHub);
+    }
+}
+async function handleAddComment(event) {
+    const button = event.target;
+    const recipeId = parseInt(button.getAttribute("data-id"), 10);
+    const recipe = await recipeService.getRecipeById(recipeId);
+    const input = document.querySelector(`.comment-input[data-id="${recipeId}"]`);
+    const commentText = input.value.trim();
+    if (commentText) {
+        await recipeService.addComment(recipeId, { user: "User1", text: commentText });
+        recipe.comments.push({ user: "User1", text: commentText }); // Update local comments array
+        const recipeList = new RecipeList(recipeService, eventHub);
+        input.value = ""; // Clear input
+    }
+}
+
+
+
+document.getElementById('showRecipes').addEventListener('click', displayRecipes);
+document.getElementById('showMyRecipes').addEventListener('click', ()=>{
+    window.location.hash = '#my-recipes';
+});
+document.getElementById('showProfile').addEventListener('click', ()=>{
+    window.location.hash = '#profile';
+});
+
+
 window.addEventListener('hashchange', render);
 render();
-
-displayRecipes();
