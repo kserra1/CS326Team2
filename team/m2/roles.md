@@ -3,26 +3,38 @@
 ## Kieran Serra - Project Manager
 
 - **Role**: Manages project timeline, coordinates team effort and enables communication between members to achieve project goal.
+
 - **Top 3 Commits Milestone #2**:
 
   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/abd7afde6bdb0a6cb865082c2b7780db0b5f0e7e): Initialize GitHub repository allowing all team members to get started on their respective assignments.
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/fbb887eb29716258daff32c4ab99ae0e7a9d517e): Created Slack workspace and invited all team members allowing us to all communicate on one platform efficiently.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/2b3e06fe699464d31a1996ab2cf6b68e47108aaf): Created full initial description in problem.md file with a consise problem of what our web appllication will solve and the relevance of why it matters.
- 
+
 - **Top 3 Commits Milestone #3**:
 
-  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/72d106c12fcb774da7ba23dfecafee7d510db889): Initialize full frontend project structure, including base components, eventhub, recipe service, and base application features including tabs. (Community page, personal page, and profile page. 
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/72d106c12fcb774da7ba23dfecafee7d510db889): Initialize full frontend project structure, including base components, eventhub, recipe service, and base application features including tabs. (Community page, personal page, and profile page.)
 
 ## Atharve Pandey - Communication Lead
 
 - **Role**: Works with the Project Manager to cordinate tasks between frontend and backend teams. Work on the backend with the backend team to ensure the code runs properly.
-- **Top Commits**:
+
+- **Top 3 Commits Milestone #2**:
+
     1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/d519488db7a9179fb9fe15cbf7ae5593a471888f)
        Commit to roles.md file, and fixed md lint errors in all other files (this was multiple commits but im just gonna count it as one commit)
     2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/69c0acd0dd56fa68ba29f63a9dc31cd48b5e07a0)
        Commit to the users.md, this is me writing the 'schema' for how a user might look like in our web app.
     3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/6832b3f9e0d54b97804ca39e27f1ab6d9b624500)
        Added my own file under reports titled 'atharve-pandey.md'. This file also has a summary of other things I did.
+
+- **Top 3 Commits Milestone #3**:
+
+     1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/30d26d18e270d3c669fc546496110ebdee7c6531)
+        Created new branch to set up a service which communicates with DB, and allows us to keep track of recipies.
+      2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/578d41b4dbd91c1bfe255facced559abb38aebfb)
+        Added a bunch of async programming logic, then proceeded to see if the code would work or not.
+      3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/100cd5b452f87c34b978ba6c8e8b57a812ac45f3)
+        After debugging fixed the code up a bit more, after which kieran took over, and finished the code to make sure we have a working recipe service object.
 
 ## Aidan O'Brien - Note Taker
 
