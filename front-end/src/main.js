@@ -4,6 +4,7 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import Form from './components/form/form.js';
 const app = document.getElementById('app');
 const eventHub = new EventHub();
 //Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
@@ -98,6 +99,11 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 document.getElementById('showProfile').addEventListener('click', ()=>{
     const profile = new Profile();
     app.innerHTML = profile.render();
+});
+document.getElementById('showMakeRecipe').addEventListener('click', ()=>{
+    const form = new Form();
+    app.innerHTML = ''
+    app.append(form.render());
 });
 
 async function render (){
