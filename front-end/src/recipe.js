@@ -46,28 +46,28 @@ export class Recipe {
   }
 }
     constructor(title, author, authorID) {
-        this.IDable = {id:0, name:''}
+        this.IDable = {id:-1, name:''}
         this.ingredient = {
-            item: IDable,
-            amount: 0,
+            item: this.IDable,
+            amount: -1,
         }
         this.comment = {
-            author: IDable,
+            author: this.IDable,
             text:'',
             like:false,
-            difficulty:0
+            difficulty:-1
         }
         this.recipeData = {
             creation: {
-                title: {id:-1, name:title},
+                title: {id:0, name:title},
                 author: {id:authorID, name:authorID},
                 date: new Date(),
-                updated: new Date(),
+                lastUpdated: new Date(),
             },
             about: {
                 cooktime: -1,
                 preptime: -1,
-                difficulty: -1,
+                difficulty: 0,
                 description: '',
                 tags: {
                     breakfast:false,
@@ -75,40 +75,63 @@ export class Recipe {
                     dinner:false,
                     snack:false,
                 },
-                categories: [],
+                categories: [this.IDable],
                 image: '',
             },
             directions: {
-                ingredients: [],
-                cookware: [],
-                instructions: [],
+                ingredients: [this.ingredient],
+                cookware: [this.IDable],
+                instructions: [''],
             },
             community: {
-                comments: [],
+                comments: [this.comment],
                 likes:0,
             },
         }
-        this.recipe.creation.title.name = title
-        this.recipe.creation.author.name = author
-        this.recipe.creation.author.id = authorID
-        //should add newly initialized recipe to the database
-        //db should generate a new ID for the recipe to set its title ID to
-        RecipeService().addRecipe(recipeData)
-        //this.recipe.creation.title.id = RecipeService().addRecipe(recipeData)
+
+        function makeList(obj) {
+            return Object.entries(obj).flatMap(([k,v])=>{
+                if(typeof v === "object" && !Array.isArray(v))
+                    return makeList(v).map(e=>{
+                        e.key = k+' '+e.key
+                        return e
+                    })
+                
+                const change = Array.isArray(v) ? (e)=>obj[k].push(e) : (e)=>obj[k]=e
+                const update = (e)=>{lastUpdated = new Date; change(e);}
+                return {key:k, val:v, update:update}
+            })
+        }
+        this.list = makeList(this.recipeData)
+        console.log(this.list)
+        // console.log(this.recipeData.about.preptime)
+        // this.list[5].change(0)
+        // console.log(this.recipeData.about.preptime)
+
+        this.recipeData.creation.title.name = title
+        this.recipeData.creation.author.name = author
+        this.recipeData.creation.author.id = authorID
     }
+    
+    setID(ID){
+        this.recipe.creation.title.id=ID
+    }
+
+
     
     //iterator that iterates through uninitialized values
     [Symbol.iterator]() {
-        const uninitialized = (v)=>v===-1||v===''||v.length===0
-        const list = Object.entries(this.recipe).map(([K,V])=>
-            Object.entries(v).map(([k,v])=> [K + ' ' + K, v])
-        )
-        let i = -1
+        const uninitialized = (v)=>v===-1||v===''||v.length===1&&uninitialized(v[0])
+        const list = this.list
+        let i = 0
+        console.log(list.every(e=>!uninitialized(e.val)) )
         return {
             next() {
-                while(!uninitialized(list[++i%list.length]))
-                return { value: list[i][0], 
-                         done: list.every(v=>!uninitialized(v)) }
+                while(!uninitialized(list[i].val)) i=(i+1)%list.length
+                return { 
+                    value: list[++i], 
+                    done: list.every(e=>!uninitialized(e.val)) 
+                }
             }
         }
     }
