@@ -1,5 +1,4 @@
-import RecipeService from './services/recipeservice.js';
-export class Recipe {
+export default class Recipe {
     constructor(title, author, authorID) {
         this.IDable = {id:-1, name:''}
         this.ingredient = {
@@ -16,8 +15,8 @@ export class Recipe {
             creation: {
                 title: {id:0, name:title},
                 author: {id:authorID, name:authorID},
-                date: new Date(),
-                lastUpdated: new Date(),
+                date: new Date().toString(),
+                lastUpdated: new Date().toString(),
             },
             about: {
                 cooktime: -1,
@@ -43,26 +42,6 @@ export class Recipe {
                 likes:0,
             },
         }
-
-        function makeList(obj) {
-            return Object.entries(obj).flatMap(([k,v])=>{
-                if(typeof v === "object" && !Array.isArray(v))
-                    return makeList(v).map(e=>{
-                        e.key = k+' '+e.key
-                        return e
-                    })
-                
-                const change = Array.isArray(v) ? (e)=>obj[k].push(e) : (e)=>obj[k]=e
-                const update = (e)=>{lastUpdated = new Date; change(e);}
-                return {key:k, val:v, update:update}
-            })
-        }
-        this.list = makeList(this.recipeData)
-        console.log(this.list)
-        // console.log(this.recipeData.about.preptime)
-        // this.list[5].change(0)
-        // console.log(this.recipeData.about.preptime)
-
         this.recipeData.creation.title.name = title
         this.recipeData.creation.author.name = author
         this.recipeData.creation.author.id = authorID
@@ -72,21 +51,18 @@ export class Recipe {
         this.recipe.creation.title.id=ID
     }
 
+    // iterates through uninitialized values
+    *[Symbol.iterator]() {
+        yield* this.#iterate(this.recipeData);
+    }
 
-    
-    //iterator that iterates through uninitialized values
-    [Symbol.iterator]() {
-        const uninitialized = (v)=>v===-1||v===''||v.length===1&&uninitialized(v[0])
-        const list = this.list
-        let i = 0
-        console.log(list.every(e=>!uninitialized(e.val)) )
-        return {
-            next() {
-                while(!uninitialized(list[i].val)) i=(i+1)%list.length
-                return { 
-                    value: list[++i], 
-                    done: list.every(e=>!uninitialized(e.val)) 
-                }
+    *#iterate(obj, prefix = '') {
+        for (const [key, value] of Object.entries(obj)) {
+            const fullKey = prefix ? `${prefix} ${key}` : key;
+            if (typeof value === 'object' && value !== null) {
+                yield* this.#iterate(value, fullKey); // Recursively iterate for nested objects
+            } else {
+                yield [fullKey, value]; // Yield key-value pair
             }
         }
     }

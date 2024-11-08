@@ -62,15 +62,15 @@ const mockRecipeObj = new Recipe('Pancakes', 'Sam', 1)
 // for(const i of Array(20).keys()){
 //     const init = iter.next().value
 //     console.log(init)
-//     init.update(0)
 // }
 
 const recipeService = new RecipeService(mockRecipes);
 
 async function addRecipeToDB(recipe){
     await recipeService.addRecipe(recipe);
-    
 }
+
+//addRecipeToDB(mockRecipeObj)
 
 async function displayRecipes() {
     const recipeList = new RecipeList(recipeService, eventHub);
