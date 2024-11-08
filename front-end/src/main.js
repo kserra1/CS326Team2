@@ -4,6 +4,7 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 const app = document.getElementById('app');
 const eventHub = new EventHub();
 //Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
@@ -61,14 +62,9 @@ const recipeService = new RecipeService(mockRecipes);
 
 async function addRecipeToDB(recipe){
     await recipeService.addRecipe(recipe);
-    
 }
 
-async function displayRecipes() {
-    const recipeList = new RecipeList(recipeService, eventHub);
-    app.innerHTML = await recipeList.render();
-    recipeList.setupEventListeners();
-}
+
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -91,6 +87,16 @@ eventHub.on('addComment', async ({ recipeId, comment }) => {
     }
 });
 
+async function displayRecipes() {
+    const recipeList = new RecipeList(recipeService, eventHub);
+    app.innerHTML = await recipeList.render();
+    recipeList.setupEventListeners();
+}
+async function addRecipeC(){
+    const addRecipeComponent = new AddRecipeComponent(recipeService, eventHub);
+    app.innerHTML = await addRecipeComponent.render();
+    addRecipeComponent.setupEventListeners();
+}
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
@@ -99,6 +105,16 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
     const profile = new Profile();
     app.innerHTML = profile.render();
 });
+
+eventHub.on("RecipeAdded", async(recipe)=>{
+    try { 
+        await recipeService.addRecipe(recipe);
+        window.location.hash = '#my-recipes';
+    }catch(error){
+        console.error("Error adding recipe:", error);
+    }
+})
+
 
 async function render (){
     const hash = window.location.hash;
@@ -114,8 +130,10 @@ async function render (){
     } else if (hash === '#profile') {
         const profile = new Profile();
         app.innerHTML = await profile.render();
-    } else {
+    } else if (hash === '#community-recipes') {
         displayRecipes(); 
+    } else if (hash === '#add-recipe') {
+        addRecipeC();
     }
 }
 
@@ -146,12 +164,19 @@ async function handleAddComment(event) {
 
 
 
-document.getElementById('showRecipes').addEventListener('click', displayRecipes);
+document.getElementById('showRecipes').addEventListener('click', ()=>{
+    window.location.hash = '#community-recipes';
+    console.log('test')
+    displayRecipes();
+});
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     window.location.hash = '#my-recipes';
 });
 document.getElementById('showProfile').addEventListener('click', ()=>{
     window.location.hash = '#profile';
+});
+document.getElementById('showAddRecipe').addEventListener('click', ()=>{
+    window.location.hash = '#add-recipe';
 });
 
 

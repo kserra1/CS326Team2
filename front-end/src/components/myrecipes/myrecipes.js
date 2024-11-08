@@ -1,8 +1,16 @@
-export default class MyRecipes {
+import { BaseComponent } from "../basecomponent/basecomponent.js";
+
+export default class MyRecipes extends BaseComponent{
   constructor(recipeService) {
+    super();
     this.recipeService = recipeService;
     this.MyRecipes = [];
+    this.loadCSS('recipelist')
+    this.recipeService.eventHub.on("RecipeAdded",()=>{
+      this.render();
+    });
   }
+
 
   async render() {
     // Display a loading message until recipes are fetched
