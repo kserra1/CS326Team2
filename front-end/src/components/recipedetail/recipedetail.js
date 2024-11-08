@@ -43,6 +43,11 @@ export default class RecipeDetail extends BaseComponent {
             <h3>Category</h3>
             <p>${recipe.category}</p>
             <h3>Meal Type</h3>    
+            <p>${recipe.breakfast ? 'Breakfast' : ''}</p>
+            <p>${recipe.lunch ? 'Lunch' : ''}</p>
+            <p>${recipe.dinner ? 'Dinner' : ''}</p>
+            <p>${recipe.snack ? 'Snack' : ''}</p>
+            <p>${recipe.category}</p>
             <a href="#community-recipes">Back to Recipes</a>
         </div>
         `;
