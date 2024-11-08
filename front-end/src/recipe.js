@@ -1,26 +1,26 @@
-export default class Recipe {
-    constructor(title, author, authorID) {
+export class Recipe {
+    constructor(author) {
         this.IDable = {id:-1, name:''}
         this.ingredient = {
             item: this.IDable,
             amount: -1,
         }
         this.comment = {
-            author: this.IDable,
+            user: this.IDable,
             text:'',
             like:false,
             difficulty:-1
         }
         this.recipeData = {
             creation: {
-                title: {id:0, name:title},
-                author: {id:authorID, name:authorID},
+                title: {id:0, name:''},
+                author: {id:0, name:author},
                 date: new Date().toString(),
                 lastUpdated: new Date().toString(),
             },
             about: {
-                cooktime: -1,
-                preptime: -1,
+                cookTime: -1,
+                prepTime: -1,
                 difficulty: 0,
                 description: '',
                 tags: {
@@ -42,9 +42,6 @@ export default class Recipe {
                 likes:0,
             },
         }
-        this.recipeData.creation.title.name = title
-        this.recipeData.creation.author.name = author
-        this.recipeData.creation.author.id = authorID
     }
     
     setID(ID){
@@ -59,11 +56,40 @@ export default class Recipe {
     *#iterate(obj, prefix = '') {
         for (const [key, value] of Object.entries(obj)) {
             const fullKey = prefix ? `${prefix} ${key}` : key;
-            if (typeof value === 'object' && value !== null) {
-                yield* this.#iterate(value, fullKey); // Recursively iterate for nested objects
+            if (typeof value === 'object') {
+                yield* this.#iterate(value, fullKey)
+            } else if(Array.isArray(value)) {
+                //different functionality when it reaches arrays
             } else {
-                yield [fullKey, value]; // Yield key-value pair
+                yield [fullKey, value];
             }
         }
     }
+    
+}
+export const mockRecipesObjs = ()=> {
+    const mock1 = new Recipe('Brian')
+    
+    const creation = mock1.recipeData.creation
+    const about = mock1.recipeData.about
+    const directions = mock1.recipeData.directions
+    const community = mock1.recipeData.community
+
+    creation.title = 'Pancakes'
+    directions.ingredients = ['flour', 'eggs', 'milk', 'butter'],
+    directions.instructions =  ['Mix ingredients together and cook on griddle'],
+    about.cookTime = 15
+    about.categories = ['breakfast']
+    about.tags.breakfast = true
+    about.tags.lunch = false
+    about.tags.dinner = false
+    about.tags.snack = false
+    community.comments = [
+        {user: 'John', text: 'These are great pancakes!', like:true, difficulty:1},
+        {user: 'Jane', text: 'I love these pancakes!', like:true, difficulty:1}
+    ]
+    community.likes = 0
+    
+    return [mock1]
+    
 }

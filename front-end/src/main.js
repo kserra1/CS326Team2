@@ -4,7 +4,7 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
-import Recipe from './recipe.js';
+import { Recipe, mockRecipesObjs } from './recipe.js';
 const app = document.getElementById('app');
 const eventHub = new EventHub();
 //Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
@@ -57,12 +57,10 @@ const mockRecipes = [
         likes: 35
     },
 ]
-const mockRecipeObj = new Recipe('Pancakes', 'Sam', 1)
-// const iter = mockRecipeObj[Symbol.iterator]()
-// for(const i of Array(20).keys()){
-//     const init = iter.next().value
-//     console.log(init)
-// }
+const iter = mockRecipesObjs()[0][Symbol.iterator]()
+for(const i of iter){
+    console.log(i.value)
+}
 
 const recipeService = new RecipeService(mockRecipes);
 
