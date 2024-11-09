@@ -4,6 +4,7 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import { Recipe, mockRecipesObjs } from './recipe.js';
 import Form from './components/form/form.js';
 const app = document.getElementById('app');
 const eventHub = new EventHub();
@@ -57,13 +58,21 @@ const mockRecipes = [
         likes: 35
     },
 ]
+const mocks = mockRecipesObjs()
+for(const m of mocks){
+    const iter = m[Symbol.iterator]()
+    for(const field of iter){
+        console.log(field)
+    }
+}
 
 const recipeService = new RecipeService(mockRecipes);
 
 async function addRecipeToDB(recipe){
     await recipeService.addRecipe(recipe);
-    
 }
+
+//addRecipeToDB(mockRecipeObj)
 
 async function displayRecipes() {
     const recipeList = new RecipeList(recipeService, eventHub);
@@ -91,7 +100,6 @@ eventHub.on('addComment', async ({ recipeId, comment }) => {
         recipeElement.querySelector('.comments').innerHTML = recipeList.renderComments(recipe.comments);
     }
 });
-
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
