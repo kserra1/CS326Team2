@@ -109,7 +109,7 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
     app.innerHTML = profile.render();
 });
 document.getElementById('showMakeRecipe').addEventListener('click', ()=>{
-    const form = new Form();
+    const form = new Form('Profile.name()');
     app.innerHTML = ''
     app.append(form.render());
 });
