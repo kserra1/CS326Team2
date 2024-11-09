@@ -57,9 +57,12 @@ const mockRecipes = [
         likes: 35
     },
 ]
-const iter = mockRecipesObjs()[0][Symbol.iterator]()
-for(const i of iter){
-    console.log(i.value)
+const mocks = mockRecipesObjs()
+for(const m of mocks){
+    const iter = m[Symbol.iterator]()
+    for(const field of iter){
+        console.log(field)
+    }
 }
 
 const recipeService = new RecipeService(mockRecipes);
@@ -96,7 +99,6 @@ eventHub.on('addComment', async ({ recipeId, comment }) => {
         recipeElement.querySelector('.comments').innerHTML = recipeList.renderComments(recipe.comments);
     }
 });
-
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
