@@ -36,9 +36,9 @@ const mockRecipes = [
         lunch: true,
         dinner: false,
         snack: false,
-        comments: [{
-            user: 'John', text: 'This is a great grilled cheese recipe!'
-        }],
+        comments: [
+            {user: 'John', text: 'This is a great grilled cheese recipe!'}
+        ],
         likes: 0
     },
     {
@@ -52,19 +52,19 @@ const mockRecipes = [
         lunch: false,
         dinner: true,
         snack: false,
-        comments: [{
-            user: 'Jane', text: 'I love spaghetti!'
-        }],
+        comments: [
+            {user: 'Jane', text: 'I love spaghetti!'}
+        ],
         likes: 35
     },
 ]
-const mocks = mockRecipesObjs()
-for(const m of mocks){
-    const iter = m[Symbol.iterator]()
-    for(const field of iter){
-        console.log(field)
-    }
-}
+// const mocks = mockRecipesObjs()
+// for(const m of mocks){
+//     const iter = m[Symbol.iterator]()
+//     for(const field of iter){
+//         console.log(field)
+//     }
+// }
 
 const recipeService = new RecipeService(mockRecipes);
 

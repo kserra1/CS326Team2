@@ -1,16 +1,19 @@
 export class Recipe {
     constructor(data) {
         
-        this.IDable = {id:-1, name:''}
+        this.IDable = {
+            id:undefined, 
+            name:undefined
+        }
         this.ingredient = {
-            item: this.IDable,
-            amount: -1,
+            item: undefined,
+            amount: undefined,
         }
         this.comment = {
-            user: this.IDable,
-            text:'',
-            like:false,
-            difficulty:-1
+            user: undefined,
+            text: undefined,
+            like: undefined,
+            difficulty: undefined
         }
         if(data !==undefined ){
             this.recipeData = data
@@ -18,32 +21,32 @@ export class Recipe {
         }
         this.recipeData = {
             creation: {
-                title: {id:0, name:''},
-                author: {id:0, name:''},
+                title: undefined,
+                author: undefined,
                 date: new Date().toString(),
                 lastUpdated: new Date().toString(),
             },
             about: {
-                cookTime: -1,
-                prepTime: -1,
-                difficulty: 0,
-                description: '',
+                cookTime: undefined,
+                prepTime: undefined,
+                difficulty: undefined,
+                description: undefined,
                 tags: {
                     breakfast:false,
                     lunch:false,
                     dinner:false,
                     snack:false,
                 },
-                categories: [this.IDable],
-                image: '',
+                categories: undefined,
+                image: undefined,
             },
             directions: {
-                ingredients: [this.ingredient],
-                cookware: [this.IDable],
-                instructions: [''],
+                ingredients: undefined,
+                cookware: undefined,
+                instructions: undefined,
             },
             community: {
-                comments: [this.comment],
+                comments: [],
                 likes:0,
             },
         }
@@ -55,27 +58,31 @@ export class Recipe {
     setAuthorID(ID){
         this.recipe.creation.author.id=ID
     }
+    setDifficulty(){
+        this.recipeData.description.difficulty = 
+        this.recipeData.community.comments.reduce((acc, c)=>acc+c.difficulty/2, 0)
+    }
 
     // iterates through uninitialized values
     *[Symbol.iterator]() {
         yield* this.#iterate(this.recipeData);
     }
 
-    *#iterate(obj, prefix = '') {
+    *#iterate(obj) {
         for (const [key, value] of Object.entries(obj)) {
-            const fullKey = prefix ? `${prefix} ${key}` : key;
-            if (typeof value === 'object') {
-                yield* this.#iterate(value, fullKey)
+            if (typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype) {
+                yield* this.#iterate(value)
             } else {
-                let field = this.recipeData
-                for(const f of prefix.split(' ')){
-                    field = field[f]
-                }
-                field = yield [fullKey, value]
+                yield [key, value]
             }
         }
     }
-    
+    getData(){
+        if(Array.from([Symbol.iterator]()).every(e=>e!==undefined))
+            return this.recipeData
+        else
+            throw new ReferenceError("Not all values are initialized")
+    }
 }
 export const mockRecipesObjs = ()=> {
     
