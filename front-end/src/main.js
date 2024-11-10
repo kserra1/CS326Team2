@@ -116,7 +116,7 @@ async function render (){
     } else if (hash === '#profile') {
         const profile = new Profile();
         app.innerHTML = await profile.render();
-    }else if (hash === '#login') {
+    }else if (hash === '#login') { //login
         const loginPage = new LoginPage();
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();

@@ -48,3 +48,5 @@ export default class LoginPage extends BaseComponent{
       ?.addEventListener("click", () => this.togglePage());
   }
 }
+
+//recommit
