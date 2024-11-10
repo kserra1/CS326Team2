@@ -4,6 +4,8 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import LoginPage from './components/loginpage/loginpage.js';
+
 const app = document.getElementById('app');
 const eventHub = new EventHub();
 //Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
@@ -114,6 +116,10 @@ async function render (){
     } else if (hash === '#profile') {
         const profile = new Profile();
         app.innerHTML = await profile.render();
+    }else if (hash === '#login') {
+        const loginPage = new LoginPage();
+        app.innerHTML = loginPage.render();
+        loginPage.addEventListeners();
     } else {
         displayRecipes(); 
     }
@@ -154,6 +160,9 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
     window.location.hash = '#profile';
 });
 
+document.getElementById('showLogin').addEventListener('click', () => {
+    window.location.hash = '#login';
+});
 
 window.addEventListener('hashchange', render);
 render();
