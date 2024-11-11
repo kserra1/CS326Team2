@@ -14,7 +14,18 @@ export default class RecipeList extends BaseComponent {
     return `
         <div class="recipe-list">
             <h2>Community Recipes</h2>
-            <ul>
+            <div class="search-bar">
+                <input type="text" id="ingredientSearch" placeholder="Search by ingredients..." />
+                <select id="categoryFilter">
+                    <option value="">All Cuisines</option>
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="snack">Snack</option>
+                </select>
+                <button id="searchButton">Search</button>
+            </div>
+            <ul id="recipeList">
                 ${recipes.map(recipe => this.renderRecipe(recipe)).join('')}
             </ul>
         </div>
@@ -24,7 +35,7 @@ export default class RecipeList extends BaseComponent {
   renderRecipe(recipe) {
     return `
         <li data-id="${recipe.id}">
-            <h3>${recipe.name}</h3>
+            <h3><a href="#recipe/${recipe.id}">${recipe.name}</a></h3>
             <p>${recipe.instructions}</p>
             <button data-id="${recipe.id}" class="like-btn">❤️ ${recipe.likes}</button>
             <h4>Comments</h4>
@@ -42,6 +53,20 @@ export default class RecipeList extends BaseComponent {
   }
 
 setupEventListeners() {
+
+  document.querySelector('#searchButton').addEventListener('click', async () => {
+    const category = document.querySelector('#categoryFilter').value;
+    //Lowercase, and trim so that it can search properly
+    const ingredients = document.querySelector('#ingredientSearch').value.split(',').map(i => i.trim().toLowerCase());
+
+    const filteredRecipes = await this.recipeService.searchRecipes({
+        category,
+        //No empty strs
+        ingredients: ingredients.filter(i => i) 
+    });
+    document.querySelector('#recipeList').innerHTML = filteredRecipes.map(recipe => this.renderRecipe(recipe)).join('');
+});
+
   // Attach event listeners for like and comment buttons
   document.querySelectorAll('.like-btn').forEach((button) => {
       button.addEventListener('click', this.handleLike.bind(this));

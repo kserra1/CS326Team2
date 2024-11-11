@@ -114,6 +114,30 @@ export default class RecipeService {
     });
   }
 
+  async searchRecipes({category = null, ingredients = []}){
+    const db = await this.getDB();
+    return new Promise((resolve, reject)=>{
+      const transaction = db.transaction([this.storeName], "readonly");
+      const store = transaction.objectStore(this.storeName);
+      const request = store.getAll();
+      request.onsuccess = (event)=>{
+        let recipes = event.target.result;
+
+        if(category){
+          recipes = recipes.filter(recipe => recipe.category === category);
+        }
+        if(ingredients.length > 0){
+          recipes = recipes.filter(recipe => ingredients.every(ingredient => recipe.ingredients.includes(ingredient)));
+        }
+        resolve(recipes);
+      }
+      request.onerror = ()=>{
+        reject("Error retrieving recipes");
+      }
+    })
+
+  }
+
   async deleteRecipe(id) {
     const db = await this.getDB();
     return new Promise((resolve, reject) => {
