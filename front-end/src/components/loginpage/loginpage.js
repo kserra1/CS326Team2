@@ -1,5 +1,4 @@
-import { BaseComponent } from "../basecomponent/basecomponent";
-
+import { BaseComponent } from "../basecomponent/basecomponent.js";
 export default class LoginPage extends BaseComponent{
   constructor() {
     super();
