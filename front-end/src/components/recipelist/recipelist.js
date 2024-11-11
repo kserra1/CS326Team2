@@ -33,6 +33,7 @@ export default class RecipeList extends BaseComponent {
   }
 
   renderRecipe(recipe) {
+    console.log("rendering: ", recipe)
     return `
         <li data-id="${recipe.id}">
             <h3><a href="#recipe/${recipe.id}">${recipe.name}</a></h3>

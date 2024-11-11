@@ -1,0 +1,28 @@
+#form {
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction: column;
+}
+#creation {
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction:row;
+
+}
+#about {
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction: row;
+    
+}
+#directions {
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction: row;
+}
+::selection {
+    background-color: #ff6347;
+}
+button {
+    background-color: #ff6347;
+}

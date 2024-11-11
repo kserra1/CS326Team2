@@ -4,6 +4,8 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import { Recipe, mockRecipesObjs } from './recipe.js';
+import Form from './components/form/form.js';
 import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 const app = document.getElementById('app');
 const eventHub = new EventHub();
@@ -35,9 +37,9 @@ const mockRecipes = [
         lunch: true,
         dinner: false,
         snack: false,
-        comments: [{
-            user: 'John', text: 'This is a great grilled cheese recipe!'
-        }],
+        comments: [
+            {user: 'John', text: 'This is a great grilled cheese recipe!'}
+        ],
         likes: 0
     },
     {
@@ -51,12 +53,19 @@ const mockRecipes = [
         lunch: false,
         dinner: true,
         snack: false,
-        comments: [{
-            user: 'Jane', text: 'I love spaghetti!'
-        }],
+        comments: [
+            {user: 'Jane', text: 'I love spaghetti!'}
+        ],
         likes: 35
     },
 ]
+const mocks = mockRecipesObjs()
+for(const m of mocks){
+    const iter = m[Symbol.iterator]()
+    for(const field of iter){
+        console.log(field)
+    }
+}
 
 const recipeService = new RecipeService(mockRecipes);
 
@@ -64,7 +73,13 @@ async function addRecipeToDB(recipe){
     await recipeService.addRecipe(recipe);
 }
 
+//addRecipeToDB(mockRecipeObj)
 
+async function displayRecipes() {
+    const recipeList = new RecipeList(recipeService, eventHub);
+    app.innerHTML = await recipeList.render();
+    recipeList.setupEventListeners();
+}
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -104,6 +119,11 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 document.getElementById('showProfile').addEventListener('click', ()=>{
     const profile = new Profile();
     app.innerHTML = profile.render();
+});
+document.getElementById('showMakeRecipe').addEventListener('click', ()=>{
+    const form = new Form('Profile.name()');
+    app.innerHTML = ''
+    app.append(form.render());
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
