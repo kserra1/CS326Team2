@@ -71,7 +71,7 @@ async render() {
           <label for="recipe-cookTime">Cook Time (minutes):</label>
           <input type="number" id="recipe-cookTime" required />
 
-          <label for="recipe-category">Category:</label>
+          <label for="recipe-category">Cuisine:</label>
           <input type="text" id="recipe-category" required />
 
           <div class="meal-times">
