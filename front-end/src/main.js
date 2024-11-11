@@ -58,13 +58,13 @@ const mockRecipes = [
         likes: 35
     },
 ]
-// const mocks = mockRecipesObjs()
-// for(const m of mocks){
-//     const iter = m[Symbol.iterator]()
-//     for(const field of iter){
-//         console.log(field)
-//     }
-// }
+const mocks = mockRecipesObjs()
+for(const m of mocks){
+    const iter = m[Symbol.iterator]()
+    for(const field of iter){
+        console.log(field)
+    }
+}
 
 const recipeService = new RecipeService(mockRecipes);
 

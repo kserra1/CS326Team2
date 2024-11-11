@@ -15,40 +15,39 @@ export class Recipe {
             like: undefined,
             difficulty: undefined
         }
+        this.updateNumber = (includes = /^\d*\.\d+$/, num = undefined)=>{
+            if((includes).test(num))
+                this.recipeData = num
+            else
+                throw new TypeError("Not a valid number")
+        }
+        this.updateString = ()=>{
+            if(string)
+        }
         if(data !==undefined ){
             this.recipeData = data
             return 
         }
         this.recipeData = {
-            creation: {
-                title: undefined,
-                author: undefined,
-                date: new Date().toString(),
-                lastUpdated: new Date().toString(),
-            },
-            about: {
-                cookTime: undefined,
-                prepTime: undefined,
-                difficulty: undefined,
-                description: undefined,
-                tags: {
-                    breakfast:false,
-                    lunch:false,
-                    dinner:false,
-                    snack:false,
-                },
-                categories: undefined,
-                image: undefined,
-            },
-            directions: {
-                ingredients: undefined,
-                cookware: undefined,
-                instructions: undefined,
-            },
-            community: {
-                comments: [],
-                likes:0,
-            },
+            title: undefined,
+            author: undefined,
+            date: new Date().toString(),
+            lastUpdated: new Date().toString(),
+            cookTime: undefined,
+            prepTime: undefined,
+            difficulty: undefined,
+            description: undefined,
+            breakfast:false,
+            lunch:false,
+            dinner:false,
+            snack:false,
+            categories: undefined,
+            image: undefined,
+            ingredients: undefined,
+            cookware: undefined,
+            instructions: undefined,
+            comments: [],
+            likes:0,
         }
     }
     
@@ -65,19 +64,13 @@ export class Recipe {
 
     // iterates through uninitialized values
     *[Symbol.iterator]() {
-        yield* this.#iterate(this.recipeData);
-    }
-
-    *#iterate(obj) {
-        for (const [key, value] of Object.entries(obj)) {
-            if (typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype) {
-                yield* this.#iterate(value)
-            } else {
-                yield [key, value]
-            }
+        for (const property in this.recipeData) {
+            yield [property, this.recipeData[property], 
+                    (str)=>this.recipeData[property]=str]
         }
     }
     getData(){
+        this.setDifficulty()
         if(Array.from([Symbol.iterator]()).every(e=>e!==undefined))
             return this.recipeData
         else
