@@ -5,6 +5,7 @@ import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
 import LoginPage from './components/loginpage/loginpage.js';
+import { User } from './components/loginpage/user.js';
 
 const app = document.getElementById('app');
 const eventHub = new EventHub();
@@ -97,9 +98,18 @@ document.getElementById('showRecipes').addEventListener('click', displayRecipes)
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
 });    
+
+let currentuser = null;
 document.getElementById('showProfile').addEventListener('click', ()=>{
-    const profile = new Profile();
-    app.innerHTML = profile.render();
+    // const profile = new Profile();
+    // app.innerHTML = profile.render();
+
+    if(currentuser){
+        const profile = new Profile(currentuser);
+        app.innerHTML = profile.render();
+    }else{
+        alert("Please log in to view your profile");
+    }
 });
 
 async function render (){
@@ -114,10 +124,23 @@ async function render (){
         const myRecipes = new MyRecipes(recipeService);
         app.innerHTML = await myRecipes.render();
     } else if (hash === '#profile') {
-        const profile = new Profile();
-        app.innerHTML = await profile.render();
+        // const profile = new Profile();
+        // app.innerHTML = await profile.render();
+        if (currentuser) {
+            const profile = new Profile(currentuser);
+            app.innerHTML = await profile.render();
+        } else {
+            alert("Please log in to view your profile");
+        }
     }else if (hash === '#login') { //login
-        const loginPage = new LoginPage();
+        // const loginPage = new LoginPage();
+        // app.innerHTML = loginPage.render();
+        // loginPage.addEventListeners();
+        const loginPage = new LoginPage((user) => {
+            currentuser = user; 
+            alert("User registered/logged in successfully!");
+            window.location.hash = '#profile'; 
+        });
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();
     } else {
