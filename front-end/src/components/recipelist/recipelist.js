@@ -37,7 +37,11 @@ export default class RecipeList extends BaseComponent {
     return `
         <li data-id="${recipe.id}">
             <h3><a href="#recipe/${recipe.id}">${recipe.title}</a></h3>
-            <p>${recipe.instructions}</p>
+            <ul>
+                ${recipe.ingredients.map(ingredient => `
+                    <li>${this.displayObj(ingredient)}</li>
+                `).join(' ')}
+            </ul>
             <button data-id="${recipe.id}" class="like-btn">❤️ ${recipe.likes}</button>
             <h4>Comments</h4>
             <ul class="comments">

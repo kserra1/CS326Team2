@@ -67,6 +67,7 @@ export default class RecipeService {
       const request = store.add(recipeData);
 
       request.onsuccess = () => {
+        console.log(recipeData)
         this.eventHub.emit("RecipeAdded", recipeData);
         resolve("Recipe added successfully");
       };

@@ -13,7 +13,7 @@ export class Recipe {
         difficulty: this.#float,
     }
     #recipe = {
-        id: this.#float,
+        //id: this.#float,
         title: this.#string,
         author: this.#string,
         date: new Date().toString(),

@@ -26,7 +26,7 @@ export default class RecipeDetail extends BaseComponent {
         if (!recipe) {
             return `<h2>Recipe not found!</h2>`;
         }
-
+        console.log(recipeId)
         return `
         <div class="recipe-detail">
             <h2>${recipe.title}</h2>
