@@ -13,7 +13,9 @@
 - **Top 3 Commits Milestone #3**:
 
   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/72d106c12fcb774da7ba23dfecafee7d510db889): Initialize full frontend project structure, including base components, eventhub, recipe service, and base application features including tabs. (Community page, personal page, and profile page.)
-  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/547b96d13a3f5a6be4a5a8d0c6f351503e64055b): Fixed the existing indexeDB, added the ability to like people's recipes on the community page as well as comment. Also added eventhub functionality to emit events across files. 
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/547b96d13a3f5a6be4a5a8d0c6f351503e64055b): Fixed the existing indexeDB, added the ability to like people's recipes on the community page as well as comment. Also added eventhub functionality to emit events across files.
+  3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/cd7af9d57bf2c302c7c763277911b8011cad3c0e):
+     Reworked functionality of application changing it from categories to cuisine so that users could store the nationality of the recipe. Also implemented beginning of search feature for Aidan to be able to work from.
 
 ## Atharve Pandey - Communication Lead
 
