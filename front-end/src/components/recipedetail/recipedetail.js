@@ -29,15 +29,19 @@ export default class RecipeDetail extends BaseComponent {
 
         return `
         <div class="recipe-detail">
-            <h2>${recipe.name}</h2>
+            <h2>${recipe.title}</h2>
             <h3>Ingredients</h3>
             <ul>
                 ${recipe.ingredients.map(ingredient => `
                     <li>${ingredient}</li>
-                `).join('')}
+                `).join(' ')}
             </ul>
             <h3>Instructions</h3>
-            <p>${recipe.instructions}</p>
+            <ul>
+                ${recipe.instructions.map(instruction => `
+                    <li>${instruction}</li>
+                `).join(' ')}
+            </ul>
             <h3>Cook Time</h3>
             <p>${recipe.cookTime} minutes</p>
             <h3>Cuisine</h3>

@@ -59,27 +59,13 @@ const mockRecipes = [
         likes: 35
     },
 ]
-const mocks = mockRecipesObjs()
-for(const m of mocks){
-    const iter = m[Symbol.iterator]()
-    for(const field of iter){
-        console.log(field)
-    }
-}
-
-const recipeService = new RecipeService(mockRecipes);
+console.log(mockRecipesObjs())
+const recipeService = new RecipeService(mockRecipesObjs());
 
 async function addRecipeToDB(recipe){
     await recipeService.addRecipe(recipe);
 }
 
-//addRecipeToDB(mockRecipeObj)
-
-async function displayRecipes() {
-    const recipeList = new RecipeList(recipeService, eventHub);
-    app.innerHTML = await recipeList.render();
-    recipeList.setupEventListeners();
-}
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -112,6 +98,8 @@ async function addRecipeC(){
     app.innerHTML = await addRecipeComponent.render();
     addRecipeComponent.setupEventListeners();
 }
+
+const form = new Form('Profile.name()');
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
@@ -121,7 +109,6 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
     app.innerHTML = profile.render();
 });
 document.getElementById('showMakeRecipe').addEventListener('click', ()=>{
-    const form = new Form('Profile.name()');
     app.innerHTML = ''
     app.append(form.render());
 });

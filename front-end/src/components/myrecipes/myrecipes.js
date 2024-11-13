@@ -28,7 +28,7 @@ export default class MyRecipes extends BaseComponent{
                             .map(
                               (recipe) => `
                               <li>
-                                  <a href="#recipe/${recipe.id}">${recipe.name}</a>
+                                  <a href="#recipe/${recipe.id}">${recipe.title}</a>
                               </li>
                           `
                             )

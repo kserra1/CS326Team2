@@ -36,7 +36,7 @@ export default class RecipeList extends BaseComponent {
     console.log("rendering: ", recipe)
     return `
         <li data-id="${recipe.id}">
-            <h3><a href="#recipe/${recipe.id}">${recipe.name}</a></h3>
+            <h3><a href="#recipe/${recipe.id}">${recipe.title}</a></h3>
             <p>${recipe.instructions}</p>
             <button data-id="${recipe.id}" class="like-btn">❤️ ${recipe.likes}</button>
             <h4>Comments</h4>
