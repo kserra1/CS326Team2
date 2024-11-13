@@ -46,37 +46,36 @@ export default class LoginPage extends BaseComponent {
 
   render() {
     return `
-            <div class="login-container">
-                <h2>${this.isLogin ? "Login" : "Register"}</h2>
-                <form id="loginForm">
-                    <div>
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" required>
-                    </div>
-                    <div>
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                    ${
-                      !this.isLogin
-                        ? `
-                        <div>
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>`
-                        : ""
-                    }
-                    <button type="submit">${
-                      this.isLogin ? "Login" : "Register"
-                    }</button>
-                </form>
-                <button id="toggleButton">${
-                  this.isLogin ? "Switch to Register" : "Switch to Login"
-                }</button>
+      <div class="main-content"> <!-- Add this wrapper -->
+        <div class="login-container">
+          <h2 class="header">${this.isLogin ? "Login" : "Register"}</h2>
+          <form id="loginForm" class="card">
+            <div class="input-group">
+              <label for="username">Username:</label>
+              <input type="text" id="username" name="username" class="form-control" required>
             </div>
-        `;
+            <div class="input-group">
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            ${
+              !this.isLogin
+                ? `
+                <div class="input-group">
+                  <label for="email">Email:</label>
+                  <input type="email" id="email" name="email" class="form-control" required>
+                </div>`
+                : ""
+            }
+            <button type="submit" class="btn btn-primary">${this.isLogin ? "Login" : "Register"}</button>
+          </form>
+          <button id="toggleButton" class="btn-toggle">${this.isLogin ? "Switch to Register" : "Switch to Login"}</button>
+        </div>
+      </div>
+    `;
   }
 
+  
   addEventListeners() {
     document
       .getElementById("toggleButton")
