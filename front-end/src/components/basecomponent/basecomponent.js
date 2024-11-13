@@ -12,6 +12,30 @@ export class BaseComponent {
     render() {
       throw new Error('render method not implemented');
     }
+
+    displayObj(key=null, value){
+      const div = document.createElement('div')
+      if(key){
+        const label = document.createElement("div")
+        label.textContent = this.makeLabel(key)
+        label.classList.add(key)
+        label.classList.add("label")
+        div.appendChild(label)
+      }
+      if(Array.isArray(value)){
+        const list = document.createElement('div')
+        list.classList.add("list")
+        list.append(...value.map(v=>this.displayObj(key, v)))
+      } else if(typeof value === 'object'){
+        div.append(...Object.entries(value).map(f=> div.append(...f)))
+      } else {
+        const v = document.createElement('div')
+        v.classList.add("value")
+        v.textContent = value
+        div.append(v)
+      }
+      return div
+    }
   
     loadCSS(fileName) {
       if (this.cssLoaded) return;

@@ -1,6 +1,5 @@
 export class Recipe {
     #float = NaN
-    #bool = false
     #string = ''
     #ingredient = {
         item: this.#string,
@@ -10,7 +9,7 @@ export class Recipe {
     #comment = {
         user: this.#string,
         text: this.#string,
-        like: this.#bool,
+        like: false,
         difficulty: this.#float,
     }
     #recipe = {
@@ -23,10 +22,10 @@ export class Recipe {
         prepTime: this.#float,
         difficulty: 0,
         description: this.#string,
-        breakfast: this.#bool,
-        lunch: this.#bool,
-        dinner: this.#bool,
-        snack: this.#bool,
+        breakfast: false,
+        lunch: false,
+        dinner: false,
+        snack: false,
         categories: [this.#string],
         image: this.#string,
         ingredients: [this.#ingredient],
@@ -35,9 +34,13 @@ export class Recipe {
         comments: [this.#comment],
         likes: 0,
     }
+    isUnd = (val)=> {
+        return Object.entries(this).filter(([k,_])=>k.startsWith('#'))
+        .some(([_,v])=>v==val)
+    }
     #getDefault = (key)=>{
         if(Array.isArray(this.#recipe[key]))
-            return this.#recipe[key].map(e=>this.#getDefault(e)).splice(0, 1)
+            return this.#recipe[key].map(e=>this.#getDefault(e))
         if(typeof value === 'object')
             return Object.fromEntries(Object.entries(this.#recipe[key]).map(([k,v])[k, this.#getDefault(v)]))
         return this.#recipe[key]
@@ -45,6 +48,7 @@ export class Recipe {
     #setDefault = (oldValue, newValue) => {
         switch(typeof oldValue){
             case 'boolean':
+            case 'undefined':
                 if(typeof newValue !== 'boolean')
                     throw new TypeError("Invalid boolean", newValue)
                 return Boolean(newValue)
@@ -56,28 +60,31 @@ export class Recipe {
                 if((/^\d*\.\d+$/).test(newValue))
                     throw new TypeError("Invalid number:", newValue)
                 return Number.parseFloat(newValue)
-            case 'object':        
+            case 'object':
                 if(Array.isArray(oldValue)){
                     if(Array.isArray(newValue)){
                         const retVal = []
                         for(const v of newValue){
-                            retVal.push(this.#setDefault(oldValue[0], v))
+                            return this.#setDefault(oldValue, v)
                         }
                         return retVal
                     } else {
-                        const found = this.#recipe[key].find(v=>v==newValue)
+                        if(this.isUnd(oldValue[0]))  oldValue.splice(0, 1)
+                        const found = oldValue.find(v=>v==newValue)
                         if(found) 
-                            return this.#recipe[key].toSpliced(found, 1)
+                            return oldValue.toSpliced(found, 1)
                         else 
-                            return this.#recipe[key].toSpliced(-1, 0, newValue)
+                            return oldValue.toSpliced(-1, 0, newValue)
                     }
                 } else {
+                    if(typeof newValue !== "object")
+                        throw new TypeError("Invalid object:", newValue)
                     const retVal = []
                     for(const field in oldValue) {
                         if(field in newValue)
                             retVal.push([field, this.#setDefault(oldValue[field], newValue[field])])
                         else 
-                            throw new TypeError("Invalid object:", newValue)
+                            throw new TypeError("Invalid object properties:", newValue)
                     }
                     return Object.fromEntries(retVal)
                 }
@@ -88,16 +95,12 @@ export class Recipe {
         //Getter and Setters for each property of recipe
         for (const [key, value] of Object.entries(this.#recipe)) {
             Object.defineProperty(this, key, {
-                get: () => {
-                    return this.#getDefault(key)
+                get() {
+                    return this.#recipe[key]
                 },
-                enumerable: true,
-                configurable: true
-            })
-            Object.defineProperty(this, key, {
-                set: (newValue) => {
-                    this.updated()
-                    this.#recipe = this.#setDefault(this.#recipe[key], newValue)
+                set(newValue) {
+                    //this.#recipe.lastUpdated = new Date().toString()
+                    this.#recipe[key] = this.#setDefault(value, newValue)
                 },
                 enumerable: true,
                 configurable: true
@@ -117,37 +120,8 @@ export class Recipe {
         this.difficulty = 
         this.comments.reduce((acc, c)=>c ? acc+c.difficulty/2 : acc, 0)
     }
-    updated(){
-        this.#recipe.lastUpdated = new Date().toString()
-    }
-    set id(ID){
-        this.#recipe.creation.title.id=ID
-    }
-    set authorID(ID){
-        this.#recipe.creation.author.id=ID
-    }
-    set categories(category){
-        if(this.#recipe.categories[0] === this.#string) this.#recipe.categories.splice(0, 1)
-        updateArray(arr, category)
-    }
-    set ingredients(ingredient){
-        if(this.#recipe.ingredients[0] === this.#ingredient) this.#recipe.ingredients.splice(0, 1)
-        updateArray(arr, ingredient)
-    }
-    set cookware(cookware){
-        if(this.#recipe.cookware[0] === this.#string) this.#recipe.cookware.splice(0, 1)
-        updateArray(arr, cookware)
-    }
-    set instructions(instructions){
-        if(this.#recipe.instructions[0] === this.#string) this.#recipe.instructions.splice(0, 1)
-        updateArray(arr, instructions)
-    }
-    set comments(comment){
-        if(this.#recipe.comments[0] === this.#comment) this.#recipe.comments.splice(0, 1)
-        updateArray(arr, comment)
-    }
     get data(){
-        this.updateDifficulty()
+        //this.updateDifficulty()
         return this.#recipe
         throw new ReferenceError("Not all values are initialized")
     }

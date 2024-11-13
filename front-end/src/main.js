@@ -9,56 +9,7 @@ import Form from './components/form/form.js';
 import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 const app = document.getElementById('app');
 const eventHub = new EventHub();
-//Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
-const mockRecipes = [
-    {
-        id: 1,
-        name: 'Pancakes',
-        ingredients: ['flour', 'eggs', 'milk', 'butter'],
-        instructions: 'Mix ingredients together and cook on griddle',
-        cookTime: 15,
-        category: 'American',
-        breakfast: true,
-        lunch: false,
-        dinner: false,
-        snack: false,
-        comments: [{user: 'John', text: 'These are great pancakes!'}, {user: 'Jane', text: 'I love these pancakes!'
-            }],
-        likes: 0
-    },
-    {
-        id: 2,
-        name: 'Grilled Cheese',
-        ingredients: ['bread', 'cheese', 'butter'],
-        instructions: 'Butter bread, put cheese between slices, cook on griddle',
-        cookTime: 10,
-        category: 'American',
-        breakfast: false,
-        lunch: true,
-        dinner: false,
-        snack: false,
-        comments: [
-            {user: 'John', text: 'This is a great grilled cheese recipe!'}
-        ],
-        likes: 0
-    },
-    {
-        id: 3,
-        name: 'Spaghetti',
-        ingredients: ['pasta', 'sauce', 'meatballs'],
-        instructions: 'Boil pasta, heat sauce and meatballs, serve together',
-        cookTime: 30,
-        category: 'Italian',
-        breakfast: false,
-        lunch: false,
-        dinner: true,
-        snack: false,
-        comments: [
-            {user: 'Jane', text: 'I love spaghetti!'}
-        ],
-        likes: 35
-    },
-]
+
 console.log(mockRecipesObjs())
 const recipeService = new RecipeService(mockRecipesObjs());
 
