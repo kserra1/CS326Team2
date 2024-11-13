@@ -26,14 +26,14 @@ export default class RecipeDetail extends BaseComponent {
         if (!recipe) {
             return `<h2>Recipe not found!</h2>`;
         }
-        console.log(recipeId)
+        console.log(recipe)
         return `
         <div class="recipe-detail">
             <h2>${recipe.title}</h2>
             <h3>Ingredients</h3>
             <ul>
                 ${recipe.ingredients.map(ingredient => `
-                    <li>${ingredient}</li>
+                    <li>${ingredient.item}</li>
                 `).join(' ')}
             </ul>
             <h3>Instructions</h3>

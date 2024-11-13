@@ -38,58 +38,20 @@ export class Recipe {
         return Object.entries(this).filter(([k,_])=>k.startsWith('#'))
         .some(([_,v])=>v==val)
     }
-    #getDefault = (key)=>{
-        if(Array.isArray(this.#recipe[key]))
-            return this.#recipe[key].map(e=>this.#getDefault(e))
-        if(typeof value === 'object')
-            return Object.fromEntries(Object.entries(this.#recipe[key]).map(([k,v])[k, this.#getDefault(v)]))
-        return this.#recipe[key]
-    }
-    #setDefault = (oldValue, newValue) => {
-        switch(typeof oldValue){
-            case 'boolean':
-            case 'undefined':
-                if(typeof newValue !== 'boolean')
-                    throw new TypeError("Invalid boolean", newValue)
-                return Boolean(newValue)
-            case 'string':
-                if(typeof newValue !== "string")
-                    throw new TypeError("Invalid string:", newValue)
-                return String(newValue)
-            case 'number':
-                if((/^\d*\.\d+$/).test(newValue))
-                    throw new TypeError("Invalid number:", newValue)
-                return Number.parseFloat(newValue)
-            case 'object':
-                if(Array.isArray(oldValue)){
-                    if(Array.isArray(newValue)){
-                        const retVal = []
-                        for(const v of newValue){
-                            return this.#setDefault(oldValue, v)
-                        }
-                        return retVal
-                    } else {
-                        if(this.isUnd(oldValue[0]))  oldValue.splice(0, 1)
-                        const found = oldValue.find(v=>v==newValue)
-                        if(found) 
-                            return oldValue.toSpliced(found, 1)
-                        else 
-                            return oldValue.toSpliced(-1, 0, newValue)
-                    }
-                } else {
-                    if(typeof newValue !== "object")
-                        throw new TypeError("Invalid object:", newValue)
-                    const retVal = []
-                    for(const field in oldValue) {
-                        if(field in newValue)
-                            retVal.push([field, this.#setDefault(oldValue[field], newValue[field])])
-                        else 
-                            throw new TypeError("Invalid object properties:", newValue)
-                    }
-                    return Object.fromEntries(retVal)
-                }
+    check (oldValue, newValue) {
+        if(typeof oldValue !== typeof newValue)
+            throw new TypeError("Invalid", typeof oldValue, ':', newValue)
+        if(Array.isArray(oldValue) !== Array.isArray(newValue))
+            throw new TypeError("Invalid", typeof oldValue, ':', newValue)
+        if(Array.isArray(oldValue)){
+            for(const val of newValue)
+                this.check(oldValue[0], val)    
         }
-        return oldValue
+        if(typeof oldValue === 'object'){
+            if(Object.keys(oldValue).some((v, i) => v !== Object.keys(newValue)[i]))
+                throw new TypeError('Invalid object properties:', Object.keys(newValue))
+            Object.values(oldValue).forEach((v, i) => this.check(v, Object.values(newValue)[i]))
+        }
     }
     constructor(data) {
         //Getter and Setters for each property of recipe
@@ -100,7 +62,8 @@ export class Recipe {
                 },
                 set(newValue) {
                     //this.#recipe.lastUpdated = new Date().toString()
-                    this.#recipe[key] = this.#setDefault(value, newValue)
+                    this.check(value, newValue)
+                    this.#recipe[key] = newValue
                 },
                 enumerable: true,
                 configurable: true
@@ -122,6 +85,7 @@ export class Recipe {
     }
     get data(){
         //this.updateDifficulty()
+        console.log(this.#recipe)
         return this.#recipe
         throw new ReferenceError("Not all values are initialized")
     }
@@ -131,7 +95,7 @@ export const mockRecipesObjs = ()=> {
 
     mock1.title = 'Pancakes'
     mock1.author = 'Brian'
-    mock1.ingredients = ['flour', 'eggs', 'milk', 'butter'],
+    mock1.ingredients = [{item: 'flour', amount: 1, unit:'cup'}, {item: 'eggs', amount: 1, unit:'cup'}, {item: 'milk', amount: 1, unit:'cup'}, {item: 'butter', amount: 1, unit:'cup'}],
     mock1.instructions =  ['Mix ingredients together', 'cook on griddle'],
     mock1.cookTime = 15
     mock1.categories = ['breakfast']
@@ -150,7 +114,7 @@ export const mockRecipesObjs = ()=> {
 
     mock2.title = 'Grilled Cheese'
     mock2.author = 'Jane'
-    mock2.ingredients = ['bread', 'cheese', 'butter'],
+    mock2.ingredients = [{item: 'bread', amount: 1, unit:'cup'}, {item: 'cheese', amount: 1, unit:'cup'}, {item: 'butter', amount: 1, unit:'cup'}],
     mock2.instructions =  ['Butter bread', 'put cheese between slices', 'cook on griddle'],
     mock2.cookTime = 10
     mock2.categories = ['lunch']
@@ -168,7 +132,7 @@ export const mockRecipesObjs = ()=> {
 
     mock3.title = 'Spaghetti'
     mock3.author = 'John'
-    mock3.ingredients = ['pasta', 'sauce', 'meatballs'],
+    mock3.ingredients = [{item: 'pasta', amount: 1, unit:'cup'}, {item: 'sauce', amount: 1, unit:'cup'}, {item: 'meatballs', amount: 1, unit:'cup'}],
     mock3.instructions =  ['Boil pasta', 'heat sauce and meatballs', 'serve together'],
     mock3.cookTime = 30
     mock3.categories = ['dinner']
