@@ -1,3 +1,4 @@
+Allows users to explore and interact with recipes shared by other community members. Users can scroll through a feed of recipes, like them, and leave comments which includes their name.
 
 ```mermaid
 sequenceDiagram
