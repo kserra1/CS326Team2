@@ -1,6 +1,7 @@
 export class BaseComponent {
     constructor() {
       this.cssLoaded = false;
+      this.innerHTML = document.createElement('div')
     }
   
     /**
@@ -58,11 +59,11 @@ export class BaseComponent {
   
     dispatchCustomEvent(eventName, detail = {}) {
       const event = new CustomEvent(eventName, { detail });
-      this.parent.dispatchEvent(event);
+      this.innerHTML.dispatchEvent(event);
     }
   
     listenToEvent(eventName, callback) {
-      this.parent.addEventListener(eventName, callback);
+      this.innerHTML.addEventListener(eventName, callback);
     }
   }
   

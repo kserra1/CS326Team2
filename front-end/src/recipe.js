@@ -13,7 +13,7 @@ export class Recipe {
         difficulty: this.#float,
     }
     #recipe_template = {
-        id: 0,
+        //id: 0,
         title: this.#string,
         author: this.#string,
         date: new Date().toString(),
@@ -35,11 +35,10 @@ export class Recipe {
         likes: 0,
     }
     #recipe = structuredClone(this.#recipe_template)
-    isUnd = (field)=> {
-        console.log(this[field])
-        return [this.#float, this.#string, this.#ingredient, this.#comment].every(und=>{
-            return und === this[field]
-        })
+    isUnd = (val)=> {
+        if(typeof val === 'object')
+            return Object.values(val).some(this.isUnd)
+        return typeof val !== 'boolean' && !Boolean(val)
     }
     check (oldValue, newValue) {
         if(typeof oldValue !== typeof newValue)

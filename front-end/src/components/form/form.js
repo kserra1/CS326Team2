@@ -1,9 +1,11 @@
 import { Recipe } from '../../recipe.js';
 import { BaseComponent } from "../basecomponent/basecomponent.js";
 export default class Form extends BaseComponent {
-    constructor(author){
+    constructor(eventHub, author){
         super();
+        this.eventHub = eventHub
         this.loadCSS('form');
+        this.innerHTML.id = "form"
 
         this.recipe = new Recipe()
         this.recipe.author = author
@@ -16,7 +18,8 @@ export default class Form extends BaseComponent {
         const div = document.createElement('div')
         div.classList.add(key)
         div.key = key
-        if(Array.isArray(value)){
+
+        if(Array.isArray(value)){//code for input arrays
             div.classList.add('list')
             const input = this.makeField(key, value[0])
             const list = document.createElement("div")
@@ -39,14 +42,13 @@ export default class Form extends BaseComponent {
                         )
                         div.dispatchEvent(new Event('change'))
                     }
-                    console.log('list listener: key:', key, 'data:', div.data)
 
                 })
                 return button
             }
             list.appendChild(add(0))
             div.append(input, list)
-        } else if (typeof value === 'object'){
+        } else if (typeof value === 'object'){ // code for inputting objects
             div.classList.add('obj')
 
             const inputName = (key+" input")
@@ -65,9 +67,8 @@ export default class Form extends BaseComponent {
                     div.data = Object.fromEntries(data.map(c=>[c.key, c.data]))
                 else
                     div.data = null
-                console.log('obj listener: key:', key, 'data:', div.data)
             })
-        } else{
+        } else{// code for inputting string, number, bool fields
             div.classList.add('field')
 
             const inputName = (key+" input")
@@ -90,28 +91,23 @@ export default class Form extends BaseComponent {
             div.append(label, input)
 
             div.addEventListener('change', e=>{
-                if(e.target.value){
+                if(e.target.value && e.target.type === 'text')
                     div.data = e.target.value
-                    if(e.target.type === 'checkbox')
-                        div.data = e.target.checked
-                    if(e.target.type === 'number')
-                        div.data = Number.parseFloat(e.target.value)
-                }
+                else if(e.target.value && e.target.type === 'checkbox')
+                    div.data = e.target.checked
+                else if(e.target.value && e.target.type === 'number')
+                    div.data = Number.parseFloat(e.target.value)
                 else
                     div.data = null
-                console.log('Field listener: key:', key, 'data', div.data)
             })
         }
         return div
     }
     render(){
-        this.innerHTML = document.createElement('div')
-        this.innerHTML.id = "form"
         for(const [key, value, update] of this.recipe){
             if(this.fields.includes(key)){
                 const div = this.makeField(key, value)
                 div.addEventListener('change', e=>{
-                    console.log(key, ':', div.data)
                     update(div.data)
                 })
                 this.innerHTML.appendChild(div)
@@ -121,14 +117,15 @@ export default class Form extends BaseComponent {
         submit.type = 'button'
         submit.value = "Submit"
         submit.addEventListener("click", ()=>{
-            let filled = this.isFilled()
-            console.log(this.recipe.data, filled)
+            if(this.isFilled()){
+                this.eventHub.emit('RecipeAdded', this.recipe.data);
+            }
         })
         this.innerHTML.appendChild(submit)
 
         return this.innerHTML
     }
     isFilled(){
-        return this.fields.every(f=>!this.recipe.isUnd(f))
+        return this.fields.every(f=>!this.recipe.isUnd(this.recipe[f]))
     }
 }

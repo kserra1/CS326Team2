@@ -50,7 +50,7 @@ async function addRecipeC(){
     addRecipeComponent.setupEventListeners();
 }
 
-const form = new Form('Profile.name()');
+const form = new Form(eventHub, 'Profile.name()');
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
@@ -58,10 +58,6 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 document.getElementById('showProfile').addEventListener('click', ()=>{
     const profile = new Profile();
     app.innerHTML = profile.render();
-});
-document.getElementById('showMakeRecipe').addEventListener('click', ()=>{
-    app.innerHTML = ''
-    app.append(form.render());
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
@@ -91,7 +87,8 @@ async function render (){
     } else if (hash === '#community-recipes') {
         displayRecipes(); 
     } else if (hash === '#add-recipe') {
-        addRecipeC();
+        app.innerHTML = ''
+        app.append(form.render());
     }
 }
 
@@ -132,6 +129,9 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 });
 document.getElementById('showProfile').addEventListener('click', ()=>{
     window.location.hash = '#profile';
+});
+document.getElementById('showAddRecipe').addEventListener('click', ()=>{
+    window.location.hash = '#add-recipe';
 });
 document.getElementById('showAddRecipe').addEventListener('click', ()=>{
     window.location.hash = '#add-recipe';

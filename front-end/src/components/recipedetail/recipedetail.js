@@ -45,7 +45,7 @@ export default class RecipeDetail extends BaseComponent {
             <h3>Cook Time</h3>
             <p>${recipe.cookTime} minutes</p>
             <h3>Cuisine</h3>
-            <p>${recipe.category}</p>
+            <p>${recipe.categories.join(', ')}</p>
             <h3>Meal Type</h3>    
             <p>${recipe.breakfast ? 'Breakfast' : ''}</p>
             <p>${recipe.lunch ? 'Lunch' : ''}</p>
