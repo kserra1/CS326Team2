@@ -87,17 +87,6 @@
   - `updated_at` (timestamp): The date and time when the image was uploaded at.
   - **Data Source**: User input images uploaded by users when they create or edit a recipe.
 
-### 8. Recipe Ratings
-
-- **Description**: Stores user ratings for recipes to provide overall feedback
-
-- **Attributes**:
-  - `rating_id` (string): A unique identifier for each rating.
-  - `recipe_id` (string): The recipe that the rating is associated with.
-  - `user_id` (string): The user who submitted the rating
-  - `rating` (int): the value rating from 1-5 stars
-  - `created_at` (timestamp): The date and time when the rating was submitted
-  - **Data Source**: User interaction with the community recipe feed
 
 ## Data Relationships
 
