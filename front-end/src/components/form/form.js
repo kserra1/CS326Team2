@@ -12,68 +12,110 @@ export default class Form extends BaseComponent {
             'breakfast', 'lunch', 'dinner', 'snack', 'categories', 
             'image', 'ingredients', 'cookware', 'instructions']
     }
-    makeLabel(varName){
-        varName = varName.replace(/([A-Z])/g, ' $1').toLowerCase()
-        return varName.charAt(0).toUpperCase() + varName.slice(1)
-    }
-    makeField(key, value, update){
+    makeField(key, value){
         const div = document.createElement('div')
-        div.id = key
+        div.classList.add(key)
+        div.key = key
         if(Array.isArray(value)){
-            div.id = key+"-list"
-            const input = this.makeField(key, value[0], update)
+            div.classList.add('list')
+            const input = this.makeField(key, value[0])
             const list = document.createElement("div")
             list.classList.add('list')
-            const add = ()=>{
+            list.data = []
+            const add = (index)=>{
                 const button = document.createElement("input")
                 button.type = 'button'
                 button.value = "Add"
                 button.addEventListener("click", ()=>{
-                    div
-                    button.parentNode.insertBefore(add(), button)
-                    button.parentNode.insertBefore(this.displayObj(null, value[0]), button)
+                    if(input.data){
+                        list.data.splice(index, 0, input.data)
+                        div.data = list.data
+                        list.innerHTML = ''
+                        list.append(
+                            add(0),
+                            ...list.data.flatMap((e, i)=>
+                                [this.displayObj(null, e), add(i+1)]
+                            )
+                        )
+                        div.dispatchEvent(new Event('change'))
+                    }
+                    console.log('list listener: key:', key, 'data:', div.data)
+
                 })
                 return button
             }
-            list.appendChild(add())
+            list.appendChild(add(0))
             div.append(input, list)
         } else if (typeof value === 'object'){
+            div.classList.add('obj')
+
+            const inputName = (key+" input")
+            const label = document.createElement("label")
+            label.textContent = this.makeLabel(key)
+            label.setAttribute("for", inputName)
+            div.append(label)
+
             for(const field in value){
-                console.log(field)
-                div.appendChild(this.makeField(field, value[field], update))
+                div.appendChild(this.makeField(field, value[field]))
             }
+            
+            div.addEventListener('change', e=>{
+                const data = Array.from(div.children).filter(c=>c.hasOwnProperty("data"))
+                if(data.every(c=>c.data))
+                    div.data = Object.fromEntries(data.map(c=>[c.key, c.data]))
+                else
+                    div.data = null
+                console.log('obj listener: key:', key, 'data:', div.data)
+            })
         } else{
+            div.classList.add('field')
+
             const inputName = (key+" input")
             const label = document.createElement("label")
             label.textContent = this.makeLabel(key)
             label.setAttribute("for", inputName)
 
             const input = document.createElement("input")
-            if(typeof value === 'boolean')
-                input.type = 'radio'
-            else
-                input.type = 'text'
             input.id = inputName
+            if(typeof value === 'boolean')
+                input.type = 'checkbox'
+            else if(typeof value === 'string')
+                input.type = 'text'
+            else if(typeof value === 'number'){
+                input.type = 'number'
+                input.min = '0'
+            }
+            else throw new TypeError()
+
             div.append(label, input)
+
+            div.addEventListener('change', e=>{
+                if(e.target.value){
+                    div.data = e.target.value
+                    if(e.target.type === 'checkbox')
+                        div.data = e.target.checked
+                    if(e.target.type === 'number')
+                        div.data = Number.parseFloat(e.target.value)
+                }
+                else
+                    div.data = null
+                console.log('Field listener: key:', key, 'data', div.data)
+            })
         }
-
-        div.addEventListener("change",(e)=>{
-            let val = e.target.value
-            if(e.target.value ==='on')
-                val = true
-            else if(e.target.value ==='off')
-                val = false
-
-            update(val)
-        })
         return div
     }
     render(){
         this.innerHTML = document.createElement('div')
         this.innerHTML.id = "form"
         for(const [key, value, update] of this.recipe){
-            if(this.fields.find(f=>f===key))
-                this.innerHTML.appendChild(this.makeField(key, value, update))
+            if(this.fields.includes(key)){
+                const div = this.makeField(key, value)
+                div.addEventListener('change', e=>{
+                    console.log(key, ':', div.data)
+                    update(div.data)
+                })
+                this.innerHTML.appendChild(div)
+            }
         }
         const submit = document.createElement("input")
         submit.type = 'button'
@@ -87,7 +129,6 @@ export default class Form extends BaseComponent {
         return this.innerHTML
     }
     isFilled(){
-        return Array.from(this.recipe[Symbol.iterator]())
-        .every(([_,v])=>v !== undefined)
+        return this.fields.every(f=>!this.recipe.isUnd(f))
     }
 }

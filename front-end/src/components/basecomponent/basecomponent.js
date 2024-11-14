@@ -13,6 +13,10 @@ export class BaseComponent {
       throw new Error('render method not implemented');
     }
 
+    makeLabel(varName){
+      varName = varName.replace(/([A-Z])/g, ' $1').toLowerCase()
+      return varName.charAt(0).toUpperCase() + varName.slice(1)
+    } 
     displayObj(key=null, value){
       const div = document.createElement('div')
       if(key){
@@ -25,17 +29,21 @@ export class BaseComponent {
       if(Array.isArray(value)){
         const list = document.createElement('div')
         list.classList.add("list")
-        list.append(...value.map(v=>this.displayObj(key, v)))
+        list.append(...value.map(([k,v])=>this.displayObj(k, v)))
       } else if(typeof value === 'object'){
-        div.append(...Object.entries(value).map(f=> div.append(...f)))
+        div.append(
+          ...Object.entries(value)
+          .map(([k,v])=> this.displayObj(k,v))
+        )
       } else {
         const v = document.createElement('div')
         v.classList.add("value")
-        v.textContent = value
+        v.innerText = value
         div.append(v)
       }
       return div
     }
+
   
     loadCSS(fileName) {
       if (this.cssLoaded) return;

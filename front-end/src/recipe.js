@@ -12,8 +12,8 @@ export class Recipe {
         like: false,
         difficulty: this.#float,
     }
-    #recipe = {
-        //id: this.#float,
+    #recipe_template = {
+        id: 0,
         title: this.#string,
         author: this.#string,
         date: new Date().toString(),
@@ -34,15 +34,18 @@ export class Recipe {
         comments: [this.#comment],
         likes: 0,
     }
-    isUnd = (val)=> {
-        return Object.entries(this).filter(([k,_])=>k.startsWith('#'))
-        .some(([_,v])=>v==val)
+    #recipe = structuredClone(this.#recipe_template)
+    isUnd = (field)=> {
+        console.log(this[field])
+        return [this.#float, this.#string, this.#ingredient, this.#comment].every(und=>{
+            return und === this[field]
+        })
     }
     check (oldValue, newValue) {
         if(typeof oldValue !== typeof newValue)
-            throw new TypeError("Invalid", typeof oldValue, ':', newValue)
+            throw new TypeError('Tried to set the wrong type')
         if(Array.isArray(oldValue) !== Array.isArray(newValue))
-            throw new TypeError("Invalid", typeof oldValue, ':', newValue)
+            throw new TypeError('Tried to set the wrong type')
         if(Array.isArray(oldValue)){
             for(const val of newValue)
                 this.check(oldValue[0], val)    
@@ -54,6 +57,9 @@ export class Recipe {
         }
     }
     constructor(data) {
+        if(data !== undefined)
+            this.#recipe = data
+
         //Getter and Setters for each property of recipe
         for (const [key, value] of Object.entries(this.#recipe)) {
             Object.defineProperty(this, key, {
@@ -61,16 +67,17 @@ export class Recipe {
                     return this.#recipe[key]
                 },
                 set(newValue) {
-                    //this.#recipe.lastUpdated = new Date().toString()
-                    this.check(value, newValue)
-                    this.#recipe[key] = newValue
+                    if(newValue) {
+                        this.#recipe.lastUpdated = new Date().toString()
+                        this.check(value, newValue)
+                        this.#recipe[key] = newValue
+                    } else
+                        this.#recipe[key] = this.#recipe_template[key]
                 },
                 enumerable: true,
                 configurable: true
             })
         }
-        if(data !== undefined)
-            this.#recipe = data
     }
 
     *[Symbol.iterator]() {
@@ -84,11 +91,12 @@ export class Recipe {
         this.comments.reduce((acc, c)=>c ? acc+c.difficulty/2 : acc, 0)
     }
     get data(){
-        //this.updateDifficulty()
+        this.updateDifficulty()
         console.log(this.#recipe)
         return this.#recipe
         throw new ReferenceError("Not all values are initialized")
     }
+
 }
 export const mockRecipesObjs = ()=> {
     const mock1 = new Recipe()
