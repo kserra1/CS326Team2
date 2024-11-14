@@ -51,6 +51,7 @@ async function addRecipeC(){
 }
 
 const form = new Form(eventHub, 'Profile.name()');
+form.render()
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
@@ -88,7 +89,7 @@ async function render (){
         displayRecipes(); 
     } else if (hash === '#add-recipe') {
         app.innerHTML = ''
-        app.append(form.render());
+        app.append(form.innerHTML);
     }
 }
 
