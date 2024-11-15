@@ -51,20 +51,6 @@ a:hover {
     text-decoration: underline;
 }
 
-.search-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-#ingredientSearch {
-    flex: 1;
-    padding: 8px;
-}
-#categoryFilter, #searchButton {
-    padding: 8px;
-}
-
-
 @media (max-width: 600px) {
     h2 {
         font-size: 1.5em;
@@ -73,6 +59,7 @@ a:hover {
     li {
         padding: 10px 15px;
     }
+    
 }
 
 

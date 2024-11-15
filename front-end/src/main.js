@@ -4,6 +4,7 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 import LoginPage from './components/loginpage/loginpage.js';
 import { User } from './components/loginpage/user.js';
 
@@ -17,7 +18,7 @@ const mockRecipes = [
         ingredients: ['flour', 'eggs', 'milk', 'butter'],
         instructions: 'Mix ingredients together and cook on griddle',
         cookTime: 15,
-        category: 'breakfast',
+        category: 'American',
         breakfast: true,
         lunch: false,
         dinner: false,
@@ -32,7 +33,7 @@ const mockRecipes = [
         ingredients: ['bread', 'cheese', 'butter'],
         instructions: 'Butter bread, put cheese between slices, cook on griddle',
         cookTime: 10,
-        category: 'lunch',
+        category: 'American',
         breakfast: false,
         lunch: true,
         dinner: false,
@@ -48,7 +49,7 @@ const mockRecipes = [
         ingredients: ['pasta', 'sauce', 'meatballs'],
         instructions: 'Boil pasta, heat sauce and meatballs, serve together',
         cookTime: 30,
-        category: 'dinner',
+        category: 'Italian',
         breakfast: false,
         lunch: false,
         dinner: true,
@@ -64,14 +65,9 @@ const recipeService = new RecipeService(mockRecipes);
 
 async function addRecipeToDB(recipe){
     await recipeService.addRecipe(recipe);
-    
 }
 
-async function displayRecipes() {
-    const recipeList = new RecipeList(recipeService, eventHub);
-    app.innerHTML = await recipeList.render();
-    recipeList.setupEventListeners();
-}
+
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -94,6 +90,16 @@ eventHub.on('addComment', async ({ recipeId, comment }) => {
     }
 });
 
+async function displayRecipes() {
+    const recipeList = new RecipeList(recipeService, eventHub);
+    app.innerHTML = await recipeList.render();
+    recipeList.setupEventListeners();
+}
+async function addRecipeC(){
+    const addRecipeComponent = new AddRecipeComponent(recipeService, eventHub);
+    app.innerHTML = await addRecipeComponent.render();
+    addRecipeComponent.setupEventListeners();
+}
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
@@ -112,6 +118,16 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
     }
 });
 
+eventHub.on("RecipeAdded", async(recipe)=>{
+    try { 
+        await recipeService.addRecipe(recipe);
+        window.location.hash = '#my-recipes';
+    }catch(error){
+        console.error("Error adding recipe:", error);
+    }
+})
+
+
 async function render (){
     const hash = window.location.hash;
     const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
@@ -124,6 +140,9 @@ async function render (){
         const myRecipes = new MyRecipes(recipeService);
         app.innerHTML = await myRecipes.render();
     } else if (hash === '#profile') {
+        const profile = new Profile();
+        app.innerHTML = await profile.render();
+    } else if (hash === '#community-recipes') {
         // const profile = new Profile();
         // app.innerHTML = await profile.render();
         if (currentuser) {
@@ -145,6 +164,8 @@ async function render (){
         loginPage.addEventListeners();
     } else {
         displayRecipes(); 
+    } else if (hash === '#add-recipe') {
+        addRecipeC();
     }
 }
 
@@ -175,12 +196,19 @@ async function handleAddComment(event) {
 
 
 
-document.getElementById('showRecipes').addEventListener('click', displayRecipes);
+document.getElementById('showRecipes').addEventListener('click', ()=>{
+    window.location.hash = '#community-recipes';
+    console.log('test')
+    displayRecipes();
+});
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     window.location.hash = '#my-recipes';
 });
 document.getElementById('showProfile').addEventListener('click', ()=>{
     window.location.hash = '#profile';
+});
+document.getElementById('showAddRecipe').addEventListener('click', ()=>{
+    window.location.hash = '#add-recipe';
 });
 
 document.getElementById('showLogin').addEventListener('click', () => {
