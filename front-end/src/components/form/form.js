@@ -8,7 +8,7 @@ export default class Form extends BaseComponent {
         this.component.id = "form"
 
         this.author = author
-        
+
         this.fields = ['title', 'cookTime', 'prepTime', 'description', 
             'breakfast', 'lunch', 'dinner', 'snack', 'categories', 
             'image', 'ingredients', 'cookware', 'instructions']
@@ -128,9 +128,9 @@ export default class Form extends BaseComponent {
         const submit = document.createElement("input")
         submit.type = 'button'
         submit.value = "Submit"
-        submit.addEventListener("click", ()=>{
+        submit.addEventListener("click", async()=>{
             if(this.notFilled().length === 0)
-                this.eventHub.emit('RecipeAdded', this.recipe.data);
+                this.eventHub.emit('RecipeAdded', await this.recipe.getData());
             else
                 notFilledField.innerHTML = 
                 'Your recipe needs these fields to be filled: '+

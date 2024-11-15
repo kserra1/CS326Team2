@@ -90,17 +90,17 @@ export class Recipe {
     saveFile(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = () => resolve(reader.result); // Plain text string
-            reader.onerror = (error) => reject(error);
-            reader.readAsText(file);
+            reader.onload = () => resolve(reader.result)
+            reader.onerror = (error) => reject(error)
+            reader.readAsText(file)
         })
     }
-    get data(){
+    async getData(){
         this.updateDifficulty()
         const saveRecipe = structuredClone(this.#recipe)
-        if (file) {
+        if (this.image) {
             try {
-                saveRecipe.image = this.saveFile(this.image)
+                saveRecipe.image = await this.saveFile(this.image)
             } catch (error) {
                 console.error("Error converting file to text:", error);
             }
@@ -126,8 +126,8 @@ export const mockRecipesObjs = ()=> {
     mock1.dinner = false
     mock1.snack = false
     mock1.comments = [
-        {user: 'John', text: 'These are great pancakes!', like:true, difficulty:1},
-        {user: 'Jane', text: 'I love these pancakes!', like:true, difficulty:1}
+        {user: 'John', text: 'These are great pancakes!', like:true,Difficulty:1},
+        {user: 'Jane', text: 'I love these pancakes!', like:true,Difficulty:1}
     ]
     mock1.likes = 80085
     
@@ -167,6 +167,6 @@ export const mockRecipesObjs = ()=> {
     ]
     mock3.likes = 80085
 
-    return [mock1.data, mock2.data, mock3.data]
+    return [mock1.getData(), mock2.getData(), mock3.getData()]
     
 }
