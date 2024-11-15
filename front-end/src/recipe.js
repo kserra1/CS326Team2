@@ -126,8 +126,8 @@ export const mockRecipesObjs = ()=> {
     mock1.dinner = false
     mock1.snack = false
     mock1.comments = [
-        {user: 'John', text: 'These are great pancakes!', like:true,Difficulty:1},
-        {user: 'Jane', text: 'I love these pancakes!', like:true,Difficulty:1}
+        {user: 'John', text: 'These are great pancakes!', like:true, difficulty:1},
+        {user: 'Jane', text: 'I love these pancakes!', like:true, difficulty:1}
     ]
     mock1.likes = 80085
     
