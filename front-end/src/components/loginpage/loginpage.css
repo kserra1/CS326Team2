@@ -15,12 +15,12 @@ body, html {
 }
 
 .main-content {
-    flex: 1; /* Takes up the remaining space */
+    flex: 1; 
     display: flex;
-    justify-content: center; /* Centers the login-container horizontally */
-    align-items: center; /* Centers the login-container vertically */
+    justify-content: center; 
+    align-items: center; 
     width: 100%;
-    background-color: #ffffff; /* Optional for contrast */
+    background-color: #ffffff;
 }
 
 .login-container {
@@ -33,21 +33,21 @@ body, html {
     justify-content: center;
 }
 
-/* Header style */
+
 .header {
     margin-bottom: 20px;
     font-size: 1.5em;
 }
 
-/* Input group style */
+
 .input-group {
     margin-bottom: 15px;
 }
 
-/* Form style */
+
 .card {
     width: 400px;
-    height: auto; /* Adjust to content */
+    height: auto; 
     padding: 20px;
     background-color: #f3eeed;
     border-radius: 15px;
@@ -57,17 +57,17 @@ body, html {
     align-items: center;
 }
 
-/* Input style */
+
 .form-control {
     border-radius: 5px;
     padding: 10px;
-    width: 100%; /* Adjust for full-width */
+    width: 100%;
     margin-bottom: 10px;
 }
 
-/* Button style */
+
 .btn-primary {
-    width: 100%; /* Full width for a consistent look */
+    width: 100%; 
     border-radius: 5px;
     padding: 10px;
     margin-top: 10px;
@@ -78,5 +78,5 @@ body, html {
     padding: 10px;
     border-radius: 5px;
     width: 100%;
-    background-color: #f0f0f0; /* Optional: for better visibility */
+    background-color: #f0f0f0; 
 }

@@ -20,7 +20,7 @@ export default class LoginPage extends BaseComponent {
     event.preventDefault();
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    const email = this.login ? null : document.getElementById("email").value;
+    const email = this.isLogin ? null : document.getElementById("email").value;
 
     if (!this.login) {
       this.currentuser = new User(username, password, email);
