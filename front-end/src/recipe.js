@@ -94,6 +94,16 @@ export class Recipe {
         throw new ReferenceError("Not all values are initialized")
     }
 
+/**
+ * @param {File} file --> this is something cool that allows types in JS!
+ */
+getRelativeFilePath(file){
+    return file.webkitRelativePath(); //this function from File class in JS just returns the relative path of the file uploaded
+    //idk if this is what we need tho? 
+
+    //but if we do use this, it would be with an event listener that will run this function whenever a file is uploaded... 
+}
+
 }
 export const mockRecipesObjs = ()=> {
     const mock1 = new Recipe()
