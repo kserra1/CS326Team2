@@ -162,14 +162,12 @@ async function render (){
         });
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();
-    } else {
-        displayRecipes(); 
     } else if (hash === '#add-recipe') {
         addRecipeC();
+    } else {
+        displayRecipes(); 
     }
 }
-
-
 async function handleLike(event) {
     const button = event.target;
     const recipeId = parseInt(button.getAttribute("data-id"), 10);
