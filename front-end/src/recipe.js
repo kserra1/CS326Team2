@@ -87,31 +87,29 @@ export class Recipe {
         this.difficulty = 
         this.comments.reduce((acc, c)=>c ? acc+c.difficulty/2 : acc, 0)
     }
-    saveFile(){
-
+    saveFile(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result); // Plain text string
+            reader.onerror = (error) => reject(error);
+            reader.readAsText(file);
+        })
     }
     get data(){
         this.updateDifficulty()
         const saveRecipe = structuredClone(this.#recipe)
-        saveRecipe.image = this.saveFile(this.image)
+        if (file) {
+            try {
+                saveRecipe.image = this.saveFile(this.image)
+            } catch (error) {
+                console.error("Error converting file to text:", error);
+            }
+        }
         console.log(saveRecipe)
         return saveRecipe
-        throw new ReferenceError("Not all values are initialized")
-    }
-        console.log(this.#recipe)
-        return this.#recipe
         
     }
 
-/**
- * @param {File} file --> this is something cool that allows types in JS!
- */
-getRelativeFilePath(file){
-    return file.webkitRelativePath(); //this function from File class in JS just returns the relative path of the file uploaded
-    //idk if this is what we need tho? 
-
-    //but if we do use this, it would be with an event listener that will run this function whenever a file is uploaded... 
-}
 
 }
 export const mockRecipesObjs = ()=> {
