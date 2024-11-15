@@ -55,6 +55,12 @@
   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/027f53fd6c607c94b8883a405df57d47755596a9): Drafted the first design of the main UI and described in in the `ui-diagrams.md` file
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/48fff75f681225d78bc57edd291e0e74bd95dd33): Updated `ui-diagrams.md` and `roles.md` with relavent details.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/) Communicated during team meeting to get everyone on the same page about the features we are implementing.
+   
+- **Top 3 Commits Milestone #3**:
+
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/b37a8576048b14d97f3331c10909f9cadc12134c): Fomualted and tested the idea of a recipe object for the modular creation of the form class as well as other potential pages that would like to use it
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/376b7e7285f80f281857e76220a84076e42e7986): Created the recipe class that helps with the display of the add recipe page and overall manipulation of the recipe object before storage in indexDB
+  3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/4c2c50e949a2ce9715ed90793baf5eff57dc2ef6): Created the form class that successfully takes input and creates a corresspoding recipe class and object for it 
 
 ## Fuming Zhang - Quality Control
 
