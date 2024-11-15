@@ -2,10 +2,11 @@ import { BaseComponent } from "../basecomponent/basecomponent.js";
 
 
 export default class Profile extends BaseComponent {
-    constructor(recipeService) {
+    constructor(recipeService,user) {
         super();
         this.recipeService = recipeService;
         this.loadCSS('profile');
+        this.user = user;
     }
     render() {
         if (!this.user) {

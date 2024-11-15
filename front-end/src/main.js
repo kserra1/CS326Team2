@@ -111,7 +111,7 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
     // app.innerHTML = profile.render();
 
     if(currentuser){
-        const profile = new Profile(currentuser);
+        const profile = new Profile(recipeService,currentuser);
         app.innerHTML = profile.render();
     }else{
         alert("Please log in to view your profile");
@@ -140,21 +140,16 @@ async function render (){
         const myRecipes = new MyRecipes(recipeService);
         app.innerHTML = await myRecipes.render();
     } else if (hash === '#profile') {
-        const profile = new Profile();
-        app.innerHTML = await profile.render();
-    } else if (hash === '#community-recipes') {
-        // const profile = new Profile();
-        // app.innerHTML = await profile.render();
         if (currentuser) {
-            const profile = new Profile(currentuser);
-            app.innerHTML = await profile.render();
+            const profile = new Profile(recipeService, currentuser);
+            app.innerHTML = profile.render();
         } else {
             alert("Please log in to view your profile");
         }
-    }else if (hash === '#login') { //login
-        // const loginPage = new LoginPage();
-        // app.innerHTML = loginPage.render();
-        // loginPage.addEventListeners();
+    } else if (hash === '#community-recipes') {
+      
+        displayRecipes();
+    } else if (hash === '#login') {
         const loginPage = new LoginPage((user) => {
             currentuser = user; 
             alert("User registered/logged in successfully!");
