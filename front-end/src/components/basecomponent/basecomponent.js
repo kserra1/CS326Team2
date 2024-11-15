@@ -1,7 +1,7 @@
 export class BaseComponent {
     constructor() {
       this.cssLoaded = false;
-      this.innerHTML = document.createElement('div')
+      this.component = document.createElement('div')
     }
   
     /**

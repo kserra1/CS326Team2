@@ -27,7 +27,7 @@ export class Recipe {
         dinner: false,
         snack: false,
         categories: [this.#string],
-        image: this.#string,
+        image: [new File([], '')],
         ingredients: [this.#ingredient],
         cookware: [this.#string],
         instructions: [this.#string],
@@ -41,15 +41,13 @@ export class Recipe {
         return typeof val !== 'boolean' && !Boolean(val)
     }
     check (oldValue, newValue) {
-        if(typeof oldValue !== typeof newValue)
-            throw new TypeError('Tried to set the wrong type')
-        if(Array.isArray(oldValue) !== Array.isArray(newValue))
+        if(oldValue.constructor !== newValue.constructor)
             throw new TypeError('Tried to set the wrong type')
         if(Array.isArray(oldValue)){
             for(const val of newValue)
                 this.check(oldValue[0], val)    
         }
-        if(typeof oldValue === 'object'){
+        if(oldValue.constructor === Object){
             if(Object.keys(oldValue).some((v, i) => v !== Object.keys(newValue)[i]))
                 throw new TypeError('Invalid object properties:', Object.keys(newValue))
             Object.values(oldValue).forEach((v, i) => this.check(v, Object.values(newValue)[i]))

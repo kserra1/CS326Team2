@@ -5,11 +5,10 @@ export default class Form extends BaseComponent {
         super();
         this.eventHub = eventHub
         this.loadCSS('form');
-        this.innerHTML.id = "form"
+        this.component.id = "form"
 
-        this.recipe = new Recipe()
-        this.recipe.author = author
-        this.recipe.data
+        this.author = author
+        
         this.fields = ['title', 'cookTime', 'prepTime', 'description', 
             'breakfast', 'lunch', 'dinner', 'snack', 'categories', 
             'image', 'ingredients', 'cookware', 'instructions']
@@ -19,7 +18,7 @@ export default class Form extends BaseComponent {
         div.classList.add(key)
         div.key = key
 
-        if(Array.isArray(value)){//code for input arrays
+        if(value.constructor === Array){//code for input arrays
             div.classList.add('list')
             const input = this.makeField(key, value[0])
             const list = document.createElement("div")
@@ -48,7 +47,7 @@ export default class Form extends BaseComponent {
             }
             list.appendChild(add(0))
             div.append(input, list)
-        } else if (typeof value === 'object'){ // code for inputting objects
+        } else if (value.constructor === Object){ // code for inputting objects
             div.classList.add('obj')
 
             const inputName = (key+" input")
@@ -78,13 +77,16 @@ export default class Form extends BaseComponent {
 
             const input = document.createElement("input")
             input.id = inputName
-            if(typeof value === 'boolean')
+            if(value.constructor === Boolean)
                 input.type = 'checkbox'
-            else if(typeof value === 'string')
+            else if(value.constructor === String)
                 input.type = 'text'
-            else if(typeof value === 'number'){
+            else if(value.constructor === Number){
                 input.type = 'number'
                 input.min = '0'
+            } else if (value.constructor === File){
+                input.type = 'file'
+                input.accept = '.png,.jpeg'
             }
             else throw new TypeError()
 
@@ -97,6 +99,8 @@ export default class Form extends BaseComponent {
                     div.data = e.target.checked
                 else if(e.target.value && e.target.type === 'number')
                     div.data = Number.parseFloat(e.target.value)
+                else if(e.target.value && e.target.type === 'file')
+                    div.data = e.target.files
                 else
                     div.data = null
             })
@@ -104,28 +108,40 @@ export default class Form extends BaseComponent {
         return div
     }
     render(){
+        this.recipe = new Recipe()
+        this.recipe.author = this.author
+
+        this.component.innerHTML = ''
+
+        const notFilledField = document.createElement("p")
         for(const [key, value, update] of this.recipe){
             if(this.fields.includes(key)){
                 const div = this.makeField(key, value)
                 div.addEventListener('change', e=>{
                     update(div.data)
+                    notFilledField.innerHTML = ''
                 })
-                this.innerHTML.appendChild(div)
+                this.component.append(div)
             }
         }
+              
         const submit = document.createElement("input")
         submit.type = 'button'
         submit.value = "Submit"
         submit.addEventListener("click", ()=>{
-            if(this.isFilled()){
+            if(this.notFilled().length === 0)
                 this.eventHub.emit('RecipeAdded', this.recipe.data);
-            }
+            else
+                notFilledField.innerHTML = 
+                'Your recipe needs these fields to be filled: '+
+                this.notFilled().map(f=>this.makeLabel(f)).join(", ")
         })
-        this.innerHTML.appendChild(submit)
-
-        return this.innerHTML
+        this.component.appendChild(submit)
+        this.component.append(notFilledField)
+        
+        return this.component
     }
-    isFilled(){
-        return this.fields.every(f=>!this.recipe.isUnd(this.recipe[f]))
+    notFilled(){
+        return this.fields.filter(f=>this.recipe.isUnd(this.recipe[f]))
     }
 }

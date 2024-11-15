@@ -64,6 +64,7 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 eventHub.on("RecipeAdded", async(recipe)=>{
     try { 
         await recipeService.addRecipe(recipe);
+        form.render()
         window.location.hash = '#my-recipes';
     }catch(error){
         console.error("Error adding recipe:", error);
@@ -89,7 +90,7 @@ async function render (){
         displayRecipes(); 
     } else if (hash === '#add-recipe') {
         app.innerHTML = ''
-        app.append(form.innerHTML);
+        app.append(form.component);
     }
 }
 
