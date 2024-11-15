@@ -91,7 +91,7 @@ export class Recipe {
         this.updateDifficulty()
         console.log(this.#recipe)
         return this.#recipe
-        throw new ReferenceError("Not all values are initialized")
+        
     }
 
 /**
