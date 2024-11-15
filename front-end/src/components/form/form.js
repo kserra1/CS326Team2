@@ -100,7 +100,7 @@ export default class Form extends BaseComponent {
                 else if(e.target.value && e.target.type === 'number')
                     div.data = Number.parseFloat(e.target.value)
                 else if(e.target.value && e.target.type === 'file')
-                    div.data = e.target.files
+                    div.data = e.target.files[0]
                 else
                     div.data = null
             })

@@ -27,7 +27,7 @@ export class Recipe {
         dinner: false,
         snack: false,
         categories: [this.#string],
-        image: [new File([], '')],
+        image: new File([], ''),
         ingredients: [this.#ingredient],
         cookware: [this.#string],
         instructions: [this.#string],
@@ -87,10 +87,15 @@ export class Recipe {
         this.difficulty = 
         this.comments.reduce((acc, c)=>c ? acc+c.difficulty/2 : acc, 0)
     }
+    saveFile(){
+
+    }
     get data(){
         this.updateDifficulty()
-        console.log(this.#recipe)
-        return this.#recipe
+        const saveRecipe = structuredClone(this.#recipe)
+        saveRecipe.image = this.saveFile(this.image)
+        console.log(saveRecipe)
+        return saveRecipe
         throw new ReferenceError("Not all values are initialized")
     }
 
