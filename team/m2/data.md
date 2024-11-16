@@ -87,7 +87,6 @@
   - `updated_at` (timestamp): The date and time when the image was uploaded at.
   - **Data Source**: User input images uploaded by users when they create or edit a recipe.
 
-
 ## Data Relationships
 
 - **User to Personal Recipe**: One-to-Many relationship. Each user can have multiple recipes.
