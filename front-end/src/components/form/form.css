@@ -1,24 +1,49 @@
-#form {
-    display:flex;
-    flex-wrap:wrap;
-    flex-direction: column;
+div {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-#creation {
-    display:flex;
-    flex-wrap:wrap;
-    flex-direction:row;
+.obj {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
 
 }
-#about {
-    display:flex;
-    flex-wrap:wrap;
-    flex-direction: row;
-    
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
 }
-#directions {
-    display:flex;
-    flex-wrap:wrap;
-    flex-direction: row;
+.field label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.field input[type=]{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+button {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 ::selection {
     background-color: #ff6347;

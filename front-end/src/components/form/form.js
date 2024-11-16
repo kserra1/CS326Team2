@@ -55,13 +55,15 @@ export default class Form extends BaseComponent {
             label.textContent = this.makeLabel(key)
             label.setAttribute("for", inputName)
             div.append(label)
-
+            const obj = document.createElement("div")
+            obj.classList.add('obj')
             for(const field in value){
-                div.appendChild(this.makeField(field, value[field]))
+                obj.appendChild(this.makeField(field, value[field]))
             }
+            div.append(obj)
             
             div.addEventListener('change', e=>{
-                const data = Array.from(div.children).filter(c=>c.hasOwnProperty("data"))
+                const data = Array.from(obj.children)
                 if(data.every(c=>c.data))
                     div.data = Object.fromEntries(data.map(c=>[c.key, c.data]))
                 else
