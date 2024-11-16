@@ -8,6 +8,7 @@ export default class LoginPage extends BaseComponent {
     this.loadCSS("loginpage");
     this.currentuser = null;
     this.submitCallback = submitCallback;
+    this.registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
   }
 
   togglePage() {
@@ -22,25 +23,34 @@ export default class LoginPage extends BaseComponent {
     const password = document.getElementById("password").value;
     const email = this.isLogin ? null : document.getElementById("email").value;
 
-    if (!this.login) {
-      this.currentuser = new User(username, password, email);
-      alert("Registration successful!");
-      if (typeof this.submitCallback === "function") {
-        this.submitCallback(this.currentuser);
-      }
-    } else {
-      if (
-        this.currentuser &&
-        this.currentuser.username == username &&
-        this.currentuser.password == password
-      ) {
-        alert("Login successful");
-        if (typeof this.submitCallback === "function") {
-          this.submitCallback(this.currentuser);
+    if (!this.isLogin) { 
+        const existingUser = this.registeredUsers.find(user => user.username === username);
+        if (existingUser) {
+            alert("This username is already registered. Please log in.");
+            return;
         }
-      } else {
-        alert("Failed to login");
-      }
+
+        
+        this.currentuser = new User(username, password, email);
+        this.registeredUsers.push(this.currentuser);
+        localStorage.setItem('registeredUsers', JSON.stringify(this.registeredUsers)); 
+
+        alert("Registration successful!");
+        if (typeof this.submitCallback === "function") {
+            this.submitCallback(this.currentuser);
+        }
+    } else { 
+        const existingUser = this.registeredUsers.find(user => user.username === username && user.password === password);
+        
+        if (existingUser) {
+            this.currentuser = existingUser; 
+            alert("Login successful!");
+            if (typeof this.submitCallback === "function") {
+                this.submitCallback(this.currentuser);
+            }
+        } else {
+            alert("Failed to login. Please check your username and password.");
+        }
     }
   }
 
