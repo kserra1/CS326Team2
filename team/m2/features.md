@@ -2,51 +2,36 @@
 
 ## Small Features
 
+**Feature Name:** Interactive UI  
+**Description:** Provides a user-friendly interface for easy navigation and browsing. The color scheme is initially pink and white, though this may change. Users have access to pages including recipe upload, personal profile, recipe browsing, and login.  
+**Points:** 2  
+**Assigned Team Member(s):** Quaid, Sonny, Taron
+
 ## Medium Features
 
+**Feature Name:** User Login  
+**Description:** Allows each user to create an account and log in with a unique username and password. Logged-in users can view a personalized homepage and access their previously posted recipes.  
+**Points:** 3  
+**Assigned Team Member(s):** Sonny, Taron
+
+**Feature Name:** Search Feature  
+**Description:** Provides a search function for users to locate specific recipes based on ingredients, meal type, user, or cuisine. This feature helps users find desired recipes quickly.  
+**Points:** 3  
+**Assigned Team Member(s):** Aidan, Brian
+
 ## Large Features
+
 **Feature Name:** Community Recipe Page  
-**Description:** Allows users to explore and interact with recipes shared by other community members. Users can scroll through a feed of recipes, like them, and leave comments which includes their name.  
+**Description:** Allows users to explore and interact with recipes shared by other community members. Users can scroll through a feed of recipes, like them, and leave comments that include their name.  
 **Points:** 5  
-**Team Member:** Kieran
+**Assigned Team Member(s):** Kieran
 
-# Application Features
+**Feature Name:** Personal Recipe Storage  
+**Description:** Acts as a history for past created recipes, similar to a browser's search history. Users can access a list of previously created recipes and view details. This feature aids users in recalling recipes for repeated use, enhancing the experience on the "For You" page of the web app.  
+**Points:** 5  
+**Assigned Team Member(s):** Atharve
 
-
-## Personal Recipe Storage
-
-This will function as a history for past created recipes, similar implementation as search history for web browsers.
-Users can click on an icon that brings them to a list of past recipes, and click on these recipes with a further description.
-This feature is important as many users will want to make recipes that they've created before and thus need a refresher. This recollection feature will also be helpful in displaying current recipies on the for you page of the webapp.
-
-**Assigned Team Member:** Kieran, Atharve
-
-## Community Recipe Sharing
-
-This will act like a social media app where users will see recipes from other users in a feed. Users can scroll through this
-feed, where they can like and comment on recipes. When they like a recipe, it is added to a "Liked" tab that can be used for
-future use if they want to try the recipe themselves. This adds some interconnectivity to the application, as it allows for growth
-through people sharing their ideas, the guiding principle to how social media became so popular in the first place. It also allows
-helps users who are looking to expand and try new recipes, or struggling to find new ideas of what to cook.
-
-**Assigned Team Member:** Kieran, Atharve
-
-## Search Feature
-
-This feature will provide a way for people who may know specifically what recipe they are looking to find to get the exact
-ingredients and steps to cooking the recipe. Recipes can be searched based on ingredients, meal type, user, or cuisine. This
-feature will benefit users who already have a recipe, or person in mind that they want to access.
-
-**Assigned Team Member:** Aidan, Brian
-
-## User log in
-
-Each user will be able to log in with their own username and password, they will also be able to view their home page and their own previously posted recipies.
-
-**Assigned Team Member:** Aidan, Brian
-
-## Interactive UI
-
-This feature in our webapp will allow users to intuitively navigate and browse. The current color scheme is pink and white, but that is subject to change. We will have a form page for uploading recipes, a personal profile page, a page to scroll through recipes and a login page.
-
-**Assigned Team Member:** Quaid, Sonny, T
+**Feature Name:** Community Recipe Sharing  
+**Description:** Functions similarly to a social media feed where users can see, like, and comment on recipes shared by others. Recipes liked by users are saved in a "Liked" tab for future reference. This feature encourages community interaction and idea-sharing.  
+**Points:** 5  
+**Assigned Team Member(s):** Kieran, Atharve

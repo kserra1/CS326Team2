@@ -6,17 +6,16 @@
 
 - **Description**: Contains information about the user's profile.
 - **Attributes**:
-  - `user_id` (string): A unique identifier for each user.
-  - `name` (string): The user's full name.
-  - `email` (string): The user's email address.
+  - `username` (string): The user's chosen username.
   - `password` (string): The user's password (hashed).
+  - `email` (string): The user's email address.
 
 ### 2. Personal Recipe
 
 - **Description**: Stores recipes created by a user for personal use.
 - **Attributes**:
-  - `recipe_id` (string): A unique identifier for each recipe.
-  - `user_id` (string): The user that created the recipe.
+  - `recipe_id` (string): A unique identifier for each recipe --> given by indexedDB.
+  - `username` (string): The user that created the recipe.
   - `title` (string): The title of the recipe.
   - `description` (string): A brief description of the recipe.
   - `meal_type` (string): The type of meal the recipe is for (e.g., breakfast, lunch, dinner).
@@ -42,7 +41,7 @@
   - `likes` (int): The number of likes the recipe has received.
   - `comments` (string[]): An array of comments made by users on the recipe.
   - `created_at` (timestamp): The date and time when the recipe was created.
-  - **Data Source**: User-input from community recipe sharing form.
+  - **Data Source**: User-input from the form page
 
 ### 4. Liked Recipes
 
@@ -63,7 +62,6 @@
   - `recipe_id` (string): The recipe that the comment is associated with.
   - `user_id` (string): The user that made the comment.
   - `comment` (string): The text of the comment.
-  - `created_at` (timestamp): The date and time when the comment was made.
   - **Data Source**: User interaction with the community recipe feed.
 
   ### 6. Recipe Tag
@@ -86,7 +84,6 @@
   - `image_url` (string): The URL of the image.
   - `updated_at` (timestamp): The date and time when the image was uploaded at.
   - **Data Source**: User input images uploaded by users when they create or edit a recipe.
-
 
 ## Data Relationships
 
