@@ -19,44 +19,36 @@ export default class Form extends BaseComponent {
         div.key = key
 
         if(value.constructor === Array){//code for input arrays
-            div.classList.add('list')
+            div.classList.add('array')
             const input = this.makeField(key, value[0])
-            const list = document.createElement("div")
-            list.classList.add('list')
+            const list = document.createElement("ul")
             list.data = []
-            const add = (index)=>{
-                const button = document.createElement("input")
-                button.type = 'button'
-                button.value = "Add"
-                button.addEventListener("click", ()=>{
-                    if(input.data){
-                        list.data.splice(index, 0, input.data)
-                        div.data = list.data
-                        list.innerHTML = ''
-                        list.append(
-                            add(0),
-                            ...list.data.flatMap((e, i)=>
-                                [this.displayObj(null, e), add(i+1)]
-                            )
-                        )
-                        div.dispatchEvent(new Event('change'))
-                    }
-
-                })
-                return button
-            }
-            list.appendChild(add(0))
-            div.append(input, list)
+            const button = document.createElement("input")
+            button.type = 'button'
+            button.value = "Add"
+            button.addEventListener("click", ()=>{
+                if(input.data){
+                    list.data.push(input.data)
+                    div.data = list.data
+                    list.innerHTML = ''
+                    list.append(...list.data.map(e=>{
+                        const li = document.createElement("li")
+                        li.innerHTML = this.displayObj(null, e).innerHTML
+                        return li
+                    }))
+                    div.dispatchEvent(new Event('change'))
+                }
+            })
+            div.append(input, button, list)
         } else if (value.constructor === Object){ // code for inputting objects
             div.classList.add('obj')
 
-            const inputName = (key+" input")
-            const label = document.createElement("label")
+            const label = document.createElement("p")
             label.textContent = this.makeLabel(key)
-            label.setAttribute("for", inputName)
+            
             div.append(label)
             const obj = document.createElement("div")
-            obj.classList.add('obj')
+            obj.classList.add('list')
             for(const field in value){
                 obj.appendChild(this.makeField(field, value[field]))
             }
@@ -116,6 +108,7 @@ export default class Form extends BaseComponent {
         this.component.innerHTML = ''
 
         const notFilledField = document.createElement("p")
+        
         for(const [key, value, update] of this.recipe){
             if(this.fields.includes(key)){
                 const div = this.makeField(key, value)
