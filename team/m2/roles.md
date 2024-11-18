@@ -77,15 +77,16 @@
 
 - **Role**:  Oversees and coordinates the workflow of the project to ensure that all tasks are completed on time and within scope.
 - **Top Commits**:
-  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/9e4ea906d6c9174eeed267e378c16e2eb0d71ed7) Fix the login problem when you put in your username and password and it won't log in you in and the problem of spamming it enough times it allows a bypass
-  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/02400805d029c3874746b2d22d667634704e62be) Fixed the issue with the login not displaying the profile page after registration.
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/0448594049aca8202535cacf832fb99001800a6a) Updated `ui-diagrams.md` and finished the Personal_page and description
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/e29f893e8ce1300f5a267bcdb787d7a0143a3b7f#diff-e0e72ceb8cc20d911df447d37d99a8f993cb02edba0eced86675181059573d6fR34) Updated `ui-diagrams.md` and finished the Forms and description
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/afaf5a1d6b1dd0a2f1f162eec7342d5a037b1ef3) Updated my commit roles in `roles.md`
 
-  - **Top 3 Commits Milestone #3**:
+    - **Top 3 Commits Milestone #3**:
 
-  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/b37a8576048b14d97f3331c10909f9cadc12134c): Fomualted and tested the idea of a recipe object for the modular creation of the form class as well as other potential pages that would like to use it
-  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/376b7e7285f80f281857e76220a84076e42e7986): Created the recipe class that helps with the display of the add recipe page and overall manipulation of the recipe object before storage in indexDB
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/9e4ea906d6c9174eeed267e378c16e2eb0d71ed7) Fix the login problem when you put in your username and password and it won't log in you in and the problem of spamming it enough times it allows a bypass
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/02400805d029c3874746b2d22d667634704e62be) Fixed the issue with the login not displaying the profile page after registration.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/d8e27cc20380b01a644a8ce74b8784e76dd4f49d): Fixed how the email wasn't populating in the email section of the profile page made a better ui-design for the login page
+
 
 ## Brian Capobianco - Time Keeper
 
