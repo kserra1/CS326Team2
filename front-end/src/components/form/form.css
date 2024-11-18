@@ -1,6 +1,7 @@
 label {
     font-weight: bold;
     margin-bottom: 5px;
+    margin-right: 5px;
 }
 input {
     padding: 10px;
@@ -18,48 +19,144 @@ input {
     background: white;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
 }
 .obj {
-    background-color: #ffffff;
+    display: grid;
+    grid-template-columns: auto;
     padding: 20px;
     border-radius: 10px;
+    background: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
-    text-align: center;
 }
 .obj p {
     font-weight: bold;
-    color: #333333;
     margin-bottom: 20px;
+    text-align: center;
 }
 .obj .list {
     display: flex;
-    flex-direction: column; 
-    justify-content: center;
+    flex-direction: column;
     gap: 5px;
     flex-wrap: wrap;
 }
 .obj .list .field{
     display: flex;
-    flex-direction: row; 
-    justify-content: center;
+    flex-direction: row;
     padding: 0px;
     border: none;
     border-radius: 0;
     box-shadow: none;
 }
+.obj .list .field label{
+    padding: 10px;
+}
 .array {
+    display: grid;
+    grid-template-columns: auto 1fr;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+.array .obj {
+    max-width:auto; /*doesn't stop it from growing!!!!*/
+}
 .array ul {
-
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px auto; 
+    padding: 10px;
 }
-.array li {
-
+.array ul li {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #ffffff;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
+.array ul li div { 
+    display: flex;
+    flex-direction: column;
+    padding: 3px 5px;
+}
+
+.key {
+    font-weight: bold;
+    font-size: 8px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.value {
+    color: #333;
+    word-wrap: break-word;
+}
+.array ul li:hover {
+    background-color: #ffebe8;
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+/* #form {
+    display: grid;
+    justify-content: space-around;
+    grid-template-columns: auto auto auto auto;
+}
+
+.yourRecipe {
+    grid-column: 1/4;
+}
+.title {
+    grid-column: 1/4;
+}
+.cookTime {
+    grid-column: 1/2;
+}
+.prepTime {
+    grid-column: 3/4;
+}
+.description {
+    grid-column: 1/4;
+}
+.breakfast {
+    grid-column: 1;
+}
+.lunch {
+    grid-column: 2;
+}
+.dinner {
+    grid-column: 3;
+}
+.snack {
+    grid-column: 4;
+}
+.categories {
+    grid-column: 1/2;
+}
+.image {
+    grid-column: 3/4;
+}
+.ingredients  {
+    grid-column: 1/4;
+}
+.cookware  {
+    grid-column: 1/2;
+}
+.instructions {
+    grid-column: 3/4;
+}
+.submit {
+    grid-column: 1/4;
+}
+.notFilledField {
+    grid-column: 1/4;
+} */

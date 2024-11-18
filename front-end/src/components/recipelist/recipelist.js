@@ -54,7 +54,7 @@ export default class RecipeList extends BaseComponent {
   }
 
   renderComments(comments) {
-    return comments.map(comment => `<li><strong>${comment.user}</strong>: ${comment.text}</li>`).join('');
+    return comments.map(comment => `<li><strong>${comment.user+" :"}</strong> ${comment.text}</li>`).join('');
   }
 
 setupEventListeners() {

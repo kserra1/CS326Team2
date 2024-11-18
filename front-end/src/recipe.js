@@ -18,8 +18,8 @@ export class Recipe {
         author: this.#string,
         date: new Date().toString(),
         lastUpdated: new Date().toString(),
-        cookTime: this.#float,
-        prepTime: this.#float,
+        cookTime: { hours: this.#float, minutes: this.#float },
+        prepTime: { hours: this.#float, minutes: this.#float },
         difficulty: 0,
         description: this.#string,
         breakfast: false,
@@ -106,8 +106,7 @@ export class Recipe {
             }
         }
         console.log(saveRecipe)
-        return saveRecipe
-        
+        return saveRecipe 
     }
 
 
@@ -119,7 +118,7 @@ export const mockRecipesObjs = ()=> {
     mock1.author = 'Brian'
     mock1.ingredients = [{item: 'flour', amount: 1, unit:'cup'}, {item: 'eggs', amount: 1, unit:'cup'}, {item: 'milk', amount: 1, unit:'cup'}, {item: 'butter', amount: 1, unit:'cup'}],
     mock1.instructions =  ['Mix ingredients together', 'cook on griddle'],
-    mock1.cookTime = 15
+    mock1.cookTime = {hours:0, minutes:15}
     mock1.categories = ['breakfast']
     mock1.breakfast = true
     mock1.lunch = false
@@ -138,7 +137,7 @@ export const mockRecipesObjs = ()=> {
     mock2.author = 'Jane'
     mock2.ingredients = [{item: 'bread', amount: 1, unit:'cup'}, {item: 'cheese', amount: 1, unit:'cup'}, {item: 'butter', amount: 1, unit:'cup'}],
     mock2.instructions =  ['Butter bread', 'put cheese between slices', 'cook on griddle'],
-    mock2.cookTime = 10
+    mock2.cookTime = {hours:0, minutes:20}
     mock2.categories = ['lunch']
     mock2.breakfast = false
     mock2.lunch = true
@@ -156,7 +155,7 @@ export const mockRecipesObjs = ()=> {
     mock3.author = 'John'
     mock3.ingredients = [{item: 'pasta', amount: 1, unit:'cup'}, {item: 'sauce', amount: 1, unit:'cup'}, {item: 'meatballs', amount: 1, unit:'cup'}],
     mock3.instructions =  ['Boil pasta', 'heat sauce and meatballs', 'serve together'],
-    mock3.cookTime = 30
+    mock3.cookTime = {hours:0, minutes:30}
     mock3.categories = ['dinner']
     mock3.breakfast = false
     mock3.lunch = false

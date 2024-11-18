@@ -18,31 +18,32 @@ export class BaseComponent {
       varName = varName.replace(/([A-Z])/g, ' $1').toLowerCase()
       return varName.charAt(0).toUpperCase() + varName.slice(1)
     } 
-    displayObj(key=null, value){
-      const div = document.createElement('div')
+    displayObj(key=null, value, elementType = 'div'){
+      const ele = document.createElement(elementType)
       if(key){
-        const label = document.createElement("div")
+        const label = document.createElement('p')
         label.textContent = this.makeLabel(key)
         label.classList.add(key)
-        label.classList.add("label")
-        div.appendChild(label)
+        label.classList.add("key")
+        ele.appendChild(label)
       }
       if(Array.isArray(value)){
-        const list = document.createElement('div')
+        const list = document.createElement(elementType)
         list.classList.add("list")
-        list.append(...value.map(([k,v])=>this.displayObj(k, v)))
+        list.append(...value.map(([k,v])=>this.displayObj(k, v, 'li')))
       } else if(typeof value === 'object'){
-        div.append(
+        ele.append(
           ...Object.entries(value)
-          .map(([k,v])=> this.displayObj(k,v))
+          .map(([k,v])=> this.displayObj(k,v,'div'))
         )
       } else {
-        const v = document.createElement('div')
+        const v = document.createElement(elementType)
         v.classList.add("value")
-        v.innerText = value
-        div.append(v)
+        v.textContent = value
+        ele.append(v)
       }
-      return div
+      ele.data = value
+      return ele
     }
 
   
