@@ -114,7 +114,8 @@ async function render (){
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();
     } else if (hash === '#add-recipe') {
-        addRecipeC();
+        app.innerHTML = '';
+        app.append(form.component);
     } else {
         displayRecipes(); 
     }
