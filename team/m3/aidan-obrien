@@ -1,4 +1,5 @@
-equenceDiagram
+```mermaid
+sequenceDiagram
     participant U as User
     participant P as Page
     participant DB as Database
@@ -16,3 +17,4 @@ equenceDiagram
     end
 
     P->>U: Display filtered recipes
+
