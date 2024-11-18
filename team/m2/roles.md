@@ -81,6 +81,13 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/e29f893e8ce1300f5a267bcdb787d7a0143a3b7f#diff-e0e72ceb8cc20d911df447d37d99a8f993cb02edba0eced86675181059573d6fR34) Updated `ui-diagrams.md` and finished the Forms and description
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/afaf5a1d6b1dd0a2f1f162eec7342d5a037b1ef3) Updated my commit roles in `roles.md`
 
+    - **Top 3 Commits Milestone #3**:
+
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/9e4ea906d6c9174eeed267e378c16e2eb0d71ed7) Fix the login problem when you put in your username and password and it won't log in you in and the problem of spamming it enough times it allows a bypass
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/02400805d029c3874746b2d22d667634704e62be) Fixed the issue with the login not displaying the profile page after registration.
+  3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/d8e27cc20380b01a644a8ce74b8784e76dd4f49d): Fixed how the email wasn't populating in the email section of the profile page made a better ui-design for the login page
+
+
 ## Brian Capobianco - Time Keeper
 
 - **Role**: Tracks time spent on tasks, ensuring the team stays on schedule.
