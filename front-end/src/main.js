@@ -7,6 +7,9 @@ import RecipeDetail from './components/recipedetail/recipedetail.js';
 import { Recipe, mockRecipesObjs } from './recipe.js';
 import Form from './components/form/form.js';
 import AddRecipeComponent from './components/addrecipe/addrecipe.js';
+import LoginPage from './components/loginpage/loginpage.js';
+import { User } from './components/loginpage/user.js';
+
 const app = document.getElementById('app');
 const eventHub = new EventHub();
 
@@ -56,9 +59,18 @@ document.getElementById('showRecipes').addEventListener('click', displayRecipes)
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
 });    
+
+let currentuser = null;
 document.getElementById('showProfile').addEventListener('click', ()=>{
-    const profile = new Profile();
-    app.innerHTML = profile.render();
+    // const profile = new Profile();
+    // app.innerHTML = profile.render();
+
+    if(currentuser){
+        const profile = new Profile(recipeService,currentuser);
+        app.innerHTML = profile.render();
+    }else{
+        alert("Please log in to view your profile");
+    }
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
@@ -84,17 +96,29 @@ async function render (){
         const myRecipes = new MyRecipes(recipeService);
         app.innerHTML = await myRecipes.render();
     } else if (hash === '#profile') {
-        const profile = new Profile();
-        app.innerHTML = await profile.render();
+        if (currentuser) {
+            const profile = new Profile(recipeService, currentuser);
+            app.innerHTML = profile.render();
+        } else {
+            alert("Please log in to view your profile");
+        }
     } else if (hash === '#community-recipes') {
-        displayRecipes(); 
+      
+        displayRecipes();
+    } else if (hash === '#login') {
+        const loginPage = new LoginPage((user) => {
+            currentuser = user; 
+            alert("User registered/logged in successfully!");
+            window.location.hash = '#profile'; 
+        });
+        app.innerHTML = loginPage.render();
+        loginPage.addEventListeners();
     } else if (hash === '#add-recipe') {
-        app.innerHTML = ''
-        app.append(form.component);
+        addRecipeC();
+    } else {
+        displayRecipes(); 
     }
 }
-
-
 async function handleLike(event) {
     const button = event.target;
     const recipeId = parseInt(button.getAttribute("data-id"), 10);
@@ -139,6 +163,9 @@ document.getElementById('showAddRecipe').addEventListener('click', ()=>{
     window.location.hash = '#add-recipe';
 });
 
+document.getElementById('showLogin').addEventListener('click', () => {
+    window.location.hash = '#login';
+});
 
 window.addEventListener('hashchange', render);
 render();
