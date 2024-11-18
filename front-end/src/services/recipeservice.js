@@ -124,11 +124,17 @@ export default class RecipeService {
       request.onsuccess = (event)=>{
         let recipes = event.target.result;
 
-        if(category){
-          recipes = recipes.filter(recipe => recipe.category === category);
+        if(category.toLowerCase() == "lunch"){
+          recipes = recipes.filter(recipe => recipe.lunch);
+        }else if(category.toLowerCase() == "dinner"){
+          recipes = recipes.filter(recipe => recipe.dinner);
+        }else if(category.toLowerCase() == "breakfast"){
+          recipes = recipes.filter(recipe => recipe.breakfast);
+        }else if(category.toLowerCase() == "snack"){
+          recipes = recipes.filter(recipe => recipe.snack);
         }
-        if(ingredients.length > 0){
-          recipes = recipes.filter(recipe => ingredients.every(ingredient => recipe.ingredients.includes(ingredient)));
+        if (ingredients.length > 0){
+          recipes = recipes.filter(recipe => recipe.ingredients.every(ingredients));
         }
         resolve(recipes);
       }
