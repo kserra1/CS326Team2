@@ -1,0 +1,20 @@
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant P as Page
+    participant DB as Database
+  
+    U->>P: Initiate Recipe Search
+    P->>DB: Open transaction to retrieve recipes
+    DB->>P: Return all recipes
+
+    alt Filter by category
+        P->>P: Filter recipes by category (e.g., lunch, dinner, breakfast, snack)
+    end
+
+    alt Filter by ingredients
+        P->>P: Filter recipes by specified ingredients
+    end
+
+    P->>U: Display filtered recipes
+
