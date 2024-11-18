@@ -43,7 +43,8 @@ export default class RecipeDetail extends BaseComponent {
                 `).join(' ')}
             </ul>
             <h3>Cook Time</h3>
-            <p>${recipe.cookTime} minutes</p>
+            <p>${recipe.cookTime.hours === 0 ? ' ' : recipe.cookTime.hours + ' hour(s)'} 
+            ${recipe.cookTime.minutes === 0 ? ' ' : recipe.cookTime.minutes + 'minute(s)'}</p>
             <h3>Cuisine</h3>
             <p>${recipe.categories.join(', ')}</p>
             <h3>Meal Type</h3>    
