@@ -48,7 +48,7 @@
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/46ea68f0cfd8420ba8dabc3e570f377ec4bd47c9): Ensured that formatting was consistent with example file throughout all files.
 - **Top Commits M3**:
   1. [Commit 1](https://github.com/kserra1/CS326Team2/tree/implementSearch): Implemented search feature where you can search for different recipes by breakfast, lunch, dinner, or snack.
-  2. [Commit 2](): Updated CSS to create more appealing buttons.
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/tree/updated_css): Updated CSS to create more appealing buttons.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/pull/28/files#diff-c9b6a71be1beae19b8c80aa917d7256e92c8348a1e15c20b153791a29ba0349a): Worked on aidan-obrien.md that created a sequence diagram of the search feature.
 
 ## Quaid Johnson - Documentation Lead and Recipe form submission feature
