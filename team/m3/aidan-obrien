@@ -1,3 +1,6 @@
+The user initiates a search,  the page requests recipes from the database, and the database 
+returns the matching recipe. The recipes can be filtered by category or ingredients, then the 
+filtered results are displayed.
 ```mermaid
 sequenceDiagram
     participant U as User
