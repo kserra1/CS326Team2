@@ -33,10 +33,15 @@ export default class RecipeList extends BaseComponent {
   }
 
   renderRecipe(recipe) {
+    console.log("rendering: ", recipe)
     return `
         <li data-id="${recipe.id}">
-            <h3><a href="#recipe/${recipe.id}">${recipe.name}</a></h3>
-            <p>${recipe.instructions}</p>
+            <h3><a href="#recipe/${recipe.id}">${recipe.title}</a></h3>
+            <ul>
+                ${recipe.ingredients.map(ingredient => `
+                    <li>${ingredient.item}</li>
+                `).join(' ')}
+            </ul>
             <button data-id="${recipe.id}" class="like-btn">❤️ ${recipe.likes}</button>
             <h4>Comments</h4>
             <ul class="comments">

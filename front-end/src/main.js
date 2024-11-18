@@ -4,69 +4,21 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
+import { Recipe, mockRecipesObjs } from './recipe.js';
+import Form from './components/form/form.js';
 import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 import LoginPage from './components/loginpage/loginpage.js';
 import { User } from './components/loginpage/user.js';
 
 const app = document.getElementById('app');
 const eventHub = new EventHub();
-//Should have id, name, ingredients, instructions, cook time, category, and breakfast, lunch, dinner, and snack booleans
-const mockRecipes = [
-    {
-        id: 1,
-        name: 'Pancakes',
-        ingredients: ['flour', 'eggs', 'milk', 'butter'],
-        instructions: 'Mix ingredients together and cook on griddle',
-        cookTime: 15,
-        category: 'American',
-        breakfast: true,
-        lunch: false,
-        dinner: false,
-        snack: false,
-        comments: [{user: 'John', text: 'These are great pancakes!'}, {user: 'Jane', text: 'I love these pancakes!'
-            }],
-        likes: 0
-    },
-    {
-        id: 2,
-        name: 'Grilled Cheese',
-        ingredients: ['bread', 'cheese', 'butter'],
-        instructions: 'Butter bread, put cheese between slices, cook on griddle',
-        cookTime: 10,
-        category: 'American',
-        breakfast: false,
-        lunch: true,
-        dinner: false,
-        snack: false,
-        comments: [{
-            user: 'John', text: 'This is a great grilled cheese recipe!'
-        }],
-        likes: 0
-    },
-    {
-        id: 3,
-        name: 'Spaghetti',
-        ingredients: ['pasta', 'sauce', 'meatballs'],
-        instructions: 'Boil pasta, heat sauce and meatballs, serve together',
-        cookTime: 30,
-        category: 'Italian',
-        breakfast: false,
-        lunch: false,
-        dinner: true,
-        snack: false,
-        comments: [{
-            user: 'Jane', text: 'I love spaghetti!'
-        }],
-        likes: 35
-    },
-]
 
-const recipeService = new RecipeService(mockRecipes);
+console.log(mockRecipesObjs())
+const recipeService = new RecipeService(mockRecipesObjs());
 
 async function addRecipeToDB(recipe){
     await recipeService.addRecipe(recipe);
 }
-
 
 
 eventHub.on('likeRecipe', async (recipeId) => {
@@ -100,6 +52,9 @@ async function addRecipeC(){
     app.innerHTML = await addRecipeComponent.render();
     addRecipeComponent.setupEventListeners();
 }
+
+const form = new Form(eventHub, 'Profile.name()');
+form.render()
 document.getElementById('showRecipes').addEventListener('click', displayRecipes);
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
     render();
@@ -121,6 +76,7 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 eventHub.on("RecipeAdded", async(recipe)=>{
     try { 
         await recipeService.addRecipe(recipe);
+        form.render()
         window.location.hash = '#my-recipes';
     }catch(error){
         console.error("Error adding recipe:", error);
@@ -199,6 +155,9 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 });
 document.getElementById('showProfile').addEventListener('click', ()=>{
     window.location.hash = '#profile';
+});
+document.getElementById('showAddRecipe').addEventListener('click', ()=>{
+    window.location.hash = '#add-recipe';
 });
 document.getElementById('showAddRecipe').addEventListener('click', ()=>{
     window.location.hash = '#add-recipe';

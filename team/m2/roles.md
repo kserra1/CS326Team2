@@ -1,6 +1,6 @@
 # Team Roles and Commit Contributions
 
-## Kieran Serra - Project Manager
+## Kieran Serra - Project Manager and Communications page setup
 
 - **Role**: Manages project timeline, coordinates team effort and enables communication between members to achieve project goal.
 
@@ -13,9 +13,11 @@
 - **Top 3 Commits Milestone #3**:
 
   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/72d106c12fcb774da7ba23dfecafee7d510db889): Initialize full frontend project structure, including base components, eventhub, recipe service, and base application features including tabs. (Community page, personal page, and profile page.)
-  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/547b96d13a3f5a6be4a5a8d0c6f351503e64055b): Fixed the existing indexeDB, added the ability to like people's recipes on the community page as well as comment. Also added eventhub functionality to emit events across files. 
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/547b96d13a3f5a6be4a5a8d0c6f351503e64055b): Fixed the existing indexeDB, added the ability to like people's recipes on the community page as well as comment. Also added eventhub functionality to emit events across files.
+  3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/cd7af9d57bf2c302c7c763277911b8011cad3c0e):
+     Reworked functionality of application changing it from categories to cuisine so that users could store the nationality of the recipe. Also implemented beginning of search feature for Aidan to be able to work from.
 
-## Atharve Pandey - Communication Lead
+## Atharve Pandey - Communication Lead and indexedDB setup
 
 - **Role**: Works with the Project Manager to cordinate tasks between frontend and backend teams. Work on the backend with the backend team to ensure the code runs properly.
 
@@ -33,7 +35,7 @@
      1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/30d26d18e270d3c669fc546496110ebdee7c6531)
         Created new branch to set up a service which communicates with DB, and allows us to keep track of recipies.
       2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/578d41b4dbd91c1bfe255facced559abb38aebfb)
-        Added a bunch of async programming logic, then proceeded to see if the code would work or not.
+        Since our recipe service class is what communicates with indexedDB, I initialized indexedDb and also made async functions
       3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/100cd5b452f87c34b978ba6c8e8b57a812ac45f3)
         After debugging fixed the code up a bit more, after which kieran took over, and finished the code to make sure we have a working recipe service object.
 
@@ -44,8 +46,11 @@
   1. [Commit 1](https://github.com/kserra1/CS326Team2/blob/main/team/m2/features.md): Outline key functionalities of our web application in features.md file.
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/a07b22636a00ab2313117b1d0eae74085f3ec03a): Updated aidan-obrien.md to report on all other commits.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/46ea68f0cfd8420ba8dabc3e570f377ec4bd47c9): Ensured that formatting was consistent with example file throughout all files.
+- **Top Commits M3**:
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/tree/implementSearch): Implemented search feature where you can search for different recipes by breakfast, lunch, dinner, or snack.
+  2. [Commit 2](): Attended team meetings and communicated through Slack.
 
-## Quaid Johnson - Documentation Lead
+## Quaid Johnson - Documentation Lead and Recipe form submission feature
 
 - **Role**: Implement front end design. Tasks backend with filling out the front end lists and functionality like search and login. Communicates with other front end developers so that our design is on the same page.
 - **Top 3 Commits**:
@@ -54,15 +59,21 @@
   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/48fff75f681225d78bc57edd291e0e74bd95dd33): Updated `ui-diagrams.md` and `roles.md` with relavent details.
   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/) Communicated during team meeting to get everyone on the same page about the features we are implementing.
 
-## Fuming Zhang - Quality Control
+- **Top 3 Commits Milestone #3**:
+
+  1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/b37a8576048b14d97f3331c10909f9cadc12134c): Fomualted and tested the idea of a recipe object for the modular creation of the form class as well as other potential pages that would like to use it
+  2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/376b7e7285f80f281857e76220a84076e42e7986): Created the recipe class that helps with the display of the add recipe page and overall manipulation of the recipe object before storage in indexDB
+  3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/4c2c50e949a2ce9715ed90793baf5eff57dc2ef6): Created the form class that successfully takes input and creates a corresspoding recipe class and object for it
+
+## Fuming Zhang - Quality Control and Login page feature
 
 - **Role**: Reviewed team submission, making sure everyone's work is up to par with expectation meeting the necessary quality
 - **Top Commits**:
-   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/ec7ee3e5e4c11745a5692080d89a7e862128c92e) Updated `ui-diagrams.md` and finished the login / register diagram and description
-   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/aeea06fc8ec4034248f97ee75afab415f8c070e5) Made my own 'report.md' and reported my work
-   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/40be6bb74bd3eb9e3f6597abcc51f7bd81b4ec10) Uploaded the title and ideas for the `ui-diagrams.md`
+   1. [Commit 1](https://github.com/kserra1/CS326Team2/commit/0ef10e1f1347f705ddd3ac0168fbb4d22a6fd150) Reviewed and made sure everything looks correct and up to date 
+   2. [Commit 2](https://github.com/kserra1/CS326Team2/commit/4768d60946139e9e2f7b74bc652723dfd8371de6) Made a User class object that is implemented with login page, so that users can make their own username and password to create their own individual account (allows shows their user information on profile page)
+   3. [Commit 3](https://github.com/kserra1/CS326Team2/commit/3c1b16fc7913be0efdc611e7640002de58286278) Made login page with a button that is able to allow the user to switch between login and register on the same form for easy access 
 
-## Taron Rowe - Task manager
+## Taron Rowe - Task manager and Login page feature
 
 - **Role**:  Oversees and coordinates the workflow of the project to ensure that all tasks are completed on time and within scope.
 - **Top Commits**:

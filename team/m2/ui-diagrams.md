@@ -1,4 +1,11 @@
+# UI Diagrams and descriptions Milestone #3
+
+## For you page / Community page
+
+This page is the main and home page of the application. It displays a list of recipes that you can scroll, like, comment and click on to see the details of the recipe including the step by step instructions and ingredients. This view provides a quick way to see many recipes right when you log in and to scroll through and choose the recipe of your choice to use.
+<img width="959" alt="Screenshot 2024-11-12 at 8 51 49 PM" src="https://github.com/user-attachments/assets/510ce19a-173b-47ce-9e97-fd395e2532f3">
 # UI Diagrams and descriptions
+## For you page
 
 ## For you page
 
