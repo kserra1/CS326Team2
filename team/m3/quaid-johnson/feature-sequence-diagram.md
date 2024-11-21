@@ -1,4 +1,6 @@
 
+Sequence diagram for how the Form page works
+
 ```mermaid
 sequenceDiagram
     participant U as User
