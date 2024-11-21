@@ -31,6 +31,11 @@
 **Points:** 5  
 **Assigned Team Member(s):** Atharve
 
+**Feature Name:** Form page   
+**Description:** The tab in the web app for inputing your personal recipe for diplay in the community center as well as the 'My Recipe' page. This page is generated semi dynamically from the default template in the recipe class. The data inputted is then saved in indexDB.  
+**Points:** 5  
+**Assigned Team Member(s):** Quaid Johnson
+
 **Feature Name:** Community Recipe Sharing  
 **Description:** Functions similarly to a social media feed where users can see, like, and comment on recipes shared by others. Recipes liked by users are saved in a "Liked" tab for future reference. This feature encourages community interaction and idea-sharing.  
 **Points:** 5  
