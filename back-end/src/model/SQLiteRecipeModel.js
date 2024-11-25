@@ -29,3 +29,29 @@ const recipe = sequelize.define("Task",
         }
     ))
 )
+
+//below will define sequlize schema for the user object
+
+//below is general sqlize define function:
+
+// sequelize.define('modelName', {
+//     columnA: {
+//         type: Sequelize.BOOLEAN,
+//         validate: {
+//           is: ["[a-z]",'i'],        // will only allow letters
+//           max: 23,                  // only allow values <= 23
+//           isIn: {
+//             args: [['en', 'zh']],
+//             msg: "Must be English or Chinese"
+//           }
+//         },
+//         field: 'column_a'
+//         // Other attributes here
+//     },
+//     columnB: Sequelize.STRING,
+//     columnC: 'MY VERY OWN COLUMN TYPE'
+// })
+
+const User = sequelize.define('userObj', {
+    
+});
