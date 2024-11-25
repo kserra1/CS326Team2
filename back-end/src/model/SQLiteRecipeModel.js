@@ -47,11 +47,36 @@ const recipe = sequelize.define("Task",
 //         },
 //         field: 'column_a'
 //         // Other attributes here
-//     },
+//     }, <-- this bracket is end of column A
 //     columnB: Sequelize.STRING,
 //     columnC: 'MY VERY OWN COLUMN TYPE'
 // })
 
+//the user object needs to have ID, name, email, and maybe password?
+// export class User {
+//     constructor(username, password, email) {
+//       this.username = username;
+//       this.password = password;
+//       this.email = email;
+//     }
+//   }
+
+//above taken from the 
+
 const User = sequelize.define('userObj', {
-    
+    username:{
+        type: Sequelize.STRING,
+        // primaryKey: true, doesn't need to be primary key, we can use email for that
+        allowNull: false,
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false, 
+    },
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        primaryKey:true,
+    }
+
 });
