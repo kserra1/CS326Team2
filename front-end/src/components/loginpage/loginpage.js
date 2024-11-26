@@ -17,42 +17,75 @@ export default class LoginPage extends BaseComponent {
     this.addEventListeners();
   }
 
-  handleFormSubmit(event) {
+async  handleFormSubmit(event) {
     event.preventDefault();
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const email = this.isLogin ? null : document.getElementById("email").value;
 
     if (!this.isLogin) { 
-        const existingUser = this.registeredUsers.find(user => user.username === username);
-        if (existingUser) {
-            alert("This username is already registered. Please log in.");
-            return;
-        }
 
-        
+      const response = await this.registerUser(username, password, email);
+      if(response.success){
         this.currentuser = new User(username, password, email);
-        this.registeredUsers.push(this.currentuser);
-        localStorage.setItem('registeredUsers', JSON.stringify(this.registeredUsers)); 
-
-        alert("Registration successful!");
-        if (typeof this.submitCallback === "function") {
-            this.submitCallback(this.currentuser);
+        alert('User registered successfully');
+        if(typeof this.submitCallback === 'function'){
+          this.submitCallback(this.currentuser);
         }
-    } else { 
-        const existingUser = this.registeredUsers.find(user => user.username === username && user.password === password);
+      }else{
+        alert('User already exists');
+      }
         
-        if (existingUser) {
-            this.currentuser = existingUser; 
-            alert("Login successful!");
-            if (typeof this.submitCallback === "function") {
-                this.submitCallback(this.currentuser);
-            }
-        } else {
-            alert("Failed to login. Please check your username and password.");
-        }
-    }
+  }else{
+    const response = await this.loginUser(username, password);
+    if(response.success){
+      this.currentuser = new User(username, password);
+      alert('User logged in successfully');
+      if(typeof this.submitCallback === 'function'){
+        this.submitCallback(this.currentuser);
+      }
+  }else{
+    alert("Failed to login. Please check your username and password");
   }
+  }
+}
+
+async registerUser(username, password, email){
+  try {
+    const response = await fetch("http://localhost:3260/v1/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password, email }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    return {success: false, message: "Error registering user"};
+  }
+}
+
+async loginUser(username, password){
+  try {
+    const response = await fetch("http://localhost:3260/v1/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    return {success: false, message: "Error logging in user"};
+  }
+}
+
+
+
 
   render() {
     return `
