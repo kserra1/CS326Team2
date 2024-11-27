@@ -11,12 +11,18 @@ const recipeClass = new Recipe()
 const typeMap = (value)=>{
     const type = value.constructor
     if(type === 'string'){
-        if('date' in value === "date")//blueprint
-            return DataTypes.DATE
+        if((/^[a-zA-Z]{3} [a-zA-Z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+|-]\d{4} \([a-zA-Z]+\)$/).test(value))
+            return Sequelize.DATE
         else    
-            return DataTypes.STRING
-        //.....
+            return Sequelize.STRING
+    } else if (type === 'number'){
+        return Sequelize.NUMBER
+    } else if (type === 'boolean') {
+        return Sequelize.BOOLEAN
+    } else if (type === 'object') {
+        return Sequelize.STRING
     }
+    throw new ReferenceError("Unrecognized Type: ", type)
 }
 const recipe = sequelize.define("Task", 
     Object.fromEntries(Object.entries(recipeClass.getData())
@@ -76,7 +82,7 @@ const User = sequelize.define('userObj', {
     email: {
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey:true,
+        primaryKey: true,
     }
 
 });
