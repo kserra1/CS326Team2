@@ -9,12 +9,17 @@ class UserController{
 
     async register(req, res) {
         const { username, password, email } = req.body;
+        try{
         const existingUser = await this.model.read(username);
-        if (existingUser.isNewRecord === false) {
+        if (existingUser) {
             return res.status(400).json({error: "User already exists"});
         }
         const newUser = await this.model.create({username, password, email});
-        res.status(201).json({message: "User created", user: newUser});  
+        return res.status(201).json({message: "User created", user: newUser});   
+    }catch(err){
+        console.error("Error creating user:", err);
+        return res.status(500).json({error: "Error creating user"}, err);
+    }
     }
 
     async login(req, res){
@@ -25,9 +30,11 @@ class UserController{
             return res.status(401).json({error: "User does not exist"});
         }
         if(user.password !== password){
+            console.log("Incorrect password");
             return res.status(401).json({error: "Incorrect password"});
         }
-        res.json({message: "Login successful"});
+        console.log("Login successful");
+        return res.json({message: "Login successful"});
     }
 }
 

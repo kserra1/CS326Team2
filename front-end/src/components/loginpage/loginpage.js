@@ -60,6 +60,7 @@ async registerUser(username, password, email){
       body: JSON.stringify({ username, password, email }),
     });
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Error registering user:", error);
