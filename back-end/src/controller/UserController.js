@@ -15,7 +15,7 @@ class UserController{
             return res.status(400).json({error: "User already exists"});
         }
         const newUser = await this.model.create({username, password, email});
-        return res.status(201).json({message: "User created", user: newUser});   
+        return res.status(201).json({message: "User created", user: newUser, status: 201});   
     }catch(err){
         console.error("Error creating user:", err);
         return res.status(500).json({error: "Error creating user"}, err);
@@ -34,7 +34,7 @@ class UserController{
             return res.status(401).json({error: "Incorrect password"});
         }
         console.log("Login successful");
-        return res.json({message: "Login successful"});
+        return res.json({message: "Login successful", status: 201});
     }
 }
 

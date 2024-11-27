@@ -26,7 +26,7 @@ async  handleFormSubmit(event) {
     if (!this.isLogin) { 
 
       const response = await this.registerUser(username, password, email);
-      if(response.success){
+      if(response.status===201){
         this.currentuser = new User(username, password, email);
         alert('User registered successfully');
         if(typeof this.submitCallback === 'function'){
@@ -38,8 +38,7 @@ async  handleFormSubmit(event) {
         
   }else{
     const response = await this.loginUser(username, password);
-    console.log(response, 'test');
-    if(response){
+    if(response.status===201){
       this.currentuser = new User(username, password);
       alert('User logged in successfully');
       if(typeof this.submitCallback === 'function'){
