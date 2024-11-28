@@ -33,8 +33,7 @@ class UserController{
             console.log("Incorrect password");
             return res.status(401).json({error: "Incorrect password"});
         }
-        console.log("Login successful");
-        return res.json({message: "Login successful", status: 201});
+        return res.json({message: "Login successful", status: 201, username: user.username, password: user.password, email: user.email});
     }
 }
 

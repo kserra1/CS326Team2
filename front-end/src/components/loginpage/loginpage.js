@@ -2,9 +2,10 @@ import { BaseComponent } from "../basecomponent/basecomponent.js";
 import { User } from "./user.js";
 
 export default class LoginPage extends BaseComponent {
-  constructor(submitCallback) {
+  constructor(recipeService, submitCallback) {
     super();
     this.isLogin = true;
+    this.recipeService = recipeService;
     this.loadCSS("loginpage");
     this.currentuser = null;
     this.submitCallback = submitCallback;
@@ -24,7 +25,6 @@ async  handleFormSubmit(event) {
     const email = this.isLogin ? null : document.getElementById("email").value;
 
     if (!this.isLogin) { 
-
       const response = await this.registerUser(username, password, email);
       if(response.status===201){
         this.currentuser = new User(username, password, email);
@@ -37,10 +37,14 @@ async  handleFormSubmit(event) {
       }
         
   }else{
-    const response = await this.loginUser(username, password);
+    const response = await this.loginUser(username, password, email);
     if(response.status===201){
-      this.currentuser = new User(username, password);
-      alert('User logged in successfully');
+      const pass = response.password;
+      let username = response.username;
+      const email = response.email;
+      const user = { username, pass, email, loggedIn: true };
+      await this.recipeService.addUser(user);
+      this.currentuser = new User(username, password, email);
       if(typeof this.submitCallback === 'function'){
         this.submitCallback(this.currentuser);
       }

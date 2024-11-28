@@ -61,6 +61,9 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 });    
 
 let currentuser = null;
+const checkLoginState = async () =>{
+    currentuser = await recipeService.getLoggedInUser();
+}
 document.getElementById('showProfile').addEventListener('click', ()=>{
     // const profile = new Profile();
     // app.innerHTML = profile.render();
@@ -85,6 +88,7 @@ eventHub.on("RecipeAdded", async(recipe)=>{
 
 
 async function render (){
+    await checkLoginState();
     const hash = window.location.hash;
     const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
     app.innerHTML = '';
@@ -106,7 +110,12 @@ async function render (){
       
         displayRecipes();
     } else if (hash === '#login') {
-        const loginPage = new LoginPage((user) => {
+        if (currentuser) {
+            alert("You are already logged in!");
+            window.location.hash = '#profile';
+            return;
+        }
+        const loginPage = new LoginPage(recipeService, async (user, ) => {
             currentuser = user; 
             alert("User registered/logged in successfully!");
             window.location.hash = '#profile'; 
