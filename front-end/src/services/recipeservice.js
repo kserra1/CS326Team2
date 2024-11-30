@@ -4,6 +4,7 @@ export default class RecipeService {
   constructor(mockRecipes = []) {
     this.dbName = "recipesDB"; //this is the name of db
     this.storeName = "recipes"; //this is name of table
+    this.userStoreName = "users";
     this.db = null;
     this.recipes = [];
     this.eventHub = new EventHub();
@@ -15,7 +16,7 @@ export default class RecipeService {
           this.addRecipe(recipe);
         });
       }
-    })
+    })    
     .catch((error) => {
       console.error(error);
     });
@@ -24,7 +25,7 @@ export default class RecipeService {
   // Initializes IndexedDB if not already initialized
   async initDB() {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, 1);
+      const request = indexedDB.open(this.dbName, 2);
 
       request.onupgradeneeded = (event) => {
         const db = event.target.result;
@@ -34,7 +35,14 @@ export default class RecipeService {
             autoIncrement: true,
           });
         }
+        if (!db.objectStoreNames.contains(this.userStoreName)) {
+          db.createObjectStore(this.userStoreName, {
+            keyPath: "id",
+            autoIncrement: true,
+          });
+        }
       };
+
 
       request.onsuccess = (event) => {
         this.db = event.target.result;
@@ -114,6 +122,64 @@ export default class RecipeService {
       };
     });
   }
+
+  async addUser(userData){
+    const db = await this.getDB();
+    return new Promise((resolve, reject)=>{
+      const transaction = db.transaction([this.userStoreName], "readwrite");
+      const store = transaction.objectStore(this.userStoreName);
+      const request = store.add(userData);
+
+      request.onsuccess = ()=>{
+        resolve("User added successfully");
+      }
+
+      request.onerror = ()=>{
+        reject("Error adding user");
+      }
+    })
+  }
+
+  async getUserById(id){
+    const db = await this.getDB();
+    return new Promise((resolve, reject)=>{
+      const transaction = db.transaction([this.userStoreName], "readonly");
+      const store = transaction.objectStore(this.usersStoreName);
+      const request = store.get(id);
+      request.onsuccess = (event)=>{
+        const user = event.target.result;
+        resolve(user);
+      }
+      request.onerror = ()=>{
+        reject("Error retrieving user");
+      }
+    }
+    )
+  }
+
+
+
+  async getLoggedInUser() {
+    const db = await this.getDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction([this.userStoreName], "readonly");
+      const store = transaction.objectStore(this.userStoreName);
+      const request = store.getAll();
+
+      request.onsuccess = (event) => {
+        const users = event.target.result;
+        const loggedInUser = users.find((user) => user.loggedIn);
+        resolve(loggedInUser || null);
+      };
+
+      request.onerror = () => reject("Error fetching logged-in user");
+    });
+  }
+
+
+
+
+
 
   async searchRecipes({category = null, ingredients = []}){
     const db = await this.getDB();
