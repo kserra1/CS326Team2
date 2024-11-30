@@ -1,11 +1,11 @@
 import { Sequelize, DataTypes } from 'sequelize';
-
+//Create a new instance of Sequelize (ORM)
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: 'database.sqlite',
 });
 
-
+//Define the user model with the following fields
 const User = sequelize.define('User',{
     id: {
         type: DataTypes.UUID,
@@ -27,10 +27,10 @@ const User = sequelize.define('User',{
         unique: true,
     },
 });
-
+//Define the user SQLite model with the following fields for CRUD operations
 class _SQLiteUserModel {
     constructor() {}
-
+    //Initialize the SQLite database
     async init(fresh = false){
         await sequelize.authenticate();
         await sequelize.sync({force: true});
@@ -51,18 +51,18 @@ class _SQLiteUserModel {
     }
     return this;
 }
-
+    //Create a new user
     async create(data){
         return await User.create(data);
     }
-
+    //Read the user
     async read(username = null){
         if(username){
             return await User.findOne({where: {username}});
         }
         return await User.findAll();
     }
-
+    //Update the user
     async update(userData){
         const user = await User.findByPk(userData.id);
         if(user){
@@ -70,6 +70,7 @@ class _SQLiteUserModel {
         }
         return user;
     }
+    //Delete the user
     async delete(user = null) {
         if (user === null) {
           await User.destroy({ truncate: true });
@@ -80,6 +81,6 @@ class _SQLiteUserModel {
       }
     
 }
-
+//Export the SQLiteUserModel class
 const SQLiteUserModel = new _SQLiteUserModel();
 export default SQLiteUserModel;

@@ -1,21 +1,28 @@
 import ModelFactory from "../model/ModelFactory.js";
+//Import bcrypt for password encryption
 import bcrypt from "bcrypt";
 class UserController{
+    //Constructor to get the model
     constructor() {
         ModelFactory.getModel().then((model) => {
             this.model = model;
         });
       }
     
-
+      //Register a new user 
     async register(req, res) {
+        //Get the username, password, and email from the request body
         const { username, password, email } = req.body;
         try{
+        //See if the user already exists
         const existingUser = await this.model.read(username);
+        //If the user exists return an error
         if (existingUser) {
             return res.status(400).json({error: "User already exists"});
         }
+        //Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
+        //Store the new user in the database
         const newUser = await this.model.create({ username, password: hashedPassword, email });
         return res.status(201).json({message: "User created", user: newUser, status: 201});   
     }catch(err){
@@ -29,6 +36,7 @@ class UserController{
         //check if user exists
         try{
         const user = await this.model.read(username);
+        //If user does not exist, return error (can't login)
         if(!user){
             return res.status(401).json({error: "User does not exist"});
         }
@@ -47,5 +55,5 @@ class UserController{
     }
     }
 }
-
+//Export the controller
 export default new UserController();
