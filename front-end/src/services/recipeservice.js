@@ -249,6 +249,26 @@ export default class RecipeService {
     });
   }
 
+  async logout(){
+    const db = await this.getDB();
+    return new Promise((resolve, reject)=>{
+      const transaction = db.transaction([this.userStoreName], "readwrite");
+      const store = transaction.objectStore(this.userStoreName);
+      const request = store.getAll();
+      request.onsuccess = (event)=>{
+        const users = event.target.result;
+        users.forEach(user => {
+          user.loggedIn = false;
+          store.put(user);
+        });
+        resolve("Logged out successfully");
+      }
+      request.onerror = ()=>{
+        reject("Error logging out");
+      }
+    })
+  }
+
   async addComment(recipeId, comment) {
     const db = await this.getDB();
     return new Promise((resolve, reject) => {

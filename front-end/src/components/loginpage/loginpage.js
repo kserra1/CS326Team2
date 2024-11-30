@@ -48,6 +48,7 @@ async  handleFormSubmit(event) {
       if(typeof this.submitCallback === 'function'){
         this.submitCallback(this.currentuser);
       }
+      window.location.hash = '#community-recipes';
   }else{
     alert("Failed to login. Please check your username and password");
   }
