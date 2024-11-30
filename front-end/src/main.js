@@ -89,6 +89,7 @@ eventHub.on("RecipeAdded", async(recipe)=>{
 
 async function render (){
     await checkLoginState();
+    updateNavigation(); //default is to show login
     const hash = window.location.hash;
     const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
     app.innerHTML = '';
@@ -118,6 +119,7 @@ async function render (){
         const loginPage = new LoginPage(recipeService, async (user, ) => {
             currentuser = user; 
             alert("User registered/logged in successfully!");
+            updateNavigation();
             window.location.hash = '#profile'; 
         });
         app.innerHTML = loginPage.render();
