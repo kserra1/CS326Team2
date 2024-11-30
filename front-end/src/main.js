@@ -129,6 +129,33 @@ async function render (){
         displayRecipes(); 
     }
 }
+
+function updateNavigation(){
+    //need to change the state of loginButton 
+    //if the user is already logged in
+    // id of button is showLogin
+
+    //should also hide profile button until logged in
+    const loginButton = document.getElementById('showLogin');
+    const profileButton = document.getElementById('showProfile');
+
+    if(currentuser){ //we are logged in already
+        if(loginButton){
+            loginButton.style.display = 'none';
+        }
+        if(profileButton){ //show the profile button
+            profileButton.style.display = 'inline-block';
+        }
+    }else{ //we aren't logged in, so show login butotn
+        if(loginButton){
+            loginButton.style.display = 'inline-block';
+        }
+        if(profileButton){
+            profileButton.style.display = 'none';
+        }
+    }
+}
+
 async function handleLike(event) {
     const button = event.target;
     const recipeId = parseInt(button.getAttribute("data-id"), 10);
