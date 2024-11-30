@@ -89,6 +89,7 @@ eventHub.on("RecipeAdded", async(recipe)=>{
 
 async function render (){
     await checkLoginState();
+    updateNavigation(); //default is to show login
     const hash = window.location.hash;
     const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
     app.innerHTML = '';
@@ -118,6 +119,7 @@ async function render (){
         const loginPage = new LoginPage(recipeService, async (user, ) => {
             currentuser = user; 
             alert("User registered/logged in successfully!");
+            updateNavigation();
             window.location.hash = '#profile'; 
         });
         app.innerHTML = loginPage.render();
@@ -129,6 +131,33 @@ async function render (){
         displayRecipes(); 
     }
 }
+
+function updateNavigation(){
+    //need to change the state of loginButton 
+    //if the user is already logged in
+    // id of button is showLogin
+
+    //should also hide profile button until logged in
+    const loginButton = document.getElementById('showLogin');
+    const profileButton = document.getElementById('showProfile');
+
+    if(currentuser){ //we are logged in already
+        if(loginButton){
+            loginButton.style.display = 'none';
+        }
+        if(profileButton){ //show the profile button
+            profileButton.style.display = 'inline-block';
+        }
+    }else{ //we aren't logged in, so show login butotn
+        if(loginButton){
+            loginButton.style.display = 'inline-block';
+        }
+        if(profileButton){
+            profileButton.style.display = 'none';
+        }
+    }
+}
+
 async function handleLike(event) {
     const button = event.target;
     const recipeId = parseInt(button.getAttribute("data-id"), 10);
