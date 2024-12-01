@@ -71,6 +71,7 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
     if(currentuser){
         const profile = new Profile(recipeService,currentuser);
         app.innerHTML = profile.render();
+        profile.setupEventListeners();
     }else{
         alert("Please log in to view your profile");
     }
@@ -104,6 +105,7 @@ async function render (){
         if (currentuser) {
             const profile = new Profile(recipeService, currentuser);
             app.innerHTML = profile.render();
+            profile.setupEventListeners();
         } else {
             alert("Please log in to view your profile");
         }
@@ -120,7 +122,7 @@ async function render (){
             currentuser = user; 
             alert("User registered/logged in successfully!");
             updateNavigation();
-            window.location.hash = '#profile'; 
+            window.location.hash = '#community-recipes'; 
         });
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();
@@ -140,7 +142,7 @@ function updateNavigation(){
     //should also hide profile button until logged in
     const loginButton = document.getElementById('showLogin');
     const profileButton = document.getElementById('showProfile');
-
+    const logoutButton = document.getElementById('logoutButton');
     if(currentuser){ //we are logged in already
         if(loginButton){
             loginButton.style.display = 'none';
@@ -148,12 +150,18 @@ function updateNavigation(){
         if(profileButton){ //show the profile button
             profileButton.style.display = 'inline-block';
         }
+        if(logoutButton){
+            logoutButton.style.display = 'inline-block';
+        }
     }else{ //we aren't logged in, so show login butotn
         if(loginButton){
             loginButton.style.display = 'inline-block';
         }
         if(profileButton){
             profileButton.style.display = 'none';
+        }
+        if(logoutButton){
+            logoutButton.style.display = 'none';
         }
     }
 }
