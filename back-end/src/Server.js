@@ -2,7 +2,10 @@ import express from "express";
 import RecipeRoutes from "./routes/RecipeRoutes.js";
 //Enabled cors for two ports
 import cors from "cors";
-
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import { authenticateToken } from "./middlewares/authMiddleware.js";
+dotenv.config();
 class Server {
     constructor() {
         //Initialize express
@@ -17,14 +20,17 @@ class Server {
         this.app.use(cors({
             origin: "*",
             methods: ["GET", "POST", "PUT", "DELETE"],
-            allowedHeaders: ["Content-Type", "Authorization"]
+            allowedHeaders: ["Content-Type", "Authorization"],
+            credentials: true,
         }));
         //Serve static files
         this.app.use(express.static("../front-end/src"));
         this.app.use(express.json({ limit: "10mb" }));
+        this.app.use(cookieParser());
     }
     //Initialize routes
     setupRoutes(){
+        this.app.use("/v1/recipes", authenticateToken,  RecipeRoutes);
         this.app.use("/v1", RecipeRoutes);
     }
     //Start route on separate port from front-end

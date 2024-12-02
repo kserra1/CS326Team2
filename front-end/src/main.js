@@ -62,7 +62,33 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 
 let currentuser = null;
 const checkLoginState = async () =>{
-    currentuser = await recipeService.getLoggedInUser();
+    const token = localStorage.getItem('authToken');
+    if(token){
+        try{
+            const response = await fetch('http://localhost:3260/v1/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if(!response.status === 201){
+                throw new Error('Failed to fetch user profile');
+            }
+            const data = await response.json();
+            currentuser = {
+                username: data.username,
+                email: data.email,
+                token: token
+            }
+            //currentuser = await recipeService.getLoggedInUser();
+
+        }catch (error) {
+            console.error('Failed to fetch user profile:', error);
+
+        }
+    }else{
+        currentuser = null;
+    }
 }
 document.getElementById('showProfile').addEventListener('click', ()=>{
     // const profile = new Profile();
@@ -70,6 +96,7 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 
     if(currentuser){
         const profile = new Profile(recipeService,currentuser);
+        profile.init();
         app.innerHTML = profile.render();
         profile.setupEventListeners();
     }else{
@@ -113,14 +140,8 @@ async function render (){
       
         displayRecipes();
     } else if (hash === '#login') {
-        if (currentuser) {
-            alert("You are already logged in!");
-            window.location.hash = '#profile';
-            return;
-        }
         const loginPage = new LoginPage(recipeService, async (user, ) => {
             currentuser = user; 
-            alert("User registered/logged in successfully!");
             updateNavigation();
             window.location.hash = '#community-recipes'; 
         });
@@ -143,6 +164,8 @@ function updateNavigation(){
     const loginButton = document.getElementById('showLogin');
     const profileButton = document.getElementById('showProfile');
     const logoutButton = document.getElementById('logoutButton');
+    const myRecipesButton = document.getElementById('showMyRecipes');
+    const addRecipeButton = document.getElementById('showAddRecipe');
     if(currentuser){ //we are logged in already
         if(loginButton){
             loginButton.style.display = 'none';
@@ -153,6 +176,12 @@ function updateNavigation(){
         if(logoutButton){
             logoutButton.style.display = 'inline-block';
         }
+        if(myRecipesButton){
+            myRecipesButton.style.display = 'inline-block';
+        }
+        if(addRecipeButton){
+            addRecipeButton.style.display = 'inline-block';
+        }
     }else{ //we aren't logged in, so show login butotn
         if(loginButton){
             loginButton.style.display = 'inline-block';
@@ -162,6 +191,12 @@ function updateNavigation(){
         }
         if(logoutButton){
             logoutButton.style.display = 'none';
+        }
+        if(myRecipesButton){
+            myRecipesButton.style.display = 'none';
+        }
+        if(addRecipeButton){
+            addRecipeButton.style.display = 'none';
         }
     }
 }
@@ -194,7 +229,6 @@ async function handleAddComment(event) {
 
 document.getElementById('showRecipes').addEventListener('click', ()=>{
     window.location.hash = '#community-recipes';
-    console.log('test')
     displayRecipes();
 });
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{
