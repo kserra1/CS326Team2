@@ -1,6 +1,10 @@
 import ModelFactory from "../model/ModelFactory.js";
 //Import bcrypt for password encryption
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET
 class UserController{
     //Constructor to get the model
     constructor() {
@@ -30,6 +34,15 @@ class UserController{
         return res.status(500).json({error: "Error creating user"}, err);
     }
     }
+    async getUserInfo(req, res){
+        try {
+            const { username, email } = req.user;
+            return res.json({username, email});
+        }catch(err){
+            console.error("Error getting user info:", err);
+            return res.status(500).json({error: "Error getting user info"}, err);
+        }
+    }
 
     async login(req, res){
         const {username, password } = req.body;
@@ -46,8 +59,10 @@ class UserController{
         if(!validatePass){
             return res.status(401).json({error: "Incorrect password"});
         }
-
-        return res.json({message: "Login successful", status: 201, username: user.username, email: user.email});
+        //Create a JWT token
+        const token = jwt.sign({ username: user.username, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
+        res.cookie("authToken", token, { httpOnly: true });
+        return res.json({message: "Login successful", status: 201, username: user.username, email: user.email, token: token});
     }
     catch(err){
         console.error("Error logging in user:", err);

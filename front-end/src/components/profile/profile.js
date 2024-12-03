@@ -17,11 +17,42 @@ export default class Profile extends BaseComponent {
         });
     }
     }
+
+    async init(){
+        await this.fetchUserProfile();
+    }
+
+    async fetchUserProfile(){
+        if (!this.user) {
+            console.error('No user profile available');
+            return;
+        }
+        const token = this.user.token || localStorage.getItem('authToken');
+        try {
+            const response = await fetch('http://localhost:3260/v1/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if(!response.status === 201){
+                throw new Error('Failed to fetch user profile');
+            }
+            const data = await response.json();
+            this.user.username = data.username;
+            this.user.email = data.email;
+            this.render()
+        }catch (error) {
+            console.error('Failed to fetch user profile:', error);
+        }
+    }
+
     async onLogout(){
         console.log("Logging out")
         this.user = null;
         await this.recipeService.logout();
         localStorage.removeItem('user');
+        localStorage.removeItem('authToken');
         window.location.hash = '#login';
     }
     render() {
