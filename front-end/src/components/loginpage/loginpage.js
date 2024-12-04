@@ -28,7 +28,6 @@ async  handleFormSubmit(event) {
       const response = await this.registerUser(username, password, email);
       if(response.status===201){
         this.currentuser = new User(username, password, email);
-        alert('User registered successfully');
         if(typeof this.submitCallback === 'function'){
           this.submitCallback(this.currentuser);
         }
@@ -48,6 +47,7 @@ async  handleFormSubmit(event) {
       if(typeof this.submitCallback === 'function'){
         this.submitCallback(this.currentuser);
       }
+      alert('Login successful');
       window.location.hash = '#community-recipes';
   }else{
     alert("Failed to login. Please check your username and password");
@@ -65,7 +65,7 @@ async registerUser(username, password, email){
       body: JSON.stringify({ username, password, email }),
     });
     const data = await response.json();
-    console.log(data);
+    alert('User registered successfully Login to continue');
     return data;
   } catch (error) {
     console.error("Error registering user:", error);
@@ -83,6 +83,7 @@ async loginUser(username, password){
       body: JSON.stringify({ username, password }),
     });
     const data = await response.json();
+    localStorage.setItem('authToken', data.token);
     return data;
   } catch (error) {
     console.error("Error logging in user:", error);
