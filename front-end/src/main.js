@@ -61,13 +61,44 @@ document.getElementById('showMyRecipes').addEventListener('click', ()=>{
 });    
 
 let currentuser = null;
+const checkLoginState = async () =>{
+    const token = localStorage.getItem('authToken');
+    if(token){
+        try{
+            const response = await fetch('http://localhost:3260/v1/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if(!response.status === 201){
+                throw new Error('Failed to fetch user profile');
+            }
+            const data = await response.json();
+            currentuser = {
+                username: data.username,
+                email: data.email,
+                token: token
+            }
+            //currentuser = await recipeService.getLoggedInUser();
+
+        }catch (error) {
+            console.error('Failed to fetch user profile:', error);
+
+        }
+    }else{
+        currentuser = null;
+    }
+}
 document.getElementById('showProfile').addEventListener('click', ()=>{
     // const profile = new Profile();
     // app.innerHTML = profile.render();
 
     if(currentuser){
         const profile = new Profile(recipeService,currentuser);
+        profile.init();
         app.innerHTML = profile.render();
+        profile.setupEventListeners();
     }else{
         alert("Please log in to view your profile");
     }
@@ -85,6 +116,8 @@ eventHub.on("RecipeAdded", async(recipe)=>{
 
 
 async function render (){
+    await checkLoginState();
+    updateNavigation(); //default is to show login
     const hash = window.location.hash;
     const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
     app.innerHTML = '';
@@ -99,6 +132,7 @@ async function render (){
         if (currentuser) {
             const profile = new Profile(recipeService, currentuser);
             app.innerHTML = profile.render();
+            profile.setupEventListeners();
         } else {
             alert("Please log in to view your profile");
         }
@@ -106,10 +140,10 @@ async function render (){
       
         displayRecipes();
     } else if (hash === '#login') {
-        const loginPage = new LoginPage((user) => {
+        const loginPage = new LoginPage(recipeService, async (user, ) => {
             currentuser = user; 
-            alert("User registered/logged in successfully!");
-            window.location.hash = '#profile'; 
+            updateNavigation();
+            window.location.hash = '#community-recipes'; 
         });
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();
@@ -120,6 +154,53 @@ async function render (){
         displayRecipes(); 
     }
 }
+
+function updateNavigation(){
+    //need to change the state of loginButton 
+    //if the user is already logged in
+    // id of button is showLogin
+
+    //should also hide profile button until logged in
+    const loginButton = document.getElementById('showLogin');
+    const profileButton = document.getElementById('showProfile');
+    const logoutButton = document.getElementById('logoutButton');
+    const myRecipesButton = document.getElementById('showMyRecipes');
+    const addRecipeButton = document.getElementById('showAddRecipe');
+    if(currentuser){ //we are logged in already
+        if(loginButton){
+            loginButton.style.display = 'none';
+        }
+        if(profileButton){ //show the profile button
+            profileButton.style.display = 'inline-block';
+        }
+        if(logoutButton){
+            logoutButton.style.display = 'inline-block';
+        }
+        if(myRecipesButton){
+            myRecipesButton.style.display = 'inline-block';
+        }
+        if(addRecipeButton){
+            addRecipeButton.style.display = 'inline-block';
+        }
+    }else{ //we aren't logged in, so show login butotn
+        if(loginButton){
+            loginButton.style.display = 'inline-block';
+        }
+        if(profileButton){
+            profileButton.style.display = 'none';
+        }
+        if(logoutButton){
+            logoutButton.style.display = 'none';
+        }
+        if(myRecipesButton){
+            myRecipesButton.style.display = 'none';
+        }
+        if(addRecipeButton){
+            addRecipeButton.style.display = 'none';
+        }
+    }
+}
+
 async function handleLike(event) {
     const button = event.target;
     const recipeId = parseInt(button.getAttribute("data-id"), 10);
@@ -148,7 +229,6 @@ async function handleAddComment(event) {
 
 document.getElementById('showRecipes').addEventListener('click', ()=>{
     window.location.hash = '#community-recipes';
-    console.log('test')
     displayRecipes();
 });
 document.getElementById('showMyRecipes').addEventListener('click', ()=>{

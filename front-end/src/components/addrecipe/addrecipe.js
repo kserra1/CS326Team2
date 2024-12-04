@@ -17,7 +17,6 @@ setupEventListeners(){
 }
 
 async handleAddRecipe(event){
-    console.log('Trying to add recipe');
     event.preventDefault();
     const name = document.querySelector('#recipe-name').value;
     const ingredients = document.querySelector("#recipe-ingredients").value;
@@ -47,7 +46,6 @@ async handleAddRecipe(event){
         };
         this.eventHub.emit('RecipeAdded', newRecipe);
         document.querySelector("#add-recipe-form").reset();
-        console.log("recipe added i thnink");
     } catch (error) {
         console.error("Error adding recipe:", error);
     }
