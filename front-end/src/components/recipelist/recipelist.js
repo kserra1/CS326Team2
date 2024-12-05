@@ -80,6 +80,10 @@ setupEventListeners() {
   document.querySelectorAll('.add-comment-btn').forEach((button) => {
       button.addEventListener('click', this.handleAddComment.bind(this));
   });
+
+  document.getElementById('load_more').addEventListener('click', ()=>{
+    this.recipeService.addFakeRecipe(20)
+  })
 }
 
 handleLike(event) {

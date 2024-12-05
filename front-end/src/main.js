@@ -107,7 +107,7 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 eventHub.on("RecipeAdded", async(recipe)=>{
     try { 
         const response = await fetch('http://localhost:3260/', {
-            method: "PUT",
+            method: "POST",
             headers: { "Content-type": 'store/recipe' },
             body: JSON.stringify(recipe)
         })

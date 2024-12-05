@@ -1,27 +1,28 @@
 import { Recipe } from "./recipe.js"
-import { faker } from "faker"
+const { faker } = await import('https://esm.sh/@faker-js/faker')
 
-export function fakeRecipe(user = null) { 
+export async function fakeRecipe(user = null) { 
+    //faker = await faker
     return {
         title: faker.food.dish(),
         author: user ? user.username : faker.internet.username(),
         date: new Date().toString(),
         lastUpdated: new Date().toString(),
-        cookTime: { hours: faker.int(24), minutes: faker.int(60) },
-        prepTime: { hours: faker.int(24), minutes: faker.int(60) },
-        difficulty: faker.float(5),
+        cookTime: { hours: faker.number.int(24), minutes: faker.number.int(60) },
+        prepTime: { hours: faker.number.int(24), minutes: faker.number.int(60) },
+        difficulty: faker.number.   float(5),
         description: faker.food.description(),
         breakfast: faker.datatype.boolean(),
         lunch: faker.datatype.boolean(),
         dinner: faker.datatype.boolean(),
         snack: faker.datatype.boolean(),
-        categories: [...Array(faker.int(10))].map(e=>faker.food.ethnicCategory()),
+        categories: [...Array(faker.number.int(10))].map(e=>faker.food.ethnicCategory()),
         image: new File([], ''),
-        ingredients: [...Array(faker.int(10))].map(e=>faker.food.ingredient()),
-        cookware: [...Array(faker.int(10))].map(e=>faker.commerce.product()),
-        instructions: [...Array(faker.int(10))].map(e=>faker.food.adjective()),
-        comments: [...Array(faker.int(10))].map(e=>faker.internet.emoji()),
-        likes: faker.int(100),
+        ingredients: [...Array(faker.number.int(10))].map(e=>faker.food.ingredient()),
+        cookware: [...Array(faker.number.int(10))].map(e=>faker.commerce.product()),
+        instructions: [...Array(faker.number.int(10))].map(e=>faker.food.adjective()),
+        comments: [...Array(faker.number.int(10))].map(e=>faker.internet.emoji()),
+        likes: faker.number.int(100),
     }
 }
 export function fakeUser() {
