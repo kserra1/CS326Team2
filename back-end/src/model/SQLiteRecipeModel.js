@@ -5,133 +5,58 @@ const sequelize = new Sequelize({
     storage: "database.sqlite",
 });
 
+const sequObj = Object.fromEntries(
+    [title, author, date, lastUpdated, cookTime, prepTime, difficulty, description, breakfast, lunch, 
+        dinner, snack, categories, image, ingredients, cookware, instructions, comments, likes]
+    .map(field=>[field, { type: DataTypes.STRING }]))
 
-const recipe = sequelize.define("Recipe", {
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    author: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
-    lastUpdated: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
-    cookTime: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    prepTime: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    difficulty: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-    description: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    breakfast: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-    },
-    lunch: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-    },
-    dinner: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-    },
-    snack: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-    },
-    categories: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    image: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    ingredients: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    cookware: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    instructions: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    comments: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    likes: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-})
+sequObj["id"] = {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+}
+const recipe = sequelize.define("Recipe", sequObj)
 
-//below will define sequlize schema for the user object
+class SQLiteRecipeModel {
+    stringify(recipeObj){
+        return Object.fromEntries(Object.entries(recipeObj).map(field=>{
+            return typeof field === "object" ?
+                JSON.stringify(field) : field
+        }))
+    }
+    parse(recipeObj){
+        return Object.fromEntries(Object.entries(recipeObj).map(field=>{
+            return typeof field === "object" ?
+                JSON.parse(field) : field
+        }))
+    }
+    async init(){
+        await sequelize.sync({ force: true });
+    }
+    async create(recipeObj){
+        if(Array.isArray(recipeObj)){
+            await recipe.bulkCreate(recipeObj.map(this.stringify))
+        }
+        await recipe.findOrCreate({
+            where: { title: JSON.stringify(recipeObj.title) },
+            default: this.stringify(recipeObj)
+        })
+    }
+    async read(title = null){
+        if(title){
+            return await recipe.findOne({where: { title: JSON.stringify(title) }});
+        }
+        return (await recipe.findAll()).map(this.stringify);
+    }
+    async delete(recipeObj = null){
+        if(recipeObj){
+            await recipe.destroy({ where: this.stringify(recipeObj) });
+        } else {
+            await recipe.destroy({ truncate: true });
+        }
+        return recipeObj
+    }
+}
 
-//below is general sqlize define function:
-
-// sequelize.define('modelName', {
-//     columnA: {
-//         type: Sequelize.BOOLEAN,
-//         validate: {
-//           is: ["[a-z]",'i'],        // will only allow letters
-//           max: 23,                  // only allow values <= 23
-//           isIn: {
-//             args: [['en', 'zh']],
-//             msg: "Must be English or Chinese"
-//           }
-//         },
-//         field: 'column_a'
-//         // Other attributes here
-//     }, <-- this bracket is end of column A
-//     columnB: Sequelize.STRING,
-//     columnC: 'MY VERY OWN COLUMN TYPE'
-// })
-
-//the user object needs to have ID, name, email, and maybe password?
-// export class User {
-//     constructor(username, password, email) {
-//       this.username = username;
-//       this.password = password;
-//       this.email = email;
-//     }
-//   }
-
-//above taken from the 
-
-// const User = sequelize.define('userObj', {
-//     username:{
-//         type: Sequelize.STRING,
-//         // primaryKey: true, doesn't need to be primary key, we can use email for that
-//         allowNull: false,
-//     },
-//     password: {
-//         type: Sequelize.STRING,
-//         allowNull: false, 
-//     },
-//     email: {
-//         type: Sequelize.STRING,
-//         allowNull: false,
-//         primaryKey: true,
-//     }
-
-// });
+const _SQLiteRecipeModel = new SQLiteRecipeModel();
+export default _SQLiteRecipeModel;
