@@ -35,10 +35,10 @@ export class Recipe {
         likes: 0,
     }
     #recipe = structuredClone(this.#recipe_template)
-    isUnd = (val)=> {
-        if(typeof val === 'object')
-            return Object.values(val).some(this.isUnd)
-        return typeof val !== 'boolean' && !Boolean(val)
+    isUnd = (key)=> {
+        if(typeof this.#recipe[key] === 'boolean')
+            return false
+        return JSON.stringify(this.#recipe[key]) === JSON.stringify(this.#recipe_template[key])
     }
     check (oldValue, newValue) {
         if(oldValue.constructor !== newValue.constructor)
@@ -64,7 +64,7 @@ export class Recipe {
                     return this.#recipe[key]
                 },
                 set(newValue) {
-                    if(newValue) {
+                    if(newValue !== null) {
                         this.#recipe.lastUpdated = new Date().toString()
                         this.check(value, newValue)
                         this.#recipe[key] = newValue

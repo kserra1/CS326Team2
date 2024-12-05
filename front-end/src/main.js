@@ -106,7 +106,16 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 
 eventHub.on("RecipeAdded", async(recipe)=>{
     try { 
+        const response = await fetch('http://localhost:3260/', {
+            method: "PUT",
+            headers: { "Content-type": 'store/recipe' },
+            body: JSON.stringify(recipe)
+        })
+        const res = await response.json()
+        console.log("Successfully put recipe:", res)
+        
         await recipeService.addRecipe(recipe);
+        
         form.render()
         window.location.hash = '#my-recipes';
     }catch(error){

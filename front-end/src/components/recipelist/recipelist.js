@@ -28,6 +28,7 @@ export default class RecipeList extends BaseComponent {
             <ul id="recipeList">
                 ${recipes.map(recipe => this.renderRecipe(recipe)).join('')}
             </ul>
+            <input id="load_more" type="button" value="Load More">
         </div>
     `;
   }

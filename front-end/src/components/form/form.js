@@ -46,7 +46,7 @@ export default class Form extends BaseComponent {
             button.type = 'button'
             button.value = "Add"
             button.addEventListener("click", ()=>{
-                if(input.data){
+                if(input.data !== null){
                     list.data.push(input.data)
                     div.data = list.data
                     updateList()
@@ -71,7 +71,7 @@ export default class Form extends BaseComponent {
             
             div.addEventListener('change', e=>{
                 const obj_data = Array.from(obj.children).filter(c=>c.data !== undefined)
-                if(obj_data.every(c=>c.data))
+                if(obj_data.every(c=>c.data !== null))
                     div.data = Object.fromEntries(obj_data.map(c=>[c.key, c.data]))
                 else
                     div.data = null
@@ -105,7 +105,7 @@ export default class Form extends BaseComponent {
                     div.data = e.target.value
                 else if(e.target.value && e.target.type === 'checkbox')
                     div.data = e.target.checked
-                else if(e.target.value && e.target.type === 'number')
+                else if(e.target.type === 'number' && e.target.value >= 0)
                     div.data = Number.parseFloat(e.target.value)
                 else if(e.target.value && e.target.type === 'file')
                     div.data = e.target.files[0]
@@ -145,19 +145,17 @@ export default class Form extends BaseComponent {
         submit.value = "Submit"
         submit.classList.add('submit')
         submit.addEventListener("click", async()=>{
-            if(this.notFilled().length === 0)
+            const fieldsNotFilled = this.fields.filter(f=>f!=='image').filter(f=>this.recipe.isUnd(f))
+            if(fieldsNotFilled.length === 0)
                 this.eventHub.emit('RecipeAdded', await this.recipe.getData());
             else
                 notFilledField.innerHTML = 
                 'Your recipe needs these fields to be filled: '+
-                this.notFilled().map(f=>this.makeLabel(f)).join(", ")
+                fieldsNotFilled.map(f=>this.makeLabel(f)).join(", ")
         })
         this.component.append(submit)
         this.component.append(notFilledField)
         
         return this.component
-    }
-    notFilled(){
-        return this.fields.filter(f=>this.recipe.isUnd(this.recipe[f]))
     }
 }
