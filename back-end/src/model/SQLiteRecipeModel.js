@@ -1,40 +1,89 @@
 import { Sequelize, DataTypes } from "sequelize";
-import { Recipe } from "../../../front-end/src/recipe";
-//import { Recipe } from "/../..recipe.js"
 
 const sequelize = new Sequelize({
     dialect: "sqlite",
     storage: "database.sqlite",
 });
 
-const recipeClass = new Recipe()
-const typeMap = (value)=>{
-    const type = value.constructor
-    if(type === 'string'){
-        if((/^[a-zA-Z]{3} [a-zA-Z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+|-]\d{4} \([a-zA-Z]+\)$/).test(value))
-            return Sequelize.DATE
-        else    
-            return Sequelize.STRING
-    } else if (type === 'number'){
-        return Sequelize.NUMBER
-    } else if (type === 'boolean') {
-        return Sequelize.BOOLEAN
-    } else if (type === 'object') {
-        return Sequelize.STRING
-    }
-    throw new ReferenceError("Unrecognized Type: ", type)
-}
-const recipe = sequelize.define("Task", 
-    Object.fromEntries(Object.entries(recipeClass.getData())
-        .map((k, v)=>{
-            const value = {
-                type: typeMap(value),
-                allowNull: true,
-            }
-            return [k, value]
-        }
-    ))
-)
+
+const recipe = sequelize.define("Recipe", {
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    author: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    lastUpdated: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    cookTime: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    prepTime: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    difficulty: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    breakfast: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+    },
+    lunch: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+    },
+    dinner: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+    },
+    snack: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+    },
+    categories: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    ingredients: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    cookware: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    instructions: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    comments: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    likes: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+})
 
 //below will define sequlize schema for the user object
 
@@ -69,20 +118,20 @@ const recipe = sequelize.define("Task",
 
 //above taken from the 
 
-const User = sequelize.define('userObj', {
-    username:{
-        type: Sequelize.STRING,
-        // primaryKey: true, doesn't need to be primary key, we can use email for that
-        allowNull: false,
-    },
-    password: {
-        type: Sequelize.STRING,
-        allowNull: false, 
-    },
-    email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        primaryKey: true,
-    }
+// const User = sequelize.define('userObj', {
+//     username:{
+//         type: Sequelize.STRING,
+//         // primaryKey: true, doesn't need to be primary key, we can use email for that
+//         allowNull: false,
+//     },
+//     password: {
+//         type: Sequelize.STRING,
+//         allowNull: false, 
+//     },
+//     email: {
+//         type: Sequelize.STRING,
+//         allowNull: false,
+//         primaryKey: true,
+//     }
 
-});
+// });

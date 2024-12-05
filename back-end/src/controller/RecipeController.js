@@ -24,13 +24,10 @@ class RecipeController{
     // }
 
     //get all the user information for profile
-    async getUserinfo(req, res){
-
-    }
 
     //add a new recipe
     async addRecipe(req, res){
-
+        
     }
 
     //delete recipes 

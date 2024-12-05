@@ -1,4 +1,4 @@
-import { Recipe } from '../../../../common/recipe.js';
+import { Recipe } from '../../recipe.js';
 import { BaseComponent } from "../basecomponent/basecomponent.js";
 export default class Form extends BaseComponent {
     constructor(eventHub, author){
