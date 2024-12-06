@@ -1,5 +1,4 @@
 import EventHub from "../eventhub/EventHub.js";
-import { fakeRecipe , fakeUser } from "../fake.js";
 
 export default class RecipeService {
   constructor(mockRecipes = []) {
@@ -289,9 +288,5 @@ export default class RecipeService {
 
         request.onerror = () => reject("Error adding comment");
     });
-  }
-  async addFakeRecipe(amt){
-    for(let i = 0; i<amt; i++)
-      this.addRecipe(await fakeRecipe())
   }
 }

@@ -30,7 +30,8 @@ class Server {
     }
     //Initialize routes
     setupRoutes(){
-        this.app.use("/v1/recipes", authenticateToken,  RecipeRoutes);
+        this.app.post("/v1/recipe", ()=>{console.log("test")})
+        this.app.use("/v1/recipes", authenticateToken, RecipeRoutes);
         this.app.use("/v1", RecipeRoutes);
     }
     //Start route on separate port from front-end

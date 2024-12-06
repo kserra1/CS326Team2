@@ -1,5 +1,6 @@
 import { Recipe } from '../../recipe.js';
 import { BaseComponent } from "../basecomponent/basecomponent.js";
+import { fakeRecipe , fakeUser } from "../../fake.js";
 export default class Form extends BaseComponent {
     constructor(eventHub, author){
         super();
@@ -125,6 +126,14 @@ export default class Form extends BaseComponent {
         yourRecipeLabel.textContent = 'Enter Your Recipe:'
         yourRecipeLabel.classList.add('yourRecipe')
         this.component.append(yourRecipeLabel)
+
+        const randomRecipeButton = document.createElement("input")
+        randomRecipeButton.type = 'button'
+        randomRecipeButton.value = 'Create A Random Recipe'
+        randomRecipeButton.addEventListener('click', async()=>{
+            this.eventHub.emit('RecipeAdded', await fakeRecipe());
+        })
+        this.component.append(randomRecipeButton)
 
         const notFilledField = document.createElement("p")
         notFilledField.classList.add('notFilledField')

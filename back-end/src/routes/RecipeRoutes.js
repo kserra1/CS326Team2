@@ -1,5 +1,6 @@
 import express from "express";
 import UserController from "../controller/UserController.js";
+import RecipeController from "../controller/RecipeController.js";
 import { authenticateToken } from "../middlewares/authMiddleware.js";
 //Contains routes for whole application
 class RecipeRoutes {
@@ -9,10 +10,14 @@ class RecipeRoutes {
     }
     //Define the routes and connect them to controller methods
     initializeRoutes(){
-        this.router.get("/recipes", authenticateToken,  async (req, res) => {
-            //Will have recipe controller but mock for now:
-            await res.json({recipes: []});
-        });
+        this.router.route("/recipe")
+            .get(async (req, res) => {
+                console.log('recipe get!')
+            })
+            .post(async (req, res) => {
+                console.log('recipe post!')
+                res.json(({pussy:0}))
+            })
         //Get profile info:
         this.router.get("/profile", authenticateToken, UserController.getUserInfo.bind(UserController));
         //Register a new user

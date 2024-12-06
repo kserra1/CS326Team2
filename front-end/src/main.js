@@ -12,14 +12,7 @@ import { User } from './components/loginpage/user.js';
 
 const app = document.getElementById('app');
 const eventHub = new EventHub();
-
-console.log(mockRecipesObjs())
-const recipeService = new RecipeService(mockRecipesObjs());
-
-async function addRecipeToDB(recipe){
-    await recipeService.addRecipe(recipe);
-}
-
+const recipeService = new RecipeService();
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -105,22 +98,22 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
-    try { 
-        const response = await fetch('http://localhost:3260/', {
-            method: "POST",
-            headers: { "Content-type": 'store/recipe' },
-            body: JSON.stringify(recipe)
-        })
+    const recipeData = await recipe
+    const response = await fetch('http://localhost:3260/v1/recipe', {
+        method: "POST",
+        body: JSON.stringify(recipeData)
+    })
+    try{
         const res = await response.json()
         console.log("Successfully put recipe:", res)
-        
-        await recipeService.addRecipe(recipe);
-        
-        form.render()
-        window.location.hash = '#my-recipes';
-    }catch(error){
-        console.error("Error adding recipe:", error);
+    }catch(e){
+        console.log("Couldn't put recipe:", e)
     }
+        
+    await recipeService.addRecipe(recipeData);
+        
+    form.render()
+    window.location.hash = '#my-recipes';
 })
 
 

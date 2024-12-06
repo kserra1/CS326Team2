@@ -81,9 +81,9 @@ setupEventListeners() {
       button.addEventListener('click', this.handleAddComment.bind(this));
   });
 
-  document.getElementById('load_more').addEventListener('click', ()=>{
-    this.recipeService.addFakeRecipe(20)
-  })
+  // document.getElementById('load_more').addEventListener('click', ()=>{
+  //   this.recipeService.getAllRecipes()
+  // })
 }
 
 handleLike(event) {
