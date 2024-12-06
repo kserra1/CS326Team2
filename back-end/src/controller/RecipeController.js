@@ -10,8 +10,12 @@ class RecipeController{
     //get all the recipes that this user have uploaded
     async GetAllRecipesFromUser(req, res){
         try {
+
             const user_id = req.user.username;
-            const recipes = await this.model.Recipe.findAll({where: {user_id}});
+            const recipes = await this.model.read(null); 
+            const user_recipes = recipes.filter(recipe => recipe.user_id === user_id);
+            res.json({recipes: user_recipes});
+
         }catch(error){
             console.error("Error fetching user recipes:", error);
             res.status(500).json({error: "Error fetching user recipes"});
@@ -22,7 +26,7 @@ class RecipeController{
     //a public recipe get for all to see
     async GetAllRecipesFromAllUsers(req, res){
         try{
-            const recipes = await this.model.Recipe.findAll();
+            const recipes = await this.model.read();
             res.json({recipes});
         }catch (error){
             console.error("Error fetching all recipes:", error);
@@ -34,12 +38,12 @@ class RecipeController{
     //a search function to get a particular recipe that you want
     async GetThisRecipe(req, res){
         try{
-            const recipe_name = req.params;
-            const user_recipe = await this.model.Recipe.findOne({where: {recipe_name}});
+            const recipe_name = req.params.recipe_name;
+            const user_recipe = await this.model.read(recipe_name);
             if(!user_recipe){
                 return res.status(404).json({error: "No Recipe found"});
             }
-
+            
             res.json({user_recipe});
         }catch (error){
             console.error("Error fetching recipe:", error);
@@ -66,10 +70,12 @@ class RecipeController{
                 lunch,
                 dinner,
                 snack,
-                user_id,
+                user_id, //for associating with a user
+                likes: 0, //it also takes likes and comment according to addrecipe.js
+                comments: []
             });
-
-            res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
+            await this.model.create(newrecipe);
+            res.status(201).json({ message: "Recipe added successfully", recipe: newrecipe });
         }catch (error){
             console.error("Error adding recipe:", error);
             res.status(500).json({error: "Error adding recipe"});
@@ -79,8 +85,8 @@ class RecipeController{
     //delete recipes 
     async DeleteThisRecipe(req, res){
         try{
-            const recipeId = req.params;
-            const recipe = await this.model.Recipe.findByPk(recipeId);
+            const recipeId = req.params.id; //assume the id is passed in the url
+            const recipe = await this.model.read(recipeId);
             if (!recipe) {
                 return res.status(404).json({ error: "Recipe not found" });
             }
@@ -89,7 +95,7 @@ class RecipeController{
                 return res.status(403).json({ error: "You are not authorized to delete this recipe" });
             }
 
-            await recipe.destroy();
+            await this.model.delete(recipe);
             res.json({ message: "Recipe deleted successfully" });
         }catch (error){
             console.error("Error deleting recipe:", error);
