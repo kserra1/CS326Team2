@@ -4,7 +4,6 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
-import { Recipe, mockRecipesObjs } from './recipe.js';
 import Form from './components/form/form.js';
 import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 import LoginPage from './components/loginpage/loginpage.js';
@@ -98,19 +97,8 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
-    const recipeData = await recipe
-    const response = await fetch('http://localhost:3260/v1/recipe', {
-        method: "POST",
-        body: JSON.stringify(recipeData)
-    })
-    try{
-        const res = await response.json()
-        console.log("Successfully put recipe:", res)
-    }catch(e){
-        console.log("Couldn't put recipe:", e)
-    }
         
-    await recipeService.addRecipe(recipeData);
+    await recipeService.addRecipe(recipe);
         
     form.render()
     window.location.hash = '#my-recipes';

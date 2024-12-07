@@ -1,58 +1,75 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-const sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "database.sqlite",
-});
-
-const sequObj = Object.fromEntries(
-    [title, author, date, lastUpdated, cookTime, prepTime, difficulty, description, breakfast, lunch, 
-        dinner, snack, categories, image, ingredients, cookware, instructions, comments, likes]
-    .map(field=>[field, { type: DataTypes.STRING }]))
-
-sequObj["id"] = {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-}
-const recipe = sequelize.define("Recipe", sequObj)
-
 class SQLiteRecipeModel {
     stringify(recipeObj){
-        return Object.fromEntries(Object.entries(recipeObj).map(field=>{
-            return typeof field === "object" ?
-                JSON.stringify(field) : field
-        }))
+        return Object.fromEntries(
+            Object.entries(recipeObj).map(([key, val])=>{
+                return [key, JSON.stringify(val)]
+            })
+        )
     }
     parse(recipeObj){
-        return Object.fromEntries(Object.entries(recipeObj).map(field=>{
-            return typeof field === "object" ?
-                JSON.parse(field) : field
-        }))
+        return Object.fromEntries(
+            Object.entries(recipeObj).map(([key, val])=>{
+                return [key, JSON.parse(val)]
+            })
+        )
     }
     async init(){
-        await sequelize.sync({ force: true });
+        this.sequelize = new Sequelize({
+            dialect: "sqlite",
+            storage: "database.sqlite",
+        });
+        
+        this.sequObj = Object.fromEntries(
+            ['title', 'author', 'cookTime', 'prepTime', 
+            'difficulty', 'description', 'breakfast', 'lunch', 'dinner', 
+            'snack', 'categories', 'image', 'ingredients', 'cookware', 
+            'instructions', 'comments', 'likes']
+            .map(field=>[field, { type: DataTypes.STRING }]))
+        
+        this.sequObj["id"] = {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+        }
+        this.sequelizeRecipe = this.sequelize.define("Recipe", this.sequObj)
+        await this.sequelize.sync({ force: true });
     }
     async create(recipeObj){
+        let recipe
         if(Array.isArray(recipeObj)){
-            await recipe.bulkCreate(recipeObj.map(this.stringify))
+            recipe = await this.sequelizeRecipe.bulkCreate(recipeObj.map(this.stringify))
+            console.log("recipe created", recipe)
+        } else {
+            recipe = await this.sequelizeRecipe.create(this.stringify(recipeObj))
+            console.log("recipe created", recipe)
         }
-        await recipe.findOrCreate({
-            where: { title: JSON.stringify(recipeObj.title) },
-            default: this.stringify(recipeObj)
-        })
+    }
+    async update(recipeObj){
+        const strRecipeObj = this.stringify(recipeObj)
+        const recipe = await this.sequelizeRecipe.update(
+            strRecipeObj,
+            {
+              where: {
+                title: strRecipeObj.title,
+                author: strRecipeObj.author
+              },
+            }
+        )
+        console.log("recipe updated", recipe)
     }
     async read(title = null){
         if(title){
-            return await recipe.findOne({where: { title: JSON.stringify(title) }});
+            return await this.sequelizeRecipe.findOne({where: { title: JSON.stringify(title) }});
         }
-        return (await recipe.findAll()).map(this.stringify);
+        return (await this.sequelizeRecipe.findAll()).map(this.parse);
     }
     async delete(recipeObj = null){
         if(recipeObj){
-            await recipe.destroy({ where: this.stringify(recipeObj) });
+            await this.sequelizeRecipe.destroy({ where: this.stringify(recipeObj) });
         } else {
-            await recipe.destroy({ truncate: true });
+            await this.sequelizeRecipe.destroy({ truncate: true });
         }
         return recipeObj
     }

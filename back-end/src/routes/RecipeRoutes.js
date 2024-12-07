@@ -16,7 +16,12 @@ class RecipeRoutes {
             })
             .post(async (req, res) => {
                 console.log('recipe post!')
-                res.json(({pussy:0}))
+                RecipeController.AddRecipe(req, res)
+            })
+            .delete(async (req, res) => {
+                await deleteThisRecipe(req, res)
+                console.log('recipe deleted!')
+
             })
         //Get profile info:
         this.router.get("/profile", authenticateToken, UserController.getUserInfo.bind(UserController));

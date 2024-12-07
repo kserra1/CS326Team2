@@ -1,8 +1,8 @@
-import ModelFactory from "../model/ModelFactory"
+import ModelFactory from "../model/ModelFactory.js"
 
 class RecipeController{
     constructor(){
-        ModelFactory.getModel().then((model) => {
+        ModelFactory.getModel('recipe-model').then((model) => {
             this.model = model;
         });
     }
@@ -35,7 +35,7 @@ class RecipeController{
     async GetThisRecipe(req, res){
         try{
             const recipe_name = req.params;
-            const user_recipe = await this.model.Recipe.findOne({where: {recipe_name}});
+            const user_recipe = await this.model.read(recipe_name);
             if(!user_recipe){
                 return res.status(404).json({error: "No Recipe found"});
             }
@@ -50,24 +50,12 @@ class RecipeController{
     //add a new recipe
     async AddRecipe(req, res){
         try{
-            const { name, ingredients, instructions, cookTime, category, breakfast, lunch, dinner, snack, user_id } = req.body;
-
-            if (!name || !ingredients || !instructions || !user_id) {
+            console.log("req.body", req.body)
+            if (!req.body.title || !req.body.author || !req.body.ingredients || !req.body.instructions) {
                 return res.status(400).json({ error: "Missing required fields" });
             }
 
-            const newrecipe = await this.model.Recipe.create({
-                name,
-                ingredients: ingredients.split(",").map(i => i.trim()), 
-                instructions,
-                cookTime,
-                category,
-                breakfast,
-                lunch,
-                dinner,
-                snack,
-                user_id,
-            });
+            const newRecipe = await this.model.create(req.body);
 
             res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
         }catch (error){
@@ -77,7 +65,7 @@ class RecipeController{
     }
 
     //delete recipes 
-    async DeleteThisRecipe(req, res){
+    async deleteThisRecipe(req, res){
         try{
             const recipeId = req.params;
             const recipe = await this.model.Recipe.findByPk(recipeId);

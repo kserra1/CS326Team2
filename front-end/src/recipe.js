@@ -16,8 +16,6 @@ export class Recipe {
         //id: 0,
         title: this.#string,
         author: this.#string,
-        date: new Date().toString(),
-        lastUpdated: new Date().toString(),
         cookTime: { hours: this.#float, minutes: this.#float },
         prepTime: { hours: this.#float, minutes: this.#float },
         difficulty: 0,

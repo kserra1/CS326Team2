@@ -81,9 +81,20 @@ setupEventListeners() {
       button.addEventListener('click', this.handleAddComment.bind(this));
   });
 
-  // document.getElementById('load_more').addEventListener('click', ()=>{
-  //   this.recipeService.getAllRecipes()
-  // })
+  document.getElementById('load_more').addEventListener('click', async()=>{
+    const response = await fetch('http://localhost:3260/v1/recipe', {
+        method: "GET",
+    })
+    try{
+        const res = await response.json()
+        console.log("Successfully got recipe:", res)
+    }catch(e){
+        console.log("Couldn't put recipe:", e)
+    }
+        
+    await this. recipeService.addRecipe(recipeData);
+    this.render()
+})
 }
 
 handleLike(event) {
