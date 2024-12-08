@@ -143,6 +143,13 @@ async function render (){
     const hash = window.location.hash;
     const recipeIdMatch = hash.match(/^#recipe\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i);
     app.innerHTML = '';
+
+    Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+    .filter(link=> link.getAttribute("href") !== "main.css")
+    .forEach(link => {
+        link.parentNode.removeChild(link);
+    })
+    console.log(document.querySelectorAll('link[rel="stylesheet"]'))
     if (recipeIdMatch) {
         console.log(recipeIdMatch)
         const recipeId = recipeIdMatch[1]
@@ -150,7 +157,7 @@ async function render (){
         const recipeDetail = new RecipeDetail(recipeService);
         app.innerHTML = await recipeDetail.render(recipeId);
     } else if (hash === '#my-recipes') {
-        const myRecipes = new MyRecipes(recipeService);
+        const myRecipes = new MyRecipes(recipeService, currentuser);
         app.innerHTML = await myRecipes.render();
         myRecipes.setupEventListeners();
     } else if (hash === '#profile') {

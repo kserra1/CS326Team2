@@ -110,16 +110,20 @@ export default class RecipeService {
     return Promise.all(operations)
   }
   
-  async getAllRecipes() {
+  async getAllRecipes(identifier = null) {
     const db = await this.getDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readonly");
       const store = transaction.objectStore(this.storeName);
       const request = store.getAll();
       request.onsuccess = (event) => {
-        const recipess = event.target.result;
-        this.eventHub.emit("RecipesLoaded", recipess);
-        resolve(recipess);
+        const recipes = event.target.result;
+        this.eventHub.emit("RecipesLoaded", recipes);
+        if(identifier)
+          resolve(recipes.filter(r=>
+            Object.entries(identifier).every(([k,v])=>r[k]===v)
+          ))
+        resolve(recipes);
       };
 
       request.onerror = () => {

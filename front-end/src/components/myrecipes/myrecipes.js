@@ -1,9 +1,10 @@
 import { BaseComponent } from "../basecomponent/basecomponent.js";
 
 export default class MyRecipes extends BaseComponent{
-  constructor(recipeService) {
+  constructor(recipeService, curruse) {
     super();
     this.recipeService = recipeService;
+    this.currentUser = curruse
     this.MyRecipes = [];
     this.loadCSS('myrecipes')
     this.recipeService.eventHub.on("RecipeAdded",()=>{
@@ -18,7 +19,7 @@ export default class MyRecipes extends BaseComponent{
     this.innerHTML = loadingMessage;
     try {
       // Fetch recipes from the service
-      const recipes = await this.recipeService.getAllRecipes();
+      const recipes = await this.recipeService.getAllRecipes({author: this.currentUser.username});
       // Once recipes are loaded, render the list
       this.innerHTML = `
                   <div class="recipe-list">
