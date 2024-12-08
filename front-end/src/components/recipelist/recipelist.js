@@ -28,6 +28,7 @@ export default class RecipeList extends BaseComponent {
             <ul id="recipeList">
                 ${recipes.map(recipe => this.renderRecipe(recipe)).join('')}
             </ul>
+            <input id="load_more" type="button" value="Load More">
         </div>
     `;
   }
@@ -79,6 +80,21 @@ setupEventListeners() {
   document.querySelectorAll('.add-comment-btn').forEach((button) => {
       button.addEventListener('click', this.handleAddComment.bind(this));
   });
+
+  document.getElementById('load_more').addEventListener('click', async()=>{
+    const response = await fetch('http://localhost:3260/v1/recipe', {
+        method: "GET",
+    })
+    try{
+        const res = await response.json()
+        console.log("Successfully got recipe:", res)
+    }catch(e){
+        console.log("Couldn't put recipe:", e)
+    }
+        
+    await this. recipeService.addRecipe(recipeData);
+    this.render()
+})
 }
 
 handleLike(event) {

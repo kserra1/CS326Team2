@@ -4,7 +4,6 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
-import { Recipe, mockRecipesObjs } from './recipe.js';
 import Form from './components/form/form.js';
 import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 import LoginPage from './components/loginpage/loginpage.js';
@@ -13,13 +12,16 @@ import { User } from './components/loginpage/user.js';
 const app = document.getElementById('app');
 const eventHub = new EventHub();
 
-console.log(mockRecipesObjs())
-const recipeService = new RecipeService(mockRecipesObjs());
-
-async function addRecipeToDB(recipe){
-    await recipeService.addRecipe(recipe);
+const response = await fetch('http://localhost:3260/v1/recipe')
+let res
+try{
+    res = await response.json()
+    console.log("Successfully got initial recipes:", res)
+}catch(e){
+    console.log("Couldn't get initial recipes:", e)
 }
 
+const recipeService = new RecipeService(res.recipes);
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -105,14 +107,30 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
-    try { 
-        await recipeService.addRecipe(recipe);
-        form.render()
-        window.location.hash = '#my-recipes';
-    }catch(error){
-        console.error("Error adding recipe:", error);
+    
+    const recipeData = await recipe
+
+    const response = await fetch('http://localhost:3260/v1/recipe', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(recipeData)
+    })
+    try{
+        const res = await response.json()
+        console.log("Successfully put recipe:", res)
+    }catch(e){
+        console.log("Couldn't put recipe:", e)
     }
+        
+    await recipeService.addRecipe(recipe);
+        
+    form.render()
+    window.location.hash = '#my-recipes';
 })
+
+
 
 
 async function render (){

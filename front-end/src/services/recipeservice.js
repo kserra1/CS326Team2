@@ -66,16 +66,16 @@ export default class RecipeService {
 
   //all the methods below will first make sure db exists
   //that way we aren't accessing null/void elements
-
-  async addRecipe(recipeData) {
+  async addRecipe(data) {
     const db = await this.getDB();
+    const recipeData = await data
+
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readwrite");
       const store = transaction.objectStore(this.storeName);
       const request = store.add(recipeData);
 
       request.onsuccess = () => {
-        console.log(recipeData)
         this.eventHub.emit("RecipeAdded", recipeData);
         resolve("Recipe added successfully");
       };
