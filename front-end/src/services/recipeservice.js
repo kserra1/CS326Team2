@@ -69,21 +69,6 @@ export default class RecipeService {
   async addRecipe(data) {
     const db = await this.getDB();
     const recipeData = await data
-    console.log(recipeData)
-
-    const response = await fetch('http://localhost:3260/v1/recipe', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(recipeData)
-    })
-    try{
-        const res = await response.json()
-        console.log("Successfully put recipe:", res)
-    }catch(e){
-        console.log("Couldn't put recipe:", e)
-    }
 
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readwrite");

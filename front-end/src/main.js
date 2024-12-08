@@ -11,7 +11,17 @@ import { User } from './components/loginpage/user.js';
 
 const app = document.getElementById('app');
 const eventHub = new EventHub();
-const recipeService = new RecipeService();
+
+const response = await fetch('http://localhost:3260/v1/recipe')
+let res
+try{
+    res = await response.json()
+    console.log("Successfully got initial recipes:", res)
+}catch(e){
+    console.log("Couldn't get initial recipes:", e)
+}
+
+const recipeService = new RecipeService(res.recipes);
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -97,12 +107,30 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
+    
+    const recipeData = await recipe
+
+    const response = await fetch('http://localhost:3260/v1/recipe', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(recipeData)
+    })
+    try{
+        const res = await response.json()
+        console.log("Successfully put recipe:", res)
+    }catch(e){
+        console.log("Couldn't put recipe:", e)
+    }
         
     await recipeService.addRecipe(recipe);
         
     form.render()
     window.location.hash = '#my-recipes';
 })
+
+
 
 
 async function render (){

@@ -10,9 +10,18 @@ class RecipeRoutes {
     }
     //Define the routes and connect them to controller methods
     initializeRoutes(){
+        this.router.get("/recipe/title/:id", async (req, res) => {
+            RecipeController.GetThisRecipe(req, res)
+            console.log('recipe get this!')
+        })
+        this.router.get("/recipe/user/:id", async (req, res) => {
+            RecipeController.GetAllRecipesFromUser(req, res)
+            console.log('recipe get from user!')
+        })
         this.router.route("/recipe")
             .get(async (req, res) => {
-                console.log('recipe get!')
+                RecipeController.GetAllRecipesFromAllUsers(req, res)
+                console.log('recipe get all!')
             })
             .post(async (req, res) => {
                 console.log('recipe post!')

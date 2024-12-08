@@ -11,9 +11,9 @@ class RecipeController{
     async GetAllRecipesFromUser(req, res){
         try {
 
-            const user_id = req.user.username;
-            const recipes = await this.model.read(null); 
-            const user_recipes = recipes.filter(recipe => recipe.user_id === user_id);
+            const author = req.params['id'];
+            const recipes = await this.model.read(); 
+            const user_recipes = recipes.filter(recipe => recipe.author === author);
             res.json({recipes: user_recipes});
 
         }catch(error){
@@ -38,8 +38,8 @@ class RecipeController{
     //a search function to get a particular recipe that you want
     async GetThisRecipe(req, res){
         try{
-            const recipe_name = req.params.recipe_name;
-            const user_recipe = await this.model.read(recipe_name);
+            const title = req.params['id'];
+            const user_recipe = await this.model.read(title);
             if(!user_recipe){
                 return res.status(404).json({error: "No Recipe found"});
             }
