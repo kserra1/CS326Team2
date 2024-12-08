@@ -1,4 +1,5 @@
 import SQLiteUserModel from "./SQLiteUserModel.js";
+import SQLiteRecipeModel from "./SQLiteRecipeModel.js";
 //Same model factory as class example:
 //Essentially returns the model based on the string passed in
 class _ModelFactory {
@@ -8,6 +9,9 @@ class _ModelFactory {
     } else if (model === "sqlite-fresh") {
       await SQLiteUserModel.init(true);
       return SQLiteUserModel;
+    } else if (model === "recipe-model") {
+      await SQLiteRecipeModel.init();
+      return SQLiteRecipeModel;
     } else {
       return ;
     }
