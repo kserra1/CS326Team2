@@ -3,40 +3,38 @@ const { faker } = await import('https://esm.sh/@faker-js/faker')
 
 export async function fakeRecipe(user = null) { 
     //faker = await faker
-    return {
-        title: faker.food.dish(),
-        author: user ? user.username : faker.internet.username(),
-        date: new Date().toString(),
-        lastUpdated: new Date().toString(),
-        cookTime: { hours: faker.number.int(24), minutes: faker.number.int(60) },
-        prepTime: { hours: faker.number.int(24), minutes: faker.number.int(60) },
-        difficulty: faker.number.float(5),
-        description: faker.food.description(),
-        breakfast: faker.datatype.boolean(),
-        lunch: faker.datatype.boolean(),
-        dinner: faker.datatype.boolean(),
-        snack: faker.datatype.boolean(),
-        categories: [...Array(faker.number.int(10))].map(_=>faker.food.ethnicCategory()),
-        image: new File([], ''),
-        ingredients: [...Array(faker.number.int(10))].map(_=>{
-            return {
-                item: faker.food.ingredient(),
-                amount: faker.number.int(10),
-                unit: 'Ounces',
-            }
-        }),
-        cookware: [...Array(faker.number.int(10))].map(_=>faker.commerce.product()),
-        instructions: [...Array(faker.number.int(10))].map(_=>faker.food.adjective()),
-        comments: [...Array(faker.number.int(10))].map(_=>{
-            return {
-                user: faker.internet.username(),
-                text: faker.internet.emoji(),
-                like: faker.datatype.boolean(),
-                difficulty: faker.number.float(5),
-            }
-        }),
-        likes: faker.number.int(100),
-    }
+    const recipe = new Recipe()
+    recipe.title = faker.food.dish()
+    recipe.author = user ? user : faker.internet.username()
+    recipe.cookTime = { hours: faker.number.int(24), minutes: faker.number.int(60) }
+    recipe.prepTime = { hours: faker.number.int(24), minutes: faker.number.int(60) }
+    recipe.difficulty = faker.number.float(5)
+    recipe.description = faker.food.description()
+    recipe.breakfast = faker.datatype.boolean()
+    recipe.lunch = faker.datatype.boolean()
+    recipe.dinner = faker.datatype.boolean()
+    recipe.snack = faker.datatype.boolean()
+    recipe.categories = [...Array(faker.number.int(10))].map(_=>faker.food.ethnicCategory())
+    recipe.image = new File([], '')
+    recipe.ingredients = [...Array(faker.number.int(10))].map(_=>{
+        return {
+            item: faker.food.ingredient(),
+            amount: faker.number.int(10),
+            unit: 'Ounces',
+        }
+    }),
+    recipe.cookware = [...Array(faker.number.int(10))].map(_=>faker.commerce.product())
+    recipe.instructions = [...Array(faker.number.int(10))].map(_=>faker.food.adjective())
+    recipe.comments = [...Array(faker.number.int(10))].map(_=>{
+        return {
+            user: faker.internet.username(),
+            text: faker.internet.emoji(),
+            like: faker.datatype.boolean(),
+            difficulty: faker.number.float(5),
+        }
+    }),
+    recipe.likes = faker.number.int(100)
+    return recipe
 }
 export function fakeUser() {
     return {

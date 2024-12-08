@@ -11,6 +11,7 @@ import { User } from './components/loginpage/user.js';
 
 const app = document.getElementById('app');
 const eventHub = new EventHub();
+const recipeService = new RecipeService();
 
 const response = await fetch('http://localhost:3260/v1/recipe')
 let res
@@ -20,8 +21,7 @@ try{
 }catch(e){
     console.log("Couldn't get initial recipes:", e)
 }
-
-const recipeService = new RecipeService(res.recipes);
+recipeService.loadRecipes(res.recipes)
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -117,14 +117,17 @@ eventHub.on("RecipeAdded", async(recipe)=>{
         },
         body: JSON.stringify(recipeData)
     })
+    let res
     try{
-        const res = await response.json()
+        res = await response.json()
         console.log("Successfully put recipe:", res)
     }catch(e){
         console.log("Couldn't put recipe:", e)
     }
-        
-    await recipeService.addRecipe(recipe);
+    if(res.recipe)
+        await recipeService.addRecipe(res.recipe);
+    else 
+        console.log("res: ",res)  
         
     form.render()
     window.location.hash = '#my-recipes';
@@ -137,15 +140,18 @@ async function render (){
     await checkLoginState();
     updateNavigation(); //default is to show login
     const hash = window.location.hash;
-    const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
+    const recipeIdMatch = hash.match(/^#recipe\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i);
     app.innerHTML = '';
     if (recipeIdMatch) {
-        const recipeId = parseInt(recipeIdMatch[1], 10);
+        console.log(recipeIdMatch)
+        const recipeId = recipeIdMatch[1]
+        console.log(recipeId)
         const recipeDetail = new RecipeDetail(recipeService);
         app.innerHTML = await recipeDetail.render(recipeId);
     } else if (hash === '#my-recipes') {
         const myRecipes = new MyRecipes(recipeService);
         app.innerHTML = await myRecipes.render();
+        myRecipes.setupEventListeners();
     } else if (hash === '#profile') {
         if (currentuser) {
             const profile = new Profile(recipeService, currentuser);
@@ -166,6 +172,8 @@ async function render (){
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();
     } else if (hash === '#add-recipe') {
+        const form = new Form(eventHub, currentuser.username);
+        form.render()
         app.innerHTML = '';
         app.append(form.component);
     } else {

@@ -29,6 +29,7 @@ export default class MyRecipes extends BaseComponent{
                               (recipe) => `
                               <li>
                                   <a href="#recipe/${recipe.id}">${recipe.title}</a>
+                                  <button id="delete-recipe" class="delete-button" data-id="${recipe.id}">Delete</button>
                               </li>
                           `
                             )
@@ -42,5 +43,16 @@ export default class MyRecipes extends BaseComponent{
       console.error("Error loading recipes:", error);
     }
     return this.innerHTML;
+  }
+  
+  setupEventListeners() {
+    document.querySelectorAll('#delete-recipe').forEach(button=>{
+      button.addEventListener('click', async(e)=>{
+        this.recipeService.deleteRecipe(e.target.dataset.id)
+        await fetch(`http://localhost:3260/v1/recipe/${e.target.dataset.id}`, {
+            method: "DELETE"
+        })
+      })
+    })
   }
 }

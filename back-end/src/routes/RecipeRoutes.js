@@ -18,20 +18,26 @@ class RecipeRoutes {
             RecipeController.GetAllRecipesFromUser(req, res)
             console.log('recipe get from user!')
         })
-        this.router.route("/recipe")
-            .get(async (req, res) => {
-                RecipeController.GetAllRecipesFromAllUsers(req, res)
-                console.log('recipe get all!')
-            })
-            .post(async (req, res) => {
-                console.log('recipe post!')
-                RecipeController.AddRecipe(req, res)
-            })
-            .delete(async (req, res) => {
-                await deleteThisRecipe(req, res)
-                console.log('recipe deleted!')
-
-            })
+        this.router.get("/recipe", async (req, res) => {
+            RecipeController.GetAllRecipesFromAllUsers(req, res)
+            console.log('recipe get all!')
+        })
+        this.router.get("/recipe", async (req, res) => {
+            RecipeController.GetAllRecipesFromAllUsers(req, res)
+            console.log('recipe get all!')
+        })
+        this.router.post("/recipe", async (req, res) => {
+            console.log('recipe post!')
+            RecipeController.AddRecipe(req, res)
+        })
+        this.router.delete("/recipe/:id", async (req, res) => {
+            await RecipeController.deleteThisRecipe(req, res)
+            console.log('recipe deleted!')
+        })
+        this.router.delete("/recipe", async (req, res) => {
+            await RecipeController.deleteThisRecipe(req, res)
+            console.log('recipe deleted!')
+        })
         //Get profile info:
         this.router.get("/profile", authenticateToken, UserController.getUserInfo.bind(UserController));
         //Register a new user

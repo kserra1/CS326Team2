@@ -13,7 +13,7 @@ export class Recipe {
         difficulty: this.#float,
     }
     #recipe_template = {
-        //id: 0,
+        //id: this.#float,
         title: this.#string,
         author: this.#string,
         cookTime: { hours: this.#float, minutes: this.#float },

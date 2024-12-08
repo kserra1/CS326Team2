@@ -131,7 +131,7 @@ export default class Form extends BaseComponent {
         randomRecipeButton.type = 'button'
         randomRecipeButton.value = 'Create A Random Recipe'
         randomRecipeButton.addEventListener('click', async()=>{
-            this.eventHub.emit('RecipeAdded', await fakeRecipe());
+            this.eventHub.emit('RecipeAdded', await fakeRecipe(this.author));
         })
         this.component.append(randomRecipeButton)
 

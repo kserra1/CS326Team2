@@ -11,9 +11,8 @@ class RecipeController{
     async GetAllRecipesFromUser(req, res){
         try {
 
-            const author = req.params['id'];
-            const recipes = await this.model.read(); 
-            const user_recipes = recipes.filter(recipe => recipe.author === author);
+            const author = req.params.id;
+            const recipes = await this.model.read({author: author});
             res.json({recipes: user_recipes});
 
         }catch(error){
@@ -38,8 +37,7 @@ class RecipeController{
     //a search function to get a particular recipe that you want
     async GetThisRecipe(req, res){
         try{
-            const title = req.params['id'];
-            const user_recipe = await this.model.read(title);
+            const user_recipe = await this.model.read({title: req.params.id});
             if(!user_recipe){
                 return res.status(404).json({error: "No Recipe found"});
             }
@@ -54,7 +52,7 @@ class RecipeController{
     //add a new recipe
     async AddRecipe(req, res){
         try{
-            console.log("req.body", req.body)
+            console.log("title", req.body.title)
             if (!req.body.title || !req.body.author || !req.body.ingredients || !req.body.instructions) {
                 return res.status(400).json({ error: "Missing required fields" });
             }
@@ -72,7 +70,8 @@ class RecipeController{
     async deleteThisRecipe(req, res){
         try{
             const recipeId = req.params.id; //assume the id is passed in the url
-            const recipe = await this.model.read(recipeId);
+            console.log(recipeId)
+            const recipe = await this.model.read({id: recipeId});
             if (!recipe) {
                 return res.status(404).json({ error: "Recipe not found" });
             }

@@ -69,7 +69,7 @@ export default class RecipeService {
   async addRecipe(data) {
     const db = await this.getDB();
     const recipeData = await data
-
+    console.log("Add Recipe", recipeData)
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readwrite");
       const store = transaction.objectStore(this.storeName);
@@ -86,7 +86,30 @@ export default class RecipeService {
       };
     });
   }
+  async loadRecipes(data) {
+    const db = await this.getDB();
+    const transaction = db.transaction([this.storeName], "readwrite");
+    const store = transaction.objectStore(this.storeName);
+    const operations = data.map(recipe => {
+      return new Promise((resolve, reject) => {
+        const getRequest = store.get(recipe.id)
 
+        getRequest.onsuccess = () => {
+          if (!getRequest.result) {
+            const addRequest = store.add(recipe);
+            addRequest.onsuccess = () => resolve();
+            addRequest.onerror = () => reject(addRequest.error);
+          } else {
+            resolve();
+          }
+        }
+        getRequest.onerror = () => reject(getRequest.error);
+      });
+    })
+
+    return Promise.all(operations)
+  }
+  
   async getAllRecipes() {
     const db = await this.getDB();
     return new Promise((resolve, reject) => {

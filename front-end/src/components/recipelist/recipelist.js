@@ -85,14 +85,15 @@ setupEventListeners() {
     const response = await fetch('http://localhost:3260/v1/recipe', {
         method: "GET",
     })
+    let res
     try{
-        const res = await response.json()
+        res = await response.json()
         console.log("Successfully got recipe:", res)
     }catch(e){
         console.log("Couldn't put recipe:", e)
     }
         
-    await this. recipeService.addRecipe(recipeData);
+    await res.recipes.map(async e=> await this.recipeService.addRecipe(e)) ;
     this.render()
 })
 }

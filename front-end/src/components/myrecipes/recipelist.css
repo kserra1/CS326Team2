@@ -46,9 +46,20 @@ a {
     color: #3498db;
     font-weight: bold;
 }
-
 a:hover {
     text-decoration: underline;
+}
+
+button {
+    position: absolute; /* To position it anywhere on the page */
+    right: 10px; /* Adjust as needed */
+    top: 20px; /* Adjust vertical position */
+    background: none; /* No background */
+    border: none; /* No border */
+    color: blue; /* Text color */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Change cursor to pointer */
+    text-decoration: underline; /* To mimic a link */
 }
 
 @media (max-width: 600px) {
