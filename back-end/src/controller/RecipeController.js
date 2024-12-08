@@ -12,7 +12,7 @@ class RecipeController{
         try {
 
             const author = req.params.id;
-            const recipes = await this.model.read({author: author});
+            const recipes = await this.model.read({author: JSON.stringify(author)});
             res.json({recipes: user_recipes});
 
         }catch(error){
@@ -37,7 +37,7 @@ class RecipeController{
     //a search function to get a particular recipe that you want
     async GetThisRecipe(req, res){
         try{
-            const user_recipe = await this.model.read({title: req.params.id});
+            const user_recipe = await this.model.read({title: JSON.stringify(req.params.id)});
             if(!user_recipe){
                 return res.status(404).json({error: "No Recipe found"});
             }
@@ -76,11 +76,7 @@ class RecipeController{
                 return res.status(404).json({ error: "Recipe not found" });
             }
 
-            if (recipe.user_id !== req.user.username) {
-                return res.status(403).json({ error: "You are not authorized to delete this recipe" });
-            }
-
-            await this.model.delete(recipe);
+            await this.model.delete(recipeId);
             res.json({ message: "Recipe deleted successfully" });
         }catch (error){
             console.error("Error deleting recipe:", error);

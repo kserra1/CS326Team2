@@ -5,7 +5,7 @@ export default class MyRecipes extends BaseComponent{
     super();
     this.recipeService = recipeService;
     this.MyRecipes = [];
-    this.loadCSS('recipelist')
+    this.loadCSS('myrecipes')
     this.recipeService.eventHub.on("RecipeAdded",()=>{
       this.render();
     });
@@ -29,7 +29,7 @@ export default class MyRecipes extends BaseComponent{
                               (recipe) => `
                               <li>
                                   <a href="#recipe/${recipe.id}">${recipe.title}</a>
-                                  <button id="delete-recipe" class="delete-button" data-id="${recipe.id}">Delete</button>
+                                  <button class="delete-button" data-id="${recipe.id}">Delete</button>
                               </li>
                           `
                             )
@@ -46,8 +46,9 @@ export default class MyRecipes extends BaseComponent{
   }
   
   setupEventListeners() {
-    document.querySelectorAll('#delete-recipe').forEach(button=>{
+    document.querySelectorAll('.delete-button').forEach(button=>{
       button.addEventListener('click', async(e)=>{
+        console.log("delete")
         this.recipeService.deleteRecipe(e.target.dataset.id)
         await fetch(`http://localhost:3260/v1/recipe/${e.target.dataset.id}`, {
             method: "DELETE"

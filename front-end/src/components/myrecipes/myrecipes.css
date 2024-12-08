@@ -31,6 +31,11 @@ li {
     padding: 15px 20px;
     border-bottom: 1px solid #e0e0e0;
     transition: background 0.3s;
+
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 li:last-child {
@@ -50,17 +55,18 @@ a:hover {
     text-decoration: underline;
 }
 
-button {
-    position: absolute; /* To position it anywhere on the page */
-    right: 10px; /* Adjust as needed */
-    top: 20px; /* Adjust vertical position */
-    background: none; /* No background */
-    border: none; /* No border */
-    color: blue; /* Text color */
-    font-size: 16px; /* Adjust font size */
-    cursor: pointer; /* Change cursor to pointer */
-    text-decoration: underline; /* To mimic a link */
+
+.delete-button {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+    background: none;
+    border: none;
 }
+.delete-button:hover {
+    text-decoration: underline;
+}
+
 
 @media (max-width: 600px) {
     h2 {

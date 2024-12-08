@@ -4,7 +4,9 @@ class SQLiteRecipeModel {
     stringify(recipeObj){
         return Object.fromEntries(
             Object.entries(recipeObj).map(([key, val])=>{
-                return [key, JSON.stringify(val)]
+                if(key !== 'id')
+                    return [key, JSON.stringify(val)]
+                return [key, val]
             })
         )
     }
@@ -38,7 +40,7 @@ class SQLiteRecipeModel {
             primaryKey: true,
         }
         this.sequelizeRecipe = this.sequelize.define("Recipe", this.sequObj)
-        await this.sequelize.sync({ force: true });
+        await this.sequelize.sync({ force: false });
     }
     async create(recipeObj){
         let recipe
@@ -47,6 +49,7 @@ class SQLiteRecipeModel {
         } else {
             recipe = await this.sequelizeRecipe.create(this.stringify(recipeObj))
         }
+        return this.parse(recipe.dataValues)
     }
     async update(recipeObj){
         const strRecipeObj = this.stringify(recipeObj)
@@ -65,16 +68,18 @@ class SQLiteRecipeModel {
         if(identifier){
             retVal = [await this.sequelizeRecipe.findOne(
                 {
-                    where: this.stringify(identifier)
+                    where: identifier
                 }
             )]
         } else 
             retVal = await this.sequelizeRecipe.findAll()
-        return retVal.map(e=>this.parse(e.dataValues))
+        if(retVal)
+            return retVal.map(e=>this.parse(e.dataValues))
+        return null
     }
     async delete(deleteID = null){
         if(deleteID){
-            await this.sequelizeRecipe.destroy({ where: {recipe_id: deleteID} });
+            await this.sequelizeRecipe.destroy({ where: {id: deleteID} });
         } else {
             await this.sequelizeRecipe.destroy({ truncate: true });
         }

@@ -124,10 +124,11 @@ eventHub.on("RecipeAdded", async(recipe)=>{
     }catch(e){
         console.log("Couldn't put recipe:", e)
     }
-    if(res.recipe)
+    if(res.recipe){
+        console.log("res.recipe: ",res.recipe)  
         await recipeService.addRecipe(res.recipe);
-    else 
-        console.log("res: ",res)  
+    } else 
+        console.log("res: ", res)  
         
     form.render()
     window.location.hash = '#my-recipes';
