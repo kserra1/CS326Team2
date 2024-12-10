@@ -66,16 +66,16 @@ export default class RecipeService {
 
   //all the methods below will first make sure db exists
   //that way we aren't accessing null/void elements
-
-  async addRecipe(recipeData) {
+  async addRecipe(data) {
     const db = await this.getDB();
+    const recipeData = await data
+    console.log("Add Recipe", recipeData)
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readwrite");
       const store = transaction.objectStore(this.storeName);
       const request = store.add(recipeData);
 
       request.onsuccess = () => {
-        console.log(recipeData)
         this.eventHub.emit("RecipeAdded", recipeData);
         resolve("Recipe added successfully");
       };
@@ -86,17 +86,44 @@ export default class RecipeService {
       };
     });
   }
+  async loadRecipes(data) {
+    const db = await this.getDB();
+    const transaction = db.transaction([this.storeName], "readwrite");
+    const store = transaction.objectStore(this.storeName);
+    const operations = data.map(recipe => {
+      return new Promise((resolve, reject) => {
+        const getRequest = store.get(recipe.id)
 
-  async getAllRecipes() {
+        getRequest.onsuccess = () => {
+          if (!getRequest.result) {
+            const addRequest = store.add(recipe);
+            addRequest.onsuccess = () => resolve();
+            addRequest.onerror = () => reject(addRequest.error);
+          } else {
+            resolve();
+          }
+        }
+        getRequest.onerror = () => reject(getRequest.error);
+      });
+    })
+
+    return Promise.all(operations)
+  }
+  
+  async getAllRecipes(identifier = null) {
     const db = await this.getDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readonly");
       const store = transaction.objectStore(this.storeName);
       const request = store.getAll();
       request.onsuccess = (event) => {
-        const recipess = event.target.result;
-        this.eventHub.emit("RecipesLoaded", recipess);
-        resolve(recipess);
+        const recipes = event.target.result;
+        this.eventHub.emit("RecipesLoaded", recipes);
+        if(identifier)
+          resolve(recipes.filter(r=>
+            Object.entries(identifier).every(([k,v])=>r[k]===v)
+          ))
+        resolve(recipes);
       };
 
       request.onerror = () => {

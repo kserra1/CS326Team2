@@ -28,6 +28,7 @@ export default class RecipeList extends BaseComponent {
             <ul id="recipeList">
                 ${recipes.map(recipe => this.renderRecipe(recipe)).join('')}
             </ul>
+            <input id="load_more" type="button" value="Load More">
         </div>
     `;
   }
@@ -79,23 +80,44 @@ setupEventListeners() {
   document.querySelectorAll('.add-comment-btn').forEach((button) => {
       button.addEventListener('click', this.handleAddComment.bind(this));
   });
+
+  document.getElementById('load_more').addEventListener('click', async()=>{
+    const response = await fetch('http://localhost:3260/v1/recipe', {
+        method: "GET",
+    })
+    let res
+    try{
+        res = await response.json()
+        console.log("Successfully got recipe:", res)
+    }catch(e){
+        console.log("Couldn't put recipe:", e)
+    }
+        
+    await res.recipes.map(async e=> await this.recipeService.addRecipe(e)) ;
+    this.render()
+})
 }
 
 handleLike(event) {
-  const button = event.target;
-  const recipeId = parseInt(button.getAttribute("data-id"), 10);
+  const recipeId = event.target.dataset.id;
   // Emit event for the like action
   this.eventHub.emit('likeRecipe', recipeId);
 }
 
-handleAddComment(event) {
-  const button = event.target;
-  const recipeId = parseInt(button.getAttribute("data-id"), 10);
+async handleAddComment(event) {
+  const recipeId = event.target.dataset.id;
   const input = document.querySelector(`.comment-input[data-id="${recipeId}"]`);
   const commentText = input.value.trim();
   if (commentText) {
       // Emit event for the add comment action
-      this.eventHub.emit('addComment', { recipeId, comment: { user: "User1", text: commentText } });
+      const curUser = await this.recipeService.getLoggedInUser();
+      if(!curUser) {
+        this.eventHub.emit('addComment', {recipeId, comment: {}});
+        return;
+      }
+
+      console.log(curUser)
+      this.eventHub.emit('addComment', { recipeId, comment: { user: curUser.username, text: commentText } });
       input.value = ""; // Clear input field after adding the comment
   }
 }

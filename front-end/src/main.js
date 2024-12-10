@@ -4,7 +4,6 @@ import RecipeList from './components/recipelist/recipelist.js';
 import MyRecipes from './components/myrecipes/myrecipes.js';
 import Profile from './components/profile/profile.js';
 import RecipeDetail from './components/recipedetail/recipedetail.js';
-import { Recipe, mockRecipesObjs } from './recipe.js';
 import Form from './components/form/form.js';
 import AddRecipeComponent from './components/addrecipe/addrecipe.js';
 import LoginPage from './components/loginpage/loginpage.js';
@@ -12,17 +11,21 @@ import { User } from './components/loginpage/user.js';
 
 const app = document.getElementById('app');
 const eventHub = new EventHub();
+const recipeService = new RecipeService();
 
-console.log(mockRecipesObjs())
-const recipeService = new RecipeService(mockRecipesObjs());
-
-async function addRecipeToDB(recipe){
-    await recipeService.addRecipe(recipe);
+const response = await fetch('http://localhost:3260/v1/recipe')
+let res
+try{
+    res = await response.json()
+    console.log("Successfully got initial recipes:", res)
+}catch(e){
+    console.log("Couldn't get initial recipes:", e)
 }
-
+recipeService.loadRecipes(res.recipes)
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
+    
     if (recipe) {
         await recipeService.updateLikes(recipeId, recipe.likes + 1);
         recipe.likes += 1; // Update local likes count
@@ -32,6 +35,11 @@ eventHub.on('likeRecipe', async (recipeId) => {
     }
 });
 eventHub.on('addComment', async ({ recipeId, comment }) => {
+    console.log("addComment")
+    if (!comment.user){
+        console.log("Must be logged in to comment");
+        return;
+    }
     await recipeService.addComment(recipeId, comment);
     const recipeList = new RecipeList(recipeService, eventHub);
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -105,29 +113,59 @@ document.getElementById('showProfile').addEventListener('click', ()=>{
 });
 
 eventHub.on("RecipeAdded", async(recipe)=>{
-    try { 
-        await recipeService.addRecipe(recipe);
-        form.render()
-        window.location.hash = '#my-recipes';
-    }catch(error){
-        console.error("Error adding recipe:", error);
+    
+    const recipeData = await recipe
+
+    const response = await fetch('http://localhost:3260/v1/recipe', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(recipeData)
+    })
+    let res
+    try{
+        res = await response.json()
+        console.log("Successfully put recipe:", res)
+    }catch(e){
+        console.log("Couldn't put recipe:", e)
     }
+    if(res.recipe){
+        console.log("res.recipe: ",res.recipe)  
+        await recipeService.addRecipe(res.recipe);
+    } else 
+        console.log("res: ", res)  
+        
+    form.render()
+    window.location.hash = '#my-recipes';
 })
+
+
 
 
 async function render (){
     await checkLoginState();
     updateNavigation(); //default is to show login
     const hash = window.location.hash;
-    const recipeIdMatch = hash.match(/#recipe\/(\d+)/);
+    const recipeIdMatch = hash.match(/^#recipe\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i);
     app.innerHTML = '';
+
+    Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+    .filter(link=> link.getAttribute("href") !== "main.css")
+    .forEach(link => {
+        link.parentNode.removeChild(link);
+    })
+    console.log(document.querySelectorAll('link[rel="stylesheet"]'))
     if (recipeIdMatch) {
-        const recipeId = parseInt(recipeIdMatch[1], 10);
+        console.log(recipeIdMatch)
+        const recipeId = recipeIdMatch[1]
+        console.log(recipeId)
         const recipeDetail = new RecipeDetail(recipeService);
         app.innerHTML = await recipeDetail.render(recipeId);
     } else if (hash === '#my-recipes') {
-        const myRecipes = new MyRecipes(recipeService);
+        const myRecipes = new MyRecipes(recipeService, currentuser);
         app.innerHTML = await myRecipes.render();
+        myRecipes.setupEventListeners();
     } else if (hash === '#profile') {
         if (currentuser) {
             const profile = new Profile(recipeService, currentuser);
@@ -148,6 +186,8 @@ async function render (){
         app.innerHTML = loginPage.render();
         loginPage.addEventListeners();
     } else if (hash === '#add-recipe') {
+        const form = new Form(eventHub, currentuser.username);
+        form.render()
         app.innerHTML = '';
         app.append(form.component);
     } else {
@@ -218,8 +258,9 @@ async function handleAddComment(event) {
     const input = document.querySelector(`.comment-input[data-id="${recipeId}"]`);
     const commentText = input.value.trim();
     if (commentText) {
-        await recipeService.addComment(recipeId, { user: "User1", text: commentText });
-        recipe.comments.push({ user: "User1", text: commentText }); // Update local comments array
+        const curUser = await this.recipeService.getLoggedInUser();
+        await recipeService.addComment(recipeId, { user: curUser, text: commentText });
+        recipe.comments.push({ user: curUser, text: commentText }); // Update local comments array
         const recipeList = new RecipeList(recipeService, eventHub);
         input.value = ""; // Clear input
     }
