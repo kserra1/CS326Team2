@@ -43,6 +43,16 @@ class InMemoryPostModel {
         return null;
     }
 
+    // delete post by Id
+    async deletePost(postId) {
+        const postIndex = this.posts.findIndex(post => post.id === postId);
+        if (postIndex !== -1) {
+            const deletedPost = this.posts.splice(postIndex, 1)[0];
+            return deletedPost;
+        }
+        return null;
+    }
+
 
     // Get all posts
     async getAllPosts() {
