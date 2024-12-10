@@ -62,7 +62,23 @@ class PostController {
         }
     }
 
-    // Delete a post
+    
+    // Delete a post by ID
+async deletePost(req, res) {
+    const { postId } = req.params;
+    try {
+        const post = await this.model.getPostById(postId);
+        if (!post) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+
+        await this.model.deletePost(postId);
+        return res.status(200).json({ message: "Post deleted successfully" });
+    } catch (err) {
+        console.error("Error deleting post:", err);
+        return res.status(500).json({ error: "Error deleting post" });
+    }
+}
 
     // Get all posts
     async getAllPosts(req, res) {
