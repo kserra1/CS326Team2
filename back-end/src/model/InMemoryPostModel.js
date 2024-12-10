@@ -53,6 +53,16 @@ class InMemoryPostModel {
         return null;
     }
 
+ // make sure pin post is saved to memory 
+ async pinPost(postId) {
+    const post = await this.getPostById(postId);
+    if (post) {
+        post.pinned = true; 
+        return post;
+    }
+    return null;
+}
+
 
     // Get all posts
     async getAllPosts() {
