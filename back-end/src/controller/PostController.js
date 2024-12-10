@@ -80,6 +80,23 @@ async deletePost(req, res) {
     }
 }
 
+// pin a post
+async pinPost(req, res) {
+    const { postId } = req.params;
+    try {
+        const post = await this.model.getPostById(postId);
+        if (!post) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+
+        const updatedPost = await this.model.updatePost(postId, { pinned: true });
+        return res.status(200).json({ message: "Post pinned successfully", post: updatedPost });
+    } catch (err) {
+        console.error("Error pinning post:", err);
+        return res.status(500).json({ error: "Error pinning post" });
+    }
+}
+
     // Get all posts
     async getAllPosts(req, res) {
         try {
