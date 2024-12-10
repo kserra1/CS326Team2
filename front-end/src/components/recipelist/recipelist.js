@@ -99,15 +99,13 @@ setupEventListeners() {
 }
 
 handleLike(event) {
-  const button = event.target;
-  const recipeId = parseInt(button.getAttribute("data-id"), 10);
+  const recipeId = event.target.dataset.id;
   // Emit event for the like action
   this.eventHub.emit('likeRecipe', recipeId);
 }
 
 handleAddComment(event) {
-  const button = event.target;
-  const recipeId = parseInt(button.getAttribute("data-id"), 10);
+  const recipeId = event.target.dataset.id;
   const input = document.querySelector(`.comment-input[data-id="${recipeId}"]`);
   const commentText = input.value.trim();
   if (commentText) {

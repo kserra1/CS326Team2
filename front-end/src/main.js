@@ -25,6 +25,7 @@ recipeService.loadRecipes(res.recipes)
 
 eventHub.on('likeRecipe', async (recipeId) => {
     const recipe = await recipeService.getRecipeById(recipeId);
+    
     if (recipe) {
         await recipeService.updateLikes(recipeId, recipe.likes + 1);
         recipe.likes += 1; // Update local likes count
@@ -34,6 +35,7 @@ eventHub.on('likeRecipe', async (recipeId) => {
     }
 });
 eventHub.on('addComment', async ({ recipeId, comment }) => {
+    console.log("addComment")
     await recipeService.addComment(recipeId, comment);
     const recipeList = new RecipeList(recipeService, eventHub);
     const recipe = await recipeService.getRecipeById(recipeId);
