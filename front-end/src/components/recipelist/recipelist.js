@@ -104,13 +104,20 @@ handleLike(event) {
   this.eventHub.emit('likeRecipe', recipeId);
 }
 
-handleAddComment(event) {
+async handleAddComment(event) {
   const recipeId = event.target.dataset.id;
   const input = document.querySelector(`.comment-input[data-id="${recipeId}"]`);
   const commentText = input.value.trim();
   if (commentText) {
       // Emit event for the add comment action
-      this.eventHub.emit('addComment', { recipeId, comment: { user: "User1", text: commentText } });
+      const curUser = await this.recipeService.getLoggedInUser();
+      if(!curUser) {
+        this.eventHub.emit('addComment', {recipeId, comment: {}});
+        return;
+      }
+
+      console.log(curUser)
+      this.eventHub.emit('addComment', { recipeId, comment: { user: curUser.username, text: commentText } });
       input.value = ""; // Clear input field after adding the comment
   }
 }

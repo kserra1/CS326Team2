@@ -36,6 +36,10 @@ eventHub.on('likeRecipe', async (recipeId) => {
 });
 eventHub.on('addComment', async ({ recipeId, comment }) => {
     console.log("addComment")
+    if (!comment.user){
+        console.log("Must be logged in to comment");
+        return;
+    }
     await recipeService.addComment(recipeId, comment);
     const recipeList = new RecipeList(recipeService, eventHub);
     const recipe = await recipeService.getRecipeById(recipeId);
@@ -254,8 +258,9 @@ async function handleAddComment(event) {
     const input = document.querySelector(`.comment-input[data-id="${recipeId}"]`);
     const commentText = input.value.trim();
     if (commentText) {
-        await recipeService.addComment(recipeId, { user: "User1", text: commentText });
-        recipe.comments.push({ user: "User1", text: commentText }); // Update local comments array
+        const curUser = await this.recipeService.getLoggedInUser();
+        await recipeService.addComment(recipeId, { user: curUser, text: commentText });
+        recipe.comments.push({ user: curUser, text: commentText }); // Update local comments array
         const recipeList = new RecipeList(recipeService, eventHub);
         input.value = ""; // Clear input
     }
